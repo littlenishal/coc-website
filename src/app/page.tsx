@@ -1,4 +1,8 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+
+>>>>>>> 64f40ba (Assistant checkpoint: Initialize Next.js project with TypeScript and Tailwind)
 =======
 
 >>>>>>> 64f40ba (Assistant checkpoint: Initialize Next.js project with TypeScript and Tailwind)
@@ -12,7 +16,11 @@ export default function Home() {
     </main>
   );
 <<<<<<< HEAD
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 64f40ba (Assistant checkpoint: Initialize Next.js project with TypeScript and Tailwind)
 =======
 }
 >>>>>>> 64f40ba (Assistant checkpoint: Initialize Next.js project with TypeScript and Tailwind)
