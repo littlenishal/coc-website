@@ -1,11 +1,4 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
 
->>>>>>> 64f40ba (Assistant checkpoint: Initialize Next.js project with TypeScript and Tailwind)
-=======
-
->>>>>>> 64f40ba (Assistant checkpoint: Initialize Next.js project with TypeScript and Tailwind)
 export default function Home() {
   return (
     <main className="flex min-h-screen flex-col items-center justify-center p-24">
@@ -15,12 +8,5 @@ export default function Home() {
       </p>
     </main>
   );
-<<<<<<< HEAD
-<<<<<<< HEAD
+
 }
-=======
-}
->>>>>>> 64f40ba (Assistant checkpoint: Initialize Next.js project with TypeScript and Tailwind)
-=======
-}
->>>>>>> 64f40ba (Assistant checkpoint: Initialize Next.js project with TypeScript and Tailwind)
