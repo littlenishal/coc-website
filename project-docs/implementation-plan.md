@@ -2,7 +2,7 @@
 
 ## Phase 1: Project Setup & Infrastructure
 
-### Ticket 1.1: Initialize Next.js Project with TypeScript
+### Ticket 1.1: Initialize Next.js Project with TypeScript (DONE)
 **Description:** Set up a new Next.js project with TypeScript support and configure the basic project structure.
 **Acceptance Criteria:**
 - Repository initialized with Next.js and TypeScript
