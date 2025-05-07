@@ -10,3 +10,47 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+enum UserRole {
+  ADMIN
+  STAFF
+  VOLUNTEER
+  DONOR
+}
+
+enum EventType {
+  TOY_DRIVE
+  FOOD_DRIVE
+  FUNDRAISER
+  OTHER
+}
+
+model User {
+  id          String   @id @default(uuid())
+  email       String   @unique
+  password    String
+  firstName   String
+  lastName    String
+  role        UserRole
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  createdEvents Event[]
+}
+
+model Event {
+  id               String      @id @default(uuid())
+  title            String
+  description      String
+  eventType        EventType
+  startDateTime    DateTime
+  endDateTime      DateTime
+  location         String
+  address          String
+  isPublished      Boolean     @default(false)
+  createdAt        DateTime    @default(now())
+  updatedAt        DateTime    @updatedAt
+  createdById      String
+  creator          User        @relation(fields: [createdById], references: [id])
+
+  @@index([createdById])
+}
