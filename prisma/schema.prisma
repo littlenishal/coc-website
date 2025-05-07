@@ -25,6 +25,27 @@ enum EventType {
   OTHER
 }
 
+enum DonationStatus {
+  PENDING
+  COMPLETED
+  FAILED
+  REFUNDED
+}
+
+enum PaymentMethod {
+  CREDIT_CARD
+  DEBIT_CARD
+  ACH
+  OTHER
+}
+
+enum RegistrationStatus {
+  REGISTERED
+  WAITLISTED
+  CANCELLED
+  ATTENDED
+}
+
 model User {
   id          String   @id @default(uuid())
   email       String   @unique

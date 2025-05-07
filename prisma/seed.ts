@@ -1,5 +1,6 @@
 
 import { PrismaClient, UserRole, EventType } from '@prisma/client';
+import * as bcrypt from 'bcrypt';
 
 const prisma = new PrismaClient();
 
@@ -8,7 +9,7 @@ async function main() {
   const admin = await prisma.user.create({
     data: {
       email: 'admin@captainsofcommerce.org',
-      password: '$2b$10$EpRnTzVlqHNP0.fUbXUwSOyuiXe/QLSUG6xNekdHgTGmrpHEfIoxm', // 'password123'
+      password: await bcrypt.hash('admin123', 10),
       firstName: 'Admin',
       lastName: 'User',
       role: UserRole.ADMIN,
