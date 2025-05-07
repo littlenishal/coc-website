@@ -1,8 +1,11 @@
 
-import { withMiddlewareAuthRequired } from '@auth0/nextjs-auth0/edge';
+import { withMiddleware } from '@auth0/nextjs-auth0';
 
-export default withMiddlewareAuthRequired({
-  returnTo: '/api/auth/login',
+export default withMiddleware({
+  async onError(error, req, res) {
+    console.error(error);
+    return res.redirect('/api/auth/login');
+  }
 });
 
 export const config = {
