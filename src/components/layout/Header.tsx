@@ -45,9 +45,10 @@ export function Header() {
               <span className="sr-only">Toggle menu</span>
             </Button>
           </SheetTrigger>
-          <SheetContent side="right" className="w-[300px] sm:w-[400px] px-6">
+          <SheetContent side="right" className="w-[300px] sm:w-[400px] px-6" aria-describedby="menu-description">
             <SheetHeader className="pt-8 pb-6">
-              <SheetTitle className="text-2xl">Menu</SheetTitle>
+              <SheetTitle className="text-2xl">Navigation Menu</SheetTitle>
+              <p id="menu-description" className="sr-only">Main navigation menu for mobile devices</p>
             </SheetHeader>
             <nav className="flex flex-col space-y-6">
               <Link href="/events" className="text-lg font-medium hover:text-primary transition-colors">Events</Link>
