@@ -1,8 +1,9 @@
 
 import { withMiddlewareAuthRequired } from '@auth0/nextjs-auth0/edge';
 
-// Simple middleware that requires authentication
-export default withMiddlewareAuthRequired();
+export default withMiddlewareAuthRequired({
+  returnTo: '/api/auth/login'
+});
 
 export const config = {
   matcher: ['/dashboard/:path*']
