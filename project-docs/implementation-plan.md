@@ -50,6 +50,91 @@
 - Donation call-to-action
 - Test by viewing the homepage in different browser sizes and verifying all elements render correctly
 
+**Ticket 2.1 breakdown:**
+Task 2.1.1: Project Setup & Component Structure
+Description: Set up the basic structure for the homepage components
+Steps:
+- Create component folder structure for homepage elements
+- Set up layout components (Header, Footer, Main)
+- Configure responsive breakpoints in Tailwind config
+- Implement basic page skeleton
+
+Task 2.1.2: Navigation Menu Implementation
+Description: Create responsive main navigation with mobile support
+Steps:
+- Design and implement desktop navigation bar with logo
+- Create mobile hamburger menu with animation
+- Implement dropdown functionality for submenus
+- Add user authentication status in navigation
+- Ensure keyboard accessibility for all menu items
+- Test across all breakpoints
+
+Task 2.1.3: Hero Section Design
+Description: Implement hero section with organization mission
+Steps:
+- Create responsive hero component with background image
+- Add mission statement with appropriate typography
+- Design and implement call-to-action buttons
+- Ensure text remains readable across all device sizes
+- Optimize hero image loading performance
+
+Task 2.1.4: Featured Events Section
+Description: Create section to display upcoming events
+Steps:
+- Design event card components
+- Implement data fetching from events API
+- Create horizontal scrolling mechanism for mobile
+- Add "View All Events" link to calendar page
+- Implement loading state and error handling
+- Filter logic to show only upcoming events
+
+Task 2.1.5: Instagram Feed Preview
+Description: Implement Instagram feed integration on homepage
+Steps:
+- Create responsive grid for Instagram photos
+- Implement data fetching from Instagram API service
+- Add lightbox functionality for image viewing
+- Create fallback UI for when API fails
+- Design loading states and animations
+- Add "Follow Us" button with Instagram link
+
+Task 2.1.6: Donation Call-to-Action Section
+Description: Create compelling donation CTA section
+Steps:
+- Design visually striking CTA component
+- Create donation button with link to donation page
+- Add impact statistics or testimonials
+- Implement responsive layout for different devices
+- A/B test different CTA copy variations (optional)
+
+Task 2.1.7: Footer Implementation
+Description: Create website footer with essential links and information
+Steps:
+- Design responsive footer layout
+- Add organization contact information
+- Implement newsletter signup form
+- Include social media links
+- Add navigation links for key pages
+- Include copyright and legal information
+
+Task 2.1.8: SEO & Metadata
+Description: Implement SEO basics for homepage
+Steps:
+- Add proper meta tags for title and description
+- Implement Open Graph tags for social sharing
+- Add structured data for organization
+- Ensure all images have appropriate alt text
+- Configure proper heading hierarchy
+
+Task 2.1.9: Accessibility Review
+Description: Ensure homepage meets WCAG 2.1 AA standards
+Steps:
+- Test keyboard navigation throughout page
+- Verify proper contrast ratios for all text
+- Ensure all interactive elements have proper focus states
+- Add appropriate ARIA labels where needed
+- Test with screen reader to verify accessibility
+
 ### Ticket 2.2: Event Calendar - Backend API
 **Description:** Implement backend APIs for event management.
 **Acceptance Criteria:**
