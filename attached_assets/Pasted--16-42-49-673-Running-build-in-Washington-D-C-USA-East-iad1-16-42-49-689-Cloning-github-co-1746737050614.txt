@@ -1,0 +1,42 @@
+[16:42:49.673] Running build in Washington, D.C., USA (East) – iad1
+[16:42:49.689] Cloning github.com/littlenishal/coc-website (Branch: main, Commit: 68ba26e)
+[16:42:49.990] Cloning completed: 300.000ms
+[16:42:53.499] Restored build cache from previous deployment (4sGR8yX63qfxw7LFqHNzvXafzyuc)
+[16:42:54.028] Running "vercel build"
+[16:42:54.435] Vercel CLI 41.7.3
+[16:42:54.767] Installing dependencies...
+[16:42:56.532] 
+[16:42:56.533] added 23 packages in 2s
+[16:42:56.534] 
+[16:42:56.534] 151 packages are looking for funding
+[16:42:56.534]   run `npm fund` for details
+[16:42:56.565] Detected Next.js version: 15.3.1
+[16:42:56.569] Running "npm run build"
+[16:42:56.682] 
+[16:42:56.682] > coc-website@0.1.0 build
+[16:42:56.683] > next build
+[16:42:56.683] 
+[16:42:57.428]    ▲ Next.js 15.3.1
+[16:42:57.429] 
+[16:42:57.512]    Creating an optimized production build ...
+[16:43:04.555]  ✓ Compiled successfully in 6.0s
+[16:43:04.560]    Linting and checking validity of types ...
+[16:43:10.369]    Collecting page data ...
+[16:43:12.386]    Generating static pages (0/5) ...
+[16:43:13.447] Error occurred prerendering page "/_not-found". Read more: https://nextjs.org/docs/messages/prerender-error
+[16:43:13.448] Error: Attempted to call useUser() from the server but useUser is on the client. It's not possible to invoke a client function from the server, it can only be rendered as a Component or passed to props of a Client Component.
+[16:43:13.448]     at useUser (/vercel/path0/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:17:3799)
+[16:43:13.448]     at b (/vercel/path0/.next/server/chunks/245.js:1:2156)
+[16:43:13.449]     at ek (/vercel/path0/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:17:13337)
+[16:43:13.449]     at e (/vercel/path0/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:17:17246)
+[16:43:13.449]     at e$ (/vercel/path0/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:17:17708)
+[16:43:13.449]     at Array.toJSON (/vercel/path0/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:17:14854)
+[16:43:13.449]     at stringify (<anonymous>)
+[16:43:13.450]     at eF (/vercel/path0/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:17:26079)
+[16:43:13.450]     at eq (/vercel/path0/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:17:26391)
+[16:43:13.450]     at ez (/vercel/path0/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:17:26887)
+[16:43:13.450] Export encountered an error on /_not-found/page: /_not-found, exiting the build.
+[16:43:13.454]  ⨯ Next.js build worker exited with code: 1 and signal: null
+[16:43:13.496] Error: Command "npm run build" exited with 1
+[16:43:13.780] 
+[16:43:16.757] Exiting build container
