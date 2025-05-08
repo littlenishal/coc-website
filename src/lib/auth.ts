@@ -7,6 +7,10 @@ export const getUser = async (req: NextApiRequest, res: NextApiResponse) => {
   return session?.user;
 };
 
-export const checkRole = (user: any, roles: string[]) => {
-  return user && user['https://captainsofcommerce.org/roles'].some((role: string) => roles.includes(role));
+interface User {
+  'https://captainsofcommerce.org/roles'?: string[];
+}
+
+export const checkRole = (user: User | null | undefined, roles: string[]): boolean => {
+  return !!user?.['https://captainsofcommerce.org/roles']?.some((role: string) => roles.includes(role));
 };
