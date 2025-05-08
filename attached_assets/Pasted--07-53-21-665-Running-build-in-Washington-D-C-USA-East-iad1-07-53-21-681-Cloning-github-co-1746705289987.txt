@@ -1,0 +1,50 @@
+[07:53:21.665] Running build in Washington, D.C., USA (East) – iad1
+[07:53:21.681] Cloning github.com/littlenishal/coc-website (Branch: main, Commit: ea87b3d)
+[07:53:21.894] Previous build caches not available
+[07:53:22.001] Cloning completed: 320.000ms
+[07:53:22.360] Running "vercel build"
+[07:53:22.759] Vercel CLI 41.7.2
+[07:53:23.125] Installing dependencies...
+[07:53:25.608] npm warn deprecated rimraf@3.0.2: Rimraf versions prior to v4 are no longer supported
+[07:53:25.863] npm warn deprecated npmlog@5.0.1: This package is no longer supported.
+[07:53:26.201] npm warn deprecated inflight@1.0.6: This module is not supported, and leaks memory. Do not use it. Check out lru-cache if you want a good and tested way to coalesce async requests by a key value, which is much more comprehensive and powerful.
+[07:53:26.463] npm warn deprecated glob@7.2.3: Glob versions prior to v9 are no longer supported
+[07:53:26.755] npm warn deprecated gauge@3.0.2: This package is no longer supported.
+[07:53:27.018] npm warn deprecated are-we-there-yet@2.0.0: This package is no longer supported.
+[07:53:39.236] 
+[07:53:39.237] added 470 packages in 16s
+[07:53:39.238] 
+[07:53:39.238] 148 packages are looking for funding
+[07:53:39.238]   run `npm fund` for details
+[07:53:39.275] Detected Next.js version: 15.3.1
+[07:53:39.281] Running "npm run build"
+[07:53:39.393] 
+[07:53:39.394] > coc-website@0.1.0 build
+[07:53:39.394] > next build
+[07:53:39.394] 
+[07:53:39.998] Attention: Next.js now collects completely anonymous telemetry regarding usage.
+[07:53:39.999] This information is used to shape Next.js' roadmap and prioritize features.
+[07:53:39.999] You can learn more, including how to opt-out if you'd not like to participate in this anonymous program, by visiting the following URL:
+[07:53:39.999] https://nextjs.org/telemetry
+[07:53:40.000] 
+[07:53:40.057]    ▲ Next.js 15.3.1
+[07:53:40.058] 
+[07:53:40.128]    Creating an optimized production build ...
+[07:53:50.311]  ✓ Compiled successfully in 9.0s
+[07:53:50.317]    Linting and checking validity of types ...
+[07:53:54.787] Failed to compile.
+[07:53:54.788] 
+[07:53:54.788] ./src/middleware.ts:5:9
+[07:53:54.788] Type error: Object literal may only specify known properties, and 'onError' does not exist in type 'NextMiddleware | WithMiddlewareAuthRequiredOptions'.
+[07:53:54.789] 
+[07:53:54.789] [0m [90m 3 |[39m[0m
+[07:53:54.789] [0m [90m 4 |[39m [36mexport[39m [36mdefault[39m withMiddlewareAuthRequired({[0m
+[07:53:54.789] [0m[31m[1m>[22m[39m[90m 5 |[39m   [36masync[39m onError(error[33m,[39m req) {[0m
+[07:53:54.789] [0m [90m   |[39m         [31m[1m^[22m[39m[0m
+[07:53:54.789] [0m [90m 6 |[39m     console[33m.[39merror(error)[33m;[39m[0m
+[07:53:54.790] [0m [90m 7 |[39m     [36mreturn[39m [33mResponse[39m[33m.[39mredirect([36mnew[39m [33mURL[39m([32m'/api/auth/login'[39m[33m,[39m req[33m.[39murl))[33m;[39m[0m
+[07:53:54.790] [0m [90m 8 |[39m   }[0m
+[07:53:54.808] Next.js build worker exited with code: 1 and signal: null
+[07:53:54.848] Error: Command "npm run build" exited with 1
+[07:53:55.086] 
+[07:53:58.947] Exiting build container

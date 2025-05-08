@@ -1,12 +1,4 @@
 
-import { handleAuth, handleLogin } from '@auth0/nextjs-auth0';
+import { handleAuth } from '@auth0/nextjs-auth0';
 
-export const { GET, POST } = handleAuth({
-  login: handleLogin({
-    returnTo: '/dashboard',
-    authorizationParams: {
-      audience: 'https://api.captainsofcommerce.org',
-      scope: 'openid profile email'
-    }
-  })
-});
+export const { GET, POST } = handleAuth();
