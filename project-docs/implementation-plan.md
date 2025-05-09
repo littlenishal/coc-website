@@ -13,6 +13,7 @@
 
 ### Ticket 1.2: Set Up Database & Prisma ORM
 **Description:** Set up PostgreSQL database and configure Prisma ORM based on the data model.
+**Status:** Done
 **Acceptance Criteria:**
 - PostgreSQL database created and accessible
 - Prisma schema implemented based on the provided data model
@@ -22,6 +23,7 @@
 
 ### Ticket 1.3: Configure Authentication System
 **Description:** Implement user authentication using Auth0.
+**Status:** Done
 **Acceptance Criteria:**
 - Auth0 integration configured
 - Login/signup pages created
@@ -31,6 +33,7 @@
 
 ### Ticket 1.4: Set Up CI/CD Pipeline with GitHub Actions
 **Description:** Establish automated testing and deployment workflow.
+**Status:** Done
 **Acceptance Criteria:**
 - GitHub Actions workflow configured for automated testing
 - Deployment pipeline to staging environment
@@ -52,6 +55,7 @@
 
 **Ticket 2.1 breakdown:**
 Task 2.1.1: Project Setup & Component Structure
+**Status:** Done
 Description: Set up the basic structure for the homepage components
 Steps:
 - Create component folder structure for homepage elements
@@ -60,6 +64,7 @@ Steps:
 - Implement basic page skeleton
 
 Task 2.1.2: Navigation Menu Implementation
+**Status:** Done
 Description: Create responsive main navigation with mobile support
 Steps:
 - Design and implement desktop navigation bar with logo
@@ -71,6 +76,7 @@ Steps:
 
 Task 2.1.3: Hero Section Design
 Description: Implement hero section with organization mission
+**Status:** Done
 Steps:
 - Create responsive hero component with background image
 - Add mission statement with appropriate typography
@@ -79,6 +85,7 @@ Steps:
 - Optimize hero image loading performance
 
 Task 2.1.4: Featured Events Section
+**Status:** Done
 Description: Create section to display upcoming events
 Steps:
 - Design event card components
