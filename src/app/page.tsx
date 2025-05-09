@@ -4,6 +4,7 @@
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import Image from "next/image";
+import { FeaturedEvents } from "@/components/FeaturedEvents";
 
 export default function Home() {
   return (
@@ -38,14 +39,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="container flex flex-col items-center px-4 py-16">
-        <h2 className="text-3xl font-bold mb-8 text-center">Recent Activities</h2>
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 max-w-6xl mx-auto w-full">
-          {[...Array(8)].map((_, i) => (
-            <div key={i} className="aspect-square bg-muted rounded-lg" />
-          ))}
-        </div>
-      </section>
+      <FeaturedEvents />
     </div>
   );
 }
