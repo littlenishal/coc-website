@@ -1,0 +1,39 @@
+[21:14:23.003] Running build in Washington, D.C., USA (East) – iad1
+[21:14:23.020] Cloning github.com/littlenishal/coc-website (Branch: main, Commit: 4df5cdf)
+[21:14:23.278] Cloning completed: 257.000ms
+[21:14:29.502] Restored build cache from previous deployment (2puU6CiHvpz5Q7eCYeYKTqin87j3)
+[21:14:30.057] Running "vercel build"
+[21:14:30.434] Vercel CLI 41.7.3
+[21:14:30.730] Installing dependencies...
+[21:14:31.970] 
+[21:14:31.971] up to date in 1s
+[21:14:31.971] 
+[21:14:31.971] 151 packages are looking for funding
+[21:14:31.972]   run `npm fund` for details
+[21:14:32.000] Detected Next.js version: 15.3.1
+[21:14:32.004] Running "npm run build"
+[21:14:32.115] 
+[21:14:32.115] > coc-website@0.1.0 build
+[21:14:32.115] > next build
+[21:14:32.115] 
+[21:14:32.838]    ▲ Next.js 15.3.1
+[21:14:32.838] 
+[21:14:32.909]    Creating an optimized production build ...
+[21:14:37.976]  ✓ Compiled successfully in 4.0s
+[21:14:37.981]    Linting and checking validity of types ...
+[21:14:43.930] Failed to compile.
+[21:14:43.932] 
+[21:14:43.932] ./src/components/FeaturedEvents.tsx:31:53
+[21:14:43.932] Type error: Property 'endDateTime' does not exist on type 'Event'.
+[21:14:43.932] 
+[21:14:43.932] [0m [90m 29 |[39m           [36mconst[39m now [33m=[39m [36mnew[39m [33mDate[39m()[33m;[39m[0m
+[21:14:43.932] [0m [90m 30 |[39m           [90m// Include events that haven't ended yet[39m[0m
+[21:14:43.932] [0m[31m[1m>[22m[39m[90m 31 |[39m           [36mreturn[39m eventDate [33m>=[39m now [33m||[39m [36mnew[39m [33mDate[39m(event[33m.[39mendDateTime) [33m>=[39m now[33m;[39m[0m
+[21:14:43.933] [0m [90m    |[39m                                                     [31m[1m^[22m[39m[0m
+[21:14:43.933] [0m [90m 32 |[39m         })[33m.[39mslice([35m0[39m[33m,[39m [35m4[39m)[33m;[39m [90m// Limit to 4 upcoming events[39m[0m
+[21:14:43.933] [0m [90m 33 |[39m         setEvents(upcomingEvents)[33m;[39m[0m
+[21:14:43.933] [0m [90m 34 |[39m       } [36mcatch[39m (error) {[0m
+[21:14:43.952] Next.js build worker exited with code: 1 and signal: null
+[21:14:43.984] Error: Command "npm run build" exited with 1
+[21:14:44.239] 
+[21:14:47.557] Exiting build container
