@@ -4,19 +4,20 @@ import prisma from '@/lib/prisma';
 
 export async function GET() {
   try {
+    // First get all events to check what we have
+    const allEvents = await prisma.event.findMany();
+    console.log('All events:', allEvents);
+    
     const events = await prisma.event.findMany({
       where: {
         isPublished: true,
-        endDateTime: {
-          gte: new Date(),
-        },
       },
       orderBy: {
         startDateTime: 'asc',
       },
-      take: 4, // Limit to 4 featured events
     });
-
+    
+    console.log('Filtered events:', events);
     return NextResponse.json(events);
   } catch (error) {
     console.error('Failed to fetch events:', error);
