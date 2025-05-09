@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useEffect, useState } from 'react';
@@ -6,13 +5,14 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { formatDate } from '@/lib/utils';
 
-interface Event {
+type Event = {
   id: string;
   title: string;
   description: string;
   startDateTime: string;
+  endDateTime: string;
   location: string;
-  eventType: string;
+  isPublished: boolean;
 }
 
 export function FeaturedEvents() {
