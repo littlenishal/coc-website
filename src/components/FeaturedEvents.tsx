@@ -24,7 +24,10 @@ export function FeaturedEvents() {
       try {
         const response = await fetch('/api/events');
         const data = await response.json();
-        setEvents(data);
+        const upcomingEvents = data.filter((event: Event) => 
+          new Date(event.startDateTime) >= new Date()
+        ).slice(0, 4); // Limit to 4 upcoming events
+        setEvents(upcomingEvents);
       } catch (error) {
         console.error('Error fetching events:', error);
       } finally {
