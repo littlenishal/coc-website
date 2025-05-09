@@ -6,7 +6,7 @@ const prismaClientSingleton = () => {
 };
 
 declare global {
-  var prisma: PrismaClient | undefined;
+  let prisma: PrismaClient | undefined;
 }
 
 const prisma = globalThis.prisma ?? prismaClientSingleton();
