@@ -1,23 +1,38 @@
-import { NextResponse } from "next/server";
-import prisma from "@/lib/prisma";
+
+import { NextResponse } from 'next/server';
+import prisma from '@/lib/prisma';
 
 export async function GET() {
   try {
-    const integration = await prisma.instagramIntegration.findFirst({
+    // Create a default Instagram feed if none exists
+    let integration = await prisma.instagramIntegration.findFirst({
       where: { isActive: true },
       include: { feed: true },
     });
 
     if (!integration) {
-      return NextResponse.json([]);
+      const feed = await prisma.instagramFeed.create({
+        data: {
+          title: "Our Instagram Feed",
+          displayOnHomepage: true,
+          integrations: {
+            create: {
+              accountName: "captainsofcommerce",
+              accessToken: "mock-token",
+              tokenExpiryDate: new Date(Date.now() + 1000 * 60 * 60 * 24 * 30), // 30 days
+              lastFetchDateTime: new Date(),
+              isActive: true
+            }
+          }
+        }
+      });
     }
 
-    // TODO: Implement Instagram API fetch logic here
-    // For now, return mock data
+    // Mock data for development
     const mockPosts = Array.from({ length: 6 }, (_, i) => ({
       id: `mock-${i}`,
-      mediaUrl: `https://picsum.photos/600/600?random=${i}`,
-      caption: "Sample Instagram post caption",
+      mediaUrl: `https://picsum.photos/seed/${i}/600/600`,
+      caption: `Helping our community grow stronger together! #CaptainsOfCommerce #Community #Volunteer #Post${i + 1}`,
       timestamp: new Date().toISOString(),
     }));
 
