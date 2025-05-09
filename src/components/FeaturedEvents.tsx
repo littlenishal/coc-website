@@ -26,9 +26,8 @@ export function FeaturedEvents() {
         const data = await response.json();
         const upcomingEvents = data
           .filter((event: Event) => {
-            const endDate = new Date(event.endDateTime);
-            const now = new Date();
-            return endDate >= now;
+            const eventDate = new Date(event.startDateTime);
+            return eventDate > new Date();
           })
           .sort((a: Event, b: Event) => 
             new Date(a.startDateTime).getTime() - new Date(b.startDateTime).getTime()
