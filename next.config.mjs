@@ -5,6 +5,9 @@ const nextConfig = {
   webpack: (config) => {
     config.externals = [...(config.externals || []), 'oidc-token-hash'];
     return config;
+  },
+  images: {
+    domains: ['picsum.photos']
   }
 };
 
