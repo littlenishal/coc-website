@@ -6,11 +6,11 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export function formatDate(date: Date): string {
+export const formatDate = (date: Date) => {
   return new Intl.DateTimeFormat('en-US', {
     weekday: 'long',
-    year: 'numeric',
     month: 'long',
     day: 'numeric',
+    year: 'numeric',
   }).format(date);
-}
+};

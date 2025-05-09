@@ -24,12 +24,16 @@ export function FeaturedEvents() {
       try {
         const response = await fetch('/api/events');
         const data = await response.json();
-        const upcomingEvents = data.filter((event: Event) => {
-          const eventDate = new Date(event.startDateTime);
-          const now = new Date();
-          // Include events that haven't ended yet
-          return eventDate >= now || new Date(event.endDateTime) >= now;
-        }).slice(0, 4); // Limit to 4 upcoming events
+        const upcomingEvents = data
+          .filter((event: Event) => {
+            const endDate = new Date(event.endDateTime);
+            const now = new Date();
+            return endDate >= now;
+          })
+          .sort((a: Event, b: Event) => 
+            new Date(a.startDateTime).getTime() - new Date(b.startDateTime).getTime()
+          )
+          .slice(0, 4); // Limit to 4 upcoming events
         setEvents(upcomingEvents);
       } catch (error) {
         console.error('Error fetching events:', error);
