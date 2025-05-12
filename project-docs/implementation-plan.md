@@ -107,6 +107,7 @@ Steps:
 - Add "Follow Us" button with Instagram link
 
 Task 2.1.6: Donation Call-to-Action Section
+**Status:** Done
 Description: Create compelling donation CTA section
 Steps:
 - Design visually striking CTA component
