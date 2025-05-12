@@ -4,6 +4,8 @@
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
+import Lightbox from "yet-another-react-lightbox";
+import "yet-another-react-lightbox/styles.css";
 
 type Photo = {
   id: string;
@@ -15,6 +17,8 @@ type Photo = {
 export function PhotoGallery() {
   const [photos, setPhotos] = useState<Photo[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
+  const [photoIndex, setPhotoIndex] = useState(0);
 
   useEffect(() => {
     async function fetchPhotos() {
@@ -59,7 +63,14 @@ export function PhotoGallery() {
       </div>
       <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
         {photos.map((photo) => (
-          <div key={photo.id} className="relative aspect-square group">
+          <div 
+            key={photo.id} 
+            className="relative aspect-square group cursor-pointer" 
+            onClick={() => {
+              setPhotoIndex(index);
+              setIsOpen(true);
+            }}
+          >
             <Image
               src={photo.imageUrl}
               alt={photo.title}
@@ -73,6 +84,16 @@ export function PhotoGallery() {
           </div>
         ))}
       </div>
+      <Lightbox
+        open={isOpen}
+        close={() => setIsOpen(false)}
+        index={photoIndex}
+        slides={photos.map(photo => ({
+          src: photo.imageUrl,
+          alt: photo.title,
+          description: photo.description,
+        }))}
+      />
     </section>
   );
 }
