@@ -62,7 +62,7 @@ export function PhotoGallery() {
         </div>
       </div>
       <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-        {photos.map((photo) => (
+        {photos.map((photo, index) => (
           <div 
             key={photo.id} 
             className="relative aspect-square group cursor-pointer" 
