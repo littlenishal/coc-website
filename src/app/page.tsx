@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import Image from "next/image";
 import { FeaturedEvents } from "@/components/FeaturedEvents";
-import { InstagramFeed } from "@/components/InstagramFeed";
+import { PhotoGallery } from "@/components/PhotoGallery";
 
 export default function Home() {
   return (
@@ -41,7 +41,7 @@ export default function Home() {
       </section>
 
       <FeaturedEvents />
-      <InstagramFeed />
+      <PhotoGallery />
     </div>
   );
 }
