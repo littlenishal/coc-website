@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useEffect, useState } from 'react';
@@ -62,12 +61,12 @@ export function PhotoGallery() {
         </div>
       </div>
       <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-        {photos.map((photo, index) => (
+        {photos.map((photo, idx) => (
           <div 
             key={photo.id} 
             className="relative aspect-square group cursor-pointer" 
             onClick={() => {
-              setPhotoIndex(index);
+              setPhotoIndex(idx);
               setIsOpen(true);
             }}
           >
