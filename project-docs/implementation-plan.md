@@ -96,6 +96,7 @@ Steps:
 - Filter logic to show only upcoming events
 
 Task 2.1.5: Photo Gallery Preview
+**Status:** Done
 Description: Implement Photo Gallery integration on homepage
 Steps:
 - Create responsive grid for CMS-hosted photos
