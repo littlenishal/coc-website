@@ -48,9 +48,14 @@ export function PhotoGallery() {
     <section className="container px-4 py-16">
       <div className="flex justify-between items-center mb-8">
         <h2 className="text-3xl font-bold">Photo Gallery</h2>
-        <Button variant="outline" asChild>
-          <a href="/gallery">View All</a>
-        </Button>
+        <div className="flex gap-4">
+          <Button variant="outline" asChild>
+            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer">Follow Us</a>
+          </Button>
+          <Button variant="outline" asChild>
+            <a href="/gallery">View All</a>
+          </Button>
+        </div>
       </div>
       <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
         {photos.map((photo) => (
@@ -59,6 +64,7 @@ export function PhotoGallery() {
               src={photo.imageUrl}
               alt={photo.title}
               fill
+              sizes="(max-width: 768px) 50vw, 33vw"
               className="object-cover rounded-lg"
             />
             <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity p-4 rounded-lg">
