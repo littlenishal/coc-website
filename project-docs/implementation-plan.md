@@ -115,6 +115,7 @@ Steps:
 - Implement responsive layout for different devices
 
 Task 2.1.7: Footer Implementation
+**Status:** Done
 Description: Create website footer with essential links and information
 Steps:
 - Design responsive footer layout
