@@ -95,11 +95,11 @@ Steps:
 - Implement loading state and error handling
 - Filter logic to show only upcoming events
 
-Task 2.1.5: Instagram Feed Preview
-Description: Implement Instagram feed integration on homepage
+Task 2.1.5: Photo Gallery Preview
+Description: Implement Photo Gallery integration on homepage
 Steps:
-- Create responsive grid for Instagram photos
-- Implement data fetching from Instagram API service
+- Create responsive grid for CMS-hosted photos
+- Implement data fetching from  headless CMS service
 - Add lightbox functionality for image viewing
 - Create fallback UI for when API fails
 - Design loading states and animations
