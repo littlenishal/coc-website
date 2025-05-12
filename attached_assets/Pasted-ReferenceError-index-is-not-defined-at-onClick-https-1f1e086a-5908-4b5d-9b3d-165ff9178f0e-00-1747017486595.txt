@@ -1,0 +1,16 @@
+ReferenceError: index is not defined
+    at onClick (https://1f1e086a-5908-4b5d-9b3d-165ff9178f0e-00-w7ujk9toe6ft.kirk.replit.dev/_next/static/chunks/src_789ee6a1._.js:325:43)
+    at executeDispatch (https://1f1e086a-5908-4b5d-9b3d-165ff9178f0e-00-w7ujk9toe6ft.kirk.replit.dev/_next/static/chunks/node_modules_next_dist_compiled_2ce9398a._.js:10906:13)
+    at runWithFiberInDEV (https://1f1e086a-5908-4b5d-9b3d-165ff9178f0e-00-w7ujk9toe6ft.kirk.replit.dev/_next/static/chunks/node_modules_next_dist_compiled_2ce9398a._.js:3073:74)
+    at processDispatchQueue (https://1f1e086a-5908-4b5d-9b3d-165ff9178f0e-00-w7ujk9toe6ft.kirk.replit.dev/_next/static/chunks/node_modules_next_dist_compiled_2ce9398a._.js:10932:41)
+    at https://1f1e086a-5908-4b5d-9b3d-165ff9178f0e-00-w7ujk9toe6ft.kirk.replit.dev/_next/static/chunks/node_modules_next_dist_compiled_2ce9398a._.js:11223:13
+    at batchedUpdates$1 (https://1f1e086a-5908-4b5d-9b3d-165ff9178f0e-00-w7ujk9toe6ft.kirk.replit.dev/_next/static/chunks/node_modules_next_dist_compiled_2ce9398a._.js:4384:44)
+    at dispatchEventForPluginEventSystem (https://1f1e086a-5908-4b5d-9b3d-165ff9178f0e-00-w7ujk9toe6ft.kirk.replit.dev/_next/static/chunks/node_modules_next_dist_compiled_2ce9398a._.js:11008:9)
+    at dispatchEvent (https://1f1e086a-5908-4b5d-9b3d-165ff9178f0e-00-w7ujk9toe6ft.kirk.replit.dev/_next/static/chunks/node_modules_next_dist_compiled_2ce9398a._.js:13121:37)
+    at dispatchDiscreteEvent (https://1f1e086a-5908-4b5d-9b3d-165ff9178f0e-00-w7ujk9toe6ft.kirk.replit.dev/_next/static/chunks/node_modules_next_dist_compiled_2ce9398a._.js:13103:64)
+    at div (<anonymous>)
+    at https://1f1e086a-5908-4b5d-9b3d-165ff9178f0e-00-w7ujk9toe6ft.kirk.replit.dev/_next/static/chunks/src_789ee6a1._.js:322:249
+    at Array.map (<anonymous>)
+    at PhotoGallery (https://1f1e086a-5908-4b5d-9b3d-165ff9178f0e-00-w7ujk9toe6ft.kirk.replit.dev/_next/static/chunks/src_789ee6a1._.js:322:34)
+    at Home (https://1f1e086a-5908-4b5d-9b3d-165ff9178f0e-00-w7ujk9toe6ft.kirk.replit.dev/_next/static/chunks/src_789ee6a1._.js:528:215)
+    at ClientPageRoot (https://1f1e086a-5908-4b5d-9b3d-165ff9178f0e-00-w7ujk9toe6ft.kirk.replit.dev/_next/static/chunks/node_modules_next_dist_1a6ee436._.js:2061:50)
