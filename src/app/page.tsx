@@ -1,4 +1,3 @@
-
 'use client';
 
 import { Button } from "@/components/ui/button";
@@ -6,6 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { FeaturedEvents } from "@/components/FeaturedEvents";
 import { PhotoGallery } from "@/components/PhotoGallery";
+import { DonationCTA } from "@/components/DonationCTA";
 
 export default function Home() {
   return (
@@ -42,6 +42,7 @@ export default function Home() {
 
       <FeaturedEvents />
       <PhotoGallery />
+      <DonationCTA />
     </div>
   );
 }
