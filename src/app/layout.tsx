@@ -11,8 +11,33 @@ const geist = Geist({
 });
 
 export const metadata: Metadata = {
-  title: "Captains of Commerce",
+  title: {
+    default: "Captains of Commerce",
+    template: "%s | Captains of Commerce"
+  },
   description: "Providing compassionate and comprehensive support to individuals and families in need within Arlington County and the greater Northern Virginia area.",
+  keywords: ["charity", "nonprofit", "community service", "Arlington", "Virginia", "donations", "volunteering"],
+  authors: [{ name: "Captains of Commerce" }],
+  creator: "Captains of Commerce",
+  metadataBase: new URL('https://captainsofcommerce.org'),
+  openGraph: {
+    type: 'website',
+    locale: 'en_US',
+    title: 'Captains of Commerce',
+    description: 'Supporting the Arlington County community through charitable initiatives and volunteer work.',
+    siteName: 'Captains of Commerce',
+    images: ['/hero-background.jpg'],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Captains of Commerce',
+    description: 'Supporting the Arlington County community through charitable initiatives and volunteer work.',
+    images: ['/hero-background.jpg'],
+  },
+  robots: {
+    index: true,
+    follow: true,
+  }
 };
 
 export default function RootLayout({
