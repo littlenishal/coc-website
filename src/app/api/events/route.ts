@@ -10,7 +10,6 @@ export async function GET(request: NextRequest) {
     const eventType = searchParams.get('type') as EventType | null;
     const startDate = searchParams.get('startDate');
     const endDate = searchParams.get('endDate');
-    const isPublished = searchParams.get('published') === 'true';
 
     // Build filter conditions
     const where = {
