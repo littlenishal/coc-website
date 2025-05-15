@@ -1,0 +1,43 @@
+[22:29:14.478] Running build in Washington, D.C., USA (East) – iad1
+[22:29:14.479] Build machine configuration: 2 cores, 8 GB
+[22:29:14.493] Cloning github.com/littlenishal/coc-website (Branch: main, Commit: bd4fd05)
+[22:29:14.873] Cloning completed: 378.000ms
+[22:29:17.395] Restored build cache from previous deployment (BGytNSba5BCpTgfChf8k6ipD78ek)
+[22:29:17.934] Running "vercel build"
+[22:29:18.305] Vercel CLI 41.7.3
+[22:29:18.602] Installing dependencies...
+[22:29:19.865] 
+[22:29:19.866] up to date in 1s
+[22:29:19.866] 
+[22:29:19.866] 151 packages are looking for funding
+[22:29:19.866]   run `npm fund` for details
+[22:29:19.897] Detected Next.js version: 15.3.1
+[22:29:19.901] Running "npm run build"
+[22:29:20.009] 
+[22:29:20.010] > coc-website@0.1.0 build
+[22:29:20.010] > prisma generate && next build
+[22:29:20.010] 
+[22:29:20.554] Prisma schema loaded from prisma/schema.prisma
+[22:29:20.629] Warning: You did not specify an output path for your `generator` in schema.prisma. This behavior is deprecated and will no longer be supported in Prisma 7.0.0. To learn more visit https://pris.ly/cli/output-path
+[22:29:20.780] 
+[22:29:20.780] ✔ Generated Prisma Client (v6.7.0) to ./node_modules/@prisma/client in 90ms
+[22:29:20.781] 
+[22:29:20.781] Start by importing your Prisma Client (See: https://pris.ly/d/importing-client)
+[22:29:20.781] 
+[22:29:20.781] Tip: Want to react to database changes in your app as they happen? Discover how with Pulse: https://pris.ly/tip-1-pulse
+[22:29:20.781] 
+[22:29:21.578]    ▲ Next.js 15.3.1
+[22:29:21.580] 
+[22:29:21.643]    Creating an optimized production build ...
+[22:29:25.951]  ✓ Compiled successfully in 3.0s
+[22:29:25.954]    Linting and checking validity of types ...
+[22:29:32.159] Failed to compile.
+[22:29:32.160] 
+[22:29:32.160] src/app/api/events/[id]/route.ts
+[22:29:32.161] Type error: Route "src/app/api/events/[id]/route.ts" has an invalid "GET" export:
+[22:29:32.161]   Type "{ params: { id: string; }; }" is not a valid type for the function's second argument.
+[22:29:32.161] 
+[22:29:32.181] Next.js build worker exited with code: 1 and signal: null
+[22:29:32.210] Error: Command "npm run build" exited with 1
+[22:29:32.463] 
+[22:29:35.538] Exiting build container
