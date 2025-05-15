@@ -1,0 +1,43 @@
+[22:46:42.789] Running build in Washington, D.C., USA (East) – iad1
+[22:46:42.789] Build machine configuration: 2 cores, 8 GB
+[22:46:42.805] Cloning github.com/littlenishal/coc-website (Branch: main, Commit: 3968e9d)
+[22:46:43.083] Cloning completed: 277.000ms
+[22:46:45.228] Restored build cache from previous deployment (BGytNSba5BCpTgfChf8k6ipD78ek)
+[22:46:45.771] Running "vercel build"
+[22:46:46.147] Vercel CLI 41.7.3
+[22:46:46.453] Installing dependencies...
+[22:46:47.774] 
+[22:46:47.775] up to date in 1s
+[22:46:47.775] 
+[22:46:47.776] 151 packages are looking for funding
+[22:46:47.776]   run `npm fund` for details
+[22:46:47.808] Detected Next.js version: 15.3.1
+[22:46:47.812] Running "npm run build"
+[22:46:47.925] 
+[22:46:47.926] > coc-website@0.1.0 build
+[22:46:47.926] > prisma generate && next build
+[22:46:47.926] 
+[22:46:48.488] Prisma schema loaded from prisma/schema.prisma
+[22:46:48.566] Warning: You did not specify an output path for your `generator` in schema.prisma. This behavior is deprecated and will no longer be supported in Prisma 7.0.0. To learn more visit https://pris.ly/cli/output-path
+[22:46:48.719] 
+[22:46:48.724] ✔ Generated Prisma Client (v6.7.0) to ./node_modules/@prisma/client in 102ms
+[22:46:48.724] 
+[22:46:48.724] Start by importing your Prisma Client (See: https://pris.ly/d/importing-client)
+[22:46:48.725] 
+[22:46:48.725] Tip: Want to turn off tips and other hints? https://pris.ly/tip-4-nohints
+[22:46:48.725] 
+[22:46:49.537]    ▲ Next.js 15.3.1
+[22:46:49.538] 
+[22:46:49.602]    Creating an optimized production build ...
+[22:46:54.065]  ✓ Compiled successfully in 3.0s
+[22:46:54.069]    Linting and checking validity of types ...
+[22:47:00.281] Failed to compile.
+[22:47:00.282] 
+[22:47:00.282] src/app/api/events/[id]/route.ts
+[22:47:00.283] Type error: Route "src/app/api/events/[id]/route.ts" has an invalid "GET" export:
+[22:47:00.283]   Type "{ params: { id: string; }; }" is not a valid type for the function's second argument.
+[22:47:00.283] 
+[22:47:00.305] Next.js build worker exited with code: 1 and signal: null
+[22:47:00.338] Error: Command "npm run build" exited with 1
+[22:47:00.575] 
+[22:47:03.623] Exiting build container
