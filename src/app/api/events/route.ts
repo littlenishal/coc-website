@@ -1,4 +1,3 @@
-
 import { NextRequest, NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
 import { EventType } from '@prisma/client';
@@ -6,7 +5,7 @@ import { EventType } from '@prisma/client';
 export async function GET(request: NextRequest) {
   try {
     const searchParams = request.nextUrl.searchParams;
-    
+
     // Parse query parameters
     const eventType = searchParams.get('type') as EventType | null;
     const startDate = searchParams.get('startDate');
