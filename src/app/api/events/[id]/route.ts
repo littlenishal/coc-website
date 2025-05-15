@@ -4,15 +4,17 @@ import prisma from '@/lib/prisma';
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  context: { params: { id: string } }
 ) {
   try {
+    const { id } = context.params;
+    
     const event = await prisma.event.findUnique({
       where: {
-        id: params.id
+        id
       },
       include: {
-        user: {
+        creator: {
           select: {
             id: true,
             firstName: true,
