@@ -1,48 +1,24 @@
-import { NextRequest, NextResponse } from 'next/server';
-import prisma from '@/lib/prisma';
-import { EventType } from '@prisma/client';
+import { NextRequest } from 'next/server';
+import { prisma } from '@/lib/prisma';
 
-export async function GET(
-  request: NextRequest
-) {
+export async function GET(request: NextRequest) {
   try {
-    const searchParams = request.nextUrl.searchParams;
-
-    // Parse query parameters
-    const eventType = searchParams.get('type') as EventType | null;
-    const startDate = searchParams.get('startDate');
-    const endDate = searchParams.get('endDate');
-
-    // Build filter conditions
-    const where = {
-      ...(eventType && { eventType }),
-      ...(startDate && { startDateTime: { gte: new Date(startDate) } }),
-      ...(endDate && { endDateTime: { lte: new Date(endDate) } }),
-      isPublished: true, // Only show published events by default
-    };
-
     const events = await prisma.event.findMany({
-      where,
-      include: {
-        creator: {
-          select: {
-            id: true,
-            firstName: true,
-            lastName: true,
-          },
-        },
-      },
-      orderBy: {
-        startDateTime: 'asc',
-      },
+      orderBy: { startDateTime: 'asc' },
+      where: { isPublished: true }
     });
-
-    return NextResponse.json(events);
+    return Response.json(events);
   } catch (error) {
-    console.error('Failed to fetch events:', error);
-    return NextResponse.json(
-      { error: 'Failed to fetch events' },
-      { status: 500 }
-    );
+    return Response.json({ error: 'Internal server error' }, { status: 500 });
+  }
+}
+
+export async function POST(request: NextRequest) {
+  try {
+    const data = await request.json();
+    const event = await prisma.event.create({ data });
+    return Response.json(event, { status: 201 });
+  } catch (error) {
+    return Response.json({ error: 'Internal server error' }, { status: 500 });
   }
 }

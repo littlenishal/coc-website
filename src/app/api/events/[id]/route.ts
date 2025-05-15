@@ -1,54 +1,52 @@
 
-import { NextRequest, NextResponse } from 'next/server';
-import prisma from '@/lib/prisma';
-
-type RouteContext = {
-  params: { id: string }
-}
+import { NextRequest } from 'next/server';
+import { prisma } from '@/lib/prisma';
 
 export async function GET(
-  _request: NextRequest,
-  { params }: RouteContext
+  request: NextRequest,
+  { params }: { params: { id: string } }
 ) {
   try {
-    const id = params.id;
-
-    if (!id) {
-      return NextResponse.json(
-        { error: 'Missing ID parameter' },
-        { status: 400 }
-      );
-    }
-
     const event = await prisma.event.findUnique({
-      where: {
-        id
-      },
-      include: {
-        creator: {
-          select: {
-            id: true,
-            firstName: true,
-            lastName: true,
-            email: true
-          }
-        }
-      }
+      where: { id: params.id }
     });
 
     if (!event) {
-      return NextResponse.json(
-        { error: 'Event not found' },
-        { status: 404 }
-      );
+      return Response.json({ error: 'Event not found' }, { status: 404 });
     }
 
-    return NextResponse.json(event);
+    return Response.json(event);
   } catch (error) {
-    console.error('Error fetching event:', error);
-    return NextResponse.json(
-      { error: 'Internal Server Error' },
-      { status: 500 }
-    );
+    return Response.json({ error: 'Internal server error' }, { status: 500 });
+  }
+}
+
+export async function PUT(
+  request: NextRequest,
+  { params }: { params: { id: string } }
+) {
+  try {
+    const data = await request.json();
+    const event = await prisma.event.update({
+      where: { id: params.id },
+      data
+    });
+    return Response.json(event);
+  } catch (error) {
+    return Response.json({ error: 'Internal server error' }, { status: 500 });
+  }
+}
+
+export async function DELETE(
+  request: NextRequest,
+  { params }: { params: { id: string } }
+) {
+  try {
+    await prisma.event.delete({
+      where: { id: params.id }
+    });
+    return new Response(null, { status: 204 });
+  } catch (error) {
+    return Response.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
