@@ -147,6 +147,7 @@ Steps:
 - Test with cURL or Postman to verify all endpoints work as expected
 
 **Ticket 2.2 Breakdown**
+
 Task 2.2.1: Set up GET endpoint for retrieving all events
 **Description:** Implement the API endpoint to fetch all events with optional filtering
 **Steps:**
