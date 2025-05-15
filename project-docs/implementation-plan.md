@@ -126,6 +126,7 @@ Steps:
 - Include copyright and legal information
 
 Task 2.1.8: SEO & Metadata
+**Status:** Done
 Description: Implement SEO basics for homepage
 Steps:
 - Add proper meta tags for title and description
@@ -133,15 +134,6 @@ Steps:
 - Add structured data for organization
 - Ensure all images have appropriate alt text
 - Configure proper heading hierarchy
-
-Task 2.1.9: Accessibility Review
-Description: Ensure homepage meets WCAG 2.1 AA standards
-Steps:
-- Test keyboard navigation throughout page
-- Verify proper contrast ratios for all text
-- Ensure all interactive elements have proper focus states
-- Add appropriate ARIA labels where needed
-- Test with screen reader to verify accessibility
 
 ### Ticket 2.2: Event Calendar - Backend API
 **Description:** Implement backend APIs for event management.
@@ -153,6 +145,92 @@ Steps:
 - API endpoint to delete events (DELETE /api/events/{id})
 - Filtering capability by date range and event type
 - Test with cURL or Postman to verify all endpoints work as expected
+
+**Ticket 2.2 Breakdown**
+Task 2.2.1: Set up GET endpoint for retrieving all events
+**Description:** Implement the API endpoint to fetch all events with optional filtering
+**Steps:**
+- Update the existing `/api/events/route.ts` file to implement proper filtering
+- Add query parameter support for filtering by event type, date range, and published status
+- Implement error handling for database connection issues
+- Add appropriate logging for debugging purposes
+- Test endpoint returns expected JSON format and status codes
+
+Task 2.2.2: Implement GET endpoint for retrieving a single event
+**Description:** Create an API endpoint to retrieve details of a specific event by ID
+**Steps:**
+- Create `/api/events/[id]/route.ts` file
+- Implement validation for the event ID parameter
+- Query database for the specific event using Prisma
+- Return appropriate error response if event not found (404)
+- Include related data if necessary (like creator information)
+- Test endpoint returns expected JSON format and status codes
+
+Task 2.2.3: Create POST endpoint for creating new events
+**Description:** Implement API endpoint for creating new events
+**Steps:**
+- Create or update `/api/events/route.ts` to handle POST requests
+- Implement validation for required event fields (title, description, dates, location, etc.)
+- Add authentication check to ensure only authorized users can create events
+- Save new event to database using Prisma
+- Return the created event with status code 201
+- Add appropriate error handling
+
+Task 2.2.4: Implement PUT endpoint for updating events
+**Description:** Create API endpoint for updating existing events
+**Steps:**
+- Create `/api/events/[id]/route.ts` PUT handler
+- Implement validation for event ID and update data
+- Add authentication and authorization checks
+- Update event in database using Prisma
+- Return updated event data
+- Ensure proper error handling for not found (404) and validation errors (400)
+
+Task 2.2.5: Implement DELETE endpoint for removing events
+**Description:** Create API endpoint for deleting events
+**Steps:**
+- Add DELETE handler to `/api/events/[id]/route.ts`
+- Implement validation for event ID
+- Add authentication and authorization checks
+- Perform soft delete (updating isPublished to false) or hard delete based on requirements
+- Return appropriate success response code (204)
+- Implement error handling for not found cases
+
+Task 2.2.6: Fix Prisma client initialization for Vercel deployment
+**Description:** Resolve the Prisma client initialization issue during Vercel deployment
+**Steps:**
+- Update `package.json` build script to include `prisma generate` 
+- Ensure prisma client is properly exported from lib/prisma.ts
+- Test locally with production build to verify Prisma works correctly
+- Document any environment-specific configuration needed for production
+
+Task 2.2.7: Implement API testing and documentation
+**Description:** Create test scripts and document the API endpoints
+**Steps:**
+- Write curl or Postman collection examples for each endpoint
+- Document request/response formats for all endpoints
+- Create sample requests for different filtering scenarios
+- Test authentication and authorization workflows
+- Document potential error responses and error codes
+- Create any necessary seed data for testing purposes
+
+Task 2.2.8: Event schema validation middleware
+**Description:** Create middleware for validating event data in requests
+**Steps:**
+- Implement validation functions for event creation and updates
+- Define schema for event data validation
+- Create reusable middleware for different event endpoints
+- Handle validation errors and return appropriate error messages
+- Test with various invalid input scenarios to verify validation works
+
+Task 2.2.9: Implement performance optimizations
+**Description:** Optimize the API endpoints for performance and security
+**Steps:**
+- Add appropriate caching headers for GET endpoints
+- Implement rate limiting for API endpoints
+- Add pagination support for the events list endpoint
+- Ensure proper indexing in the database schema for event queries
+- Test with larger datasets to verify performance
 
 ### Ticket 2.3: Event Calendar - Frontend UI
 **Description:** Implement the event calendar UI component with both calendar and list views.
