@@ -2,9 +2,11 @@
 import { NextRequest, NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
 
+import { type Params } from 'next/dist/shared/lib/router/utils/route-matcher';
+
 export async function GET(
   _request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Params }
 ) {
   try {
     const { id } = params;
