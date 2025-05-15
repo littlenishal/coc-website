@@ -1,0 +1,42 @@
+[23:46:53.814] Running build in Washington, D.C., USA (East) – iad1
+[23:46:53.814] Build machine configuration: 2 cores, 8 GB
+[23:46:53.831] Cloning github.com/littlenishal/coc-website (Branch: main, Commit: ed3d8e2)
+[23:46:54.426] Cloning completed: 595.000ms
+[23:46:56.552] Restored build cache from previous deployment (BGytNSba5BCpTgfChf8k6ipD78ek)
+[23:46:57.117] Running "vercel build"
+[23:46:57.499] Vercel CLI 41.7.3
+[23:46:58.164] Installing dependencies...
+[23:46:59.575] 
+[23:46:59.576] up to date in 1s
+[23:46:59.576] 
+[23:46:59.576] 151 packages are looking for funding
+[23:46:59.576]   run `npm fund` for details
+[23:46:59.609] Detected Next.js version: 15.3.1
+[23:46:59.613] Running "npm run build"
+[23:46:59.724] 
+[23:46:59.725] > coc-website@0.1.0 build
+[23:46:59.725] > prisma generate && next build
+[23:46:59.725] 
+[23:47:00.281] Prisma schema loaded from prisma/schema.prisma
+[23:47:00.360] Warning: You did not specify an output path for your `generator` in schema.prisma. This behavior is deprecated and will no longer be supported in Prisma 7.0.0. To learn more visit https://pris.ly/cli/output-path
+[23:47:00.509] 
+[23:47:00.509] ✔ Generated Prisma Client (v6.7.0) to ./node_modules/@prisma/client in 91ms
+[23:47:00.509] 
+[23:47:00.509] Start by importing your Prisma Client (See: https://pris.ly/d/importing-client)
+[23:47:00.509] 
+[23:47:00.510] Tip: Easily identify and fix slow SQL queries in your app. Optimize helps you enhance your visibility: https://pris.ly/--optimize
+[23:47:00.510] 
+[23:47:01.332]    ▲ Next.js 15.3.1
+[23:47:01.333] 
+[23:47:01.403]    Creating an optimized production build ...
+[23:47:06.042]  ✓ Compiled successfully in 4.0s
+[23:47:06.046]    Linting and checking validity of types ...
+[23:47:12.226] Failed to compile.
+[23:47:12.226] 
+[23:47:12.227] src/app/api/events/[id]/route.ts
+[23:47:12.227] Type error: Route "src/app/api/events/[id]/route.ts" has an invalid "GET" export:
+[23:47:12.227]   Type "{ params: { id: string; }; }" is not a valid type for the function's second argument.
+[23:47:12.228] 
+[23:47:12.248] Next.js build worker exited with code: 1 and signal: null
+[23:47:12.278] Error: Command "npm run build" exited with 1
+[23:47:12.518] 
