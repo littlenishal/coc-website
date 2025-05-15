@@ -1,13 +1,17 @@
-
 import { NextRequest, NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
 
+// Define the params type using the native Next.js expected format
+type EventParams = { params: { id: string } };
+
 export async function GET(
   _: NextRequest,
-  { params }: { params: { id: string } }
+  context: EventParams
 ) {
   try {
-    if (!params.id) {
+    const { id } = context.params;
+
+    if (!id) {
       return NextResponse.json(
         { error: 'Missing ID parameter' },
         { status: 400 }
@@ -16,7 +20,7 @@ export async function GET(
 
     const event = await prisma.event.findUnique({
       where: {
-        id: params.id
+        id
       },
       include: {
         creator: {
