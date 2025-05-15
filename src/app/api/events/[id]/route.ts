@@ -1,14 +1,17 @@
 
-// @ts-nocheck
 import { NextRequest, NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
 
+type RouteContext = {
+  params: { id: string }
+}
+
 export async function GET(
-  request: NextRequest,
-  context: { params: { id: string } }
+  _request: NextRequest,
+  { params }: RouteContext
 ) {
   try {
-    const id = context.params.id;
+    const id = params.id;
 
     if (!id) {
       return NextResponse.json(
