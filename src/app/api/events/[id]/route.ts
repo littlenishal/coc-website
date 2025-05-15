@@ -2,15 +2,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
 
-type Props = {
-  params: {
-    id: string;
-  };
-};
-
 export async function GET(
   request: NextRequest,
-  { params }: Props
+  context: { params: { id: string } }
 ) {
   try {
     const event = await prisma.event.findUnique({
