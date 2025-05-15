@@ -4,7 +4,7 @@ import prisma from '@/lib/prisma';
 
 export async function GET(
   _request: NextRequest,
-  context: { params: { id: string } }
+  { params }: { params: { id: string } }
 ) {
   try {
     const event = await prisma.event.findUnique({
