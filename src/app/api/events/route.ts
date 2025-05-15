@@ -17,7 +17,7 @@ export async function GET(request: NextRequest) {
       ...(eventType && { eventType }),
       ...(startDate && { startDateTime: { gte: new Date(startDate) } }),
       ...(endDate && { endDateTime: { lte: new Date(endDate) } }),
-      ...(typeof isPublished === 'boolean' && { isPublished }),
+      isPublished: true, // Only show published events by default
     };
 
     const events = await prisma.event.findMany({
