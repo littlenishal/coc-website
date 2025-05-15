@@ -1,0 +1,42 @@
+[23:41:13.200] Running build in Washington, D.C., USA (East) – iad1
+[23:41:13.201] Build machine configuration: 2 cores, 8 GB
+[23:41:13.225] Cloning github.com/littlenishal/coc-website (Branch: main, Commit: 787df93)
+[23:41:13.658] Cloning completed: 433.000ms
+[23:41:15.814] Restored build cache from previous deployment (BGytNSba5BCpTgfChf8k6ipD78ek)
+[23:41:16.365] Running "vercel build"
+[23:41:16.832] Vercel CLI 41.7.3
+[23:41:17.143] Installing dependencies...
+[23:41:18.526] 
+[23:41:18.527] up to date in 1s
+[23:41:18.528] 
+[23:41:18.528] 151 packages are looking for funding
+[23:41:18.528]   run `npm fund` for details
+[23:41:18.561] Detected Next.js version: 15.3.1
+[23:41:18.565] Running "npm run build"
+[23:41:18.683] 
+[23:41:18.683] > coc-website@0.1.0 build
+[23:41:18.683] > prisma generate && next build
+[23:41:18.684] 
+[23:41:19.359] Prisma schema loaded from prisma/schema.prisma
+[23:41:19.437] Warning: You did not specify an output path for your `generator` in schema.prisma. This behavior is deprecated and will no longer be supported in Prisma 7.0.0. To learn more visit https://pris.ly/cli/output-path
+[23:41:19.592] 
+[23:41:19.592] ✔ Generated Prisma Client (v6.7.0) to ./node_modules/@prisma/client in 95ms
+[23:41:19.592] 
+[23:41:19.592] Start by importing your Prisma Client (See: https://pris.ly/d/importing-client)
+[23:41:19.592] 
+[23:41:19.592] Tip: Need your database queries to be 1000x faster? Accelerate offers you that and more: https://pris.ly/tip-2-accelerate
+[23:41:19.592] 
+[23:41:20.463]    ▲ Next.js 15.3.1
+[23:41:20.464] 
+[23:41:20.500]    Creating an optimized production build ...
+[23:41:39.855]  ✓ Compiled successfully in 18.0s
+[23:41:39.870]    Linting and checking validity of types ...
+[23:41:52.294] Failed to compile.
+[23:41:52.294] 
+[23:41:52.294] src/app/api/events/[id]/route.ts
+[23:41:52.295] Type error: Route "src/app/api/events/[id]/route.ts" has an invalid "GET" export:
+[23:41:52.295]   Type "{ params: { id: string; }; }" is not a valid type for the function's second argument.
+[23:41:52.295] 
+[23:41:52.358] Next.js build worker exited with code: 1 and signal: null
+[23:41:52.466] Error: Command "npm run build" exited with 1
+[23:41:53.355] 
