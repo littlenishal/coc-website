@@ -1,14 +1,13 @@
+
 import { NextRequest, NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
 
-// Disable the TypeScript check for this specific line
-// @ts-expect-error - Next.js App Router types are challenging to get right
 export async function GET(
-  _: NextRequest,
-  { params }: { params: { id: string } }
+  request: NextRequest,
+  context: { params: { id: string } }
 ) {
   try {
-    const id = params.id;
+    const id = context.params.id;
 
     if (!id) {
       return NextResponse.json(
