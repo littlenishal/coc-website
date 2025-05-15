@@ -1,10 +1,9 @@
-
 import { NextRequest, NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
 
 export async function GET(
   _request: NextRequest,
-  { params }
+  { params }: { params: { id: string } }
 ) {
   try {
     if (!params.id) {
