@@ -24,7 +24,7 @@ export async function GET(request: NextRequest) {
     const events = await prisma.event.findMany({
       where,
       include: {
-        createdBy: {
+        creator: {
           select: {
             id: true,
             firstName: true,
