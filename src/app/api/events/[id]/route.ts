@@ -1,17 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
 
-type RouteContext = {
-  params: { id: string }
-}
-
+// Next.js 15: params is a Promise, so we await it and destructure id
 export async function GET(
   _request: NextRequest,
-  { params }: RouteContext
+  { params }: { params: Promise<{ id: string }> }
 ) {
-  try {
-    const id = params.id;
+  const { id } = await params;
 
+  try {
     if (!id) {
       return NextResponse.json(
         { error: 'Missing ID parameter' },
@@ -20,19 +17,17 @@ export async function GET(
     }
 
     const event = await prisma.event.findUnique({
-      where: {
-        id
-      },
+      where: { id },
       include: {
         creator: {
           select: {
             id: true,
             firstName: true,
             lastName: true,
-            email: true
-          }
-        }
-      }
+            email: true,
+          },
+        },
+      },
     });
 
     if (!event) {
