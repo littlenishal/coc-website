@@ -9,10 +9,10 @@ export async function GET(
   try {
     const event = await prisma.event.findUnique({
       where: {
-        id: params.id
+        id: context.params.id
       },
       include: {
-        createdBy: {
+        user: {
           select: {
             id: true,
             firstName: true,
