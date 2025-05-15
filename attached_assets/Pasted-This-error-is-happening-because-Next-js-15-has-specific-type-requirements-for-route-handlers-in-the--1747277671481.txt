@@ -1,0 +1,83 @@
+This error is happening because Next.js 15 has specific type requirements for route handlers in the App Router.
+
+The issue is with how you're typing the context parameter. Let's understand what's going on in more detail:
+
+In Next.js App Router, the route handler functions like `GET`, `POST`, etc., expect specific parameter types. Specifically:
+
+1. The first parameter should be of type `NextRequest`
+2. The second parameter should match the structure that Next.js expects for route context
+
+The way you've typed it with `{ params: Params }` or `{ params: { id: string } }` is causing the type error. Next.js has a specific interface for this parameter that includes more than just the params.
+
+Here's how to fix it:
+
+```typescript
+import { NextRequest, NextResponse } from 'next/server';
+import prisma from '@/lib/prisma';
+
+// Use the correct typing for route handlers in Next.js 15
+export async function GET(
+  request: NextRequest,
+  // Remove the type annotation for the second parameter entirely
+  // Let Next.js infer the correct type
+  { params }
+) {
+  try {
+    const { id } = params;
+    
+    const event = await prisma.event.findUnique({
+      where: {
+        id
+      },
+      include: {
+        creator: {
+          select: {
+            id: true,
+            firstName: true,
+            lastName: true,
+            email: true
+          }
+        }
+      }
+    });
+
+    if (!event) {
+      return NextResponse.json(
+        { error: 'Event not found' },
+        { status: 404 }
+      );
+    }
+
+    return NextResponse.json(event);
+  } catch (error) {
+    console.error('Error fetching event:', error);
+    return NextResponse.json(
+      { error: 'Internal Server Error' },
+      { status: 500 }
+    );
+  }
+}
+```
+
+The key change here is to **remove the explicit type annotation** for the second parameter and let Next.js infer the correct type. This is the most reliable way to handle route parameters in Next.js 15's App Router.
+
+If you want to use TypeScript to ensure `id` exists in params, you can add type checking inside the function instead:
+
+```typescript
+export async function GET(
+  request: NextRequest,
+  { params }
+) {
+  // Type checking inside the function
+  if (!params.id) {
+    return NextResponse.json(
+      { error: 'Missing ID parameter' },
+      { status: 400 }
+    );
+  }
+
+  try {
+    // Rest of the function...
+```
+
+This approach should resolve the type errors you're seeing in the build process.
