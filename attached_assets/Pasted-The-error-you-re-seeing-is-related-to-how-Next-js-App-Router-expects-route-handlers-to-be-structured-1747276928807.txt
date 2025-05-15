@@ -1,0 +1,60 @@
+The error you're seeing is related to how Next.js App Router expects route handlers to be structured. The issue is in your `src/app/api/events/[id]/route.ts` file, specifically with the type definition for the second parameter of the GET function.
+
+In Next.js App Router, the second parameter of route handlers needs to follow the correct type structure. Let me fix this issue for you:
+
+The problem is with the type definition for the params object. For dynamic API routes in Next.js 15, you need to use the correct interface for the context parameter.
+
+Here's how to fix the `src/app/api/events/[id]/route.ts` file:
+
+```typescript
+import { NextRequest, NextResponse } from 'next/server';
+import prisma from '@/lib/prisma';
+
+// The correct type for dynamic route parameters in Next.js App Router
+export async function GET(
+  request: NextRequest,
+  context: { params: { id: string } }
+) {
+  try {
+    const { id } = context.params;
+    
+    const event = await prisma.event.findUnique({
+      where: {
+        id
+      },
+      include: {
+        creator: {  // Changed from 'user' to 'creator' based on your Prisma schema
+          select: {
+            id: true,
+            firstName: true,
+            lastName: true,
+            email: true
+          }
+        }
+      }
+    });
+
+    if (!event) {
+      return NextResponse.json(
+        { error: 'Event not found' },
+        { status: 404 }
+      );
+    }
+
+    return NextResponse.json(event);
+  } catch (error) {
+    console.error('Error fetching event:', error);
+    return NextResponse.json(
+      { error: 'Internal Server Error' },
+      { status: 500 }
+    );
+  }
+}
+```
+
+Key changes made:
+1. Fixed the parameter types to match Next.js 15's App Router expectations
+2. Changed `user` to `creator` in the include statement to match your Prisma schema (based on the documents you provided, the relation is named `creator` in the Event model)
+3. Destructured `id` from `context.params` for cleaner code
+
+This should resolve the type error you're seeing during build. The build system is complaining about the type annotation for the route handler's parameters, and this update aligns with Next.js 15's type expectations for dynamic API routes.
