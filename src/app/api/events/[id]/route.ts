@@ -1,15 +1,18 @@
 import { NextRequest, NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
 
-// Define the params type using the native Next.js expected format
-type EventParams = { params: { id: string } };
+interface RouteContext {
+  params: {
+    id: string;
+  };
+}
 
 export async function GET(
   _: NextRequest,
-  context: EventParams
+  { params }: RouteContext  // Destructure directly in the parameter
 ) {
   try {
-    const { id } = context.params;
+    const { id } = params;
 
     if (!id) {
       return NextResponse.json(
