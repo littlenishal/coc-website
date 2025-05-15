@@ -2,20 +2,21 @@
 import { NextRequest, NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
 
-type Params = {
-  [key: string]: string;
-};
-
 export async function GET(
   request: NextRequest,
   { params }
 ) {
   try {
-    const { id } = params;
-    
+    if (!params.id) {
+      return NextResponse.json(
+        { error: 'Missing ID parameter' },
+        { status: 400 }
+      );
+    }
+
     const event = await prisma.event.findUnique({
       where: {
-        id
+        id: params.id
       },
       include: {
         creator: {
