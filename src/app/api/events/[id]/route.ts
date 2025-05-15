@@ -7,8 +7,8 @@ type Params = {
 };
 
 export async function GET(
-  _request: NextRequest,
-  { params }: { params: Params }
+  request: NextRequest,
+  { params }
 ) {
   try {
     const { id } = params;
