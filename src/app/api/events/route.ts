@@ -3,8 +3,7 @@ import prisma from '@/lib/prisma';
 import { EventType } from '@prisma/client';
 
 export async function GET(
-  request: NextRequest,
-  { params }
+  request: NextRequest
 ) {
   try {
     const searchParams = request.nextUrl.searchParams;

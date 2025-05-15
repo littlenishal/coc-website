@@ -6,7 +6,7 @@ export async function GET(
   { params }: { params: { id: string } }
 ) {
   try {
-    const eventId = params.id;
+    //const eventId = params.id;
     if (!params.id) {
       return NextResponse.json(
         { error: 'Missing ID parameter' },
