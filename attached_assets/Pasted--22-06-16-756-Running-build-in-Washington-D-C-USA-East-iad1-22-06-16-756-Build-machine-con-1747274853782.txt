@@ -1,0 +1,42 @@
+[22:06:16.756] Running build in Washington, D.C., USA (East) – iad1
+[22:06:16.756] Build machine configuration: 2 cores, 8 GB
+[22:06:16.774] Cloning github.com/littlenishal/coc-website (Branch: main, Commit: 683520c)
+[22:06:17.117] Cloning completed: 343.000ms
+[22:06:20.170] Restored build cache from previous deployment (5u3FvcnudhuVmpvN6ecPg9YWv9zv)
+[22:06:20.755] Running "vercel build"
+[22:06:21.145] Vercel CLI 41.7.3
+[22:06:21.454] Installing dependencies...
+[22:06:23.021] 
+[22:06:23.022] up to date in 1s
+[22:06:23.022] 
+[22:06:23.023] 151 packages are looking for funding
+[22:06:23.023]   run `npm fund` for details
+[22:06:23.056] Detected Next.js version: 15.3.1
+[22:06:23.060] Running "npm run build"
+[22:06:23.175] 
+[22:06:23.176] > coc-website@0.1.0 build
+[22:06:23.176] > prisma generate && next build
+[22:06:23.176] 
+[22:06:23.746] Prisma schema loaded from prisma/schema.prisma
+[22:06:23.826] Warning: You did not specify an output path for your `generator` in schema.prisma. This behavior is deprecated and will no longer be supported in Prisma 7.0.0. To learn more visit https://pris.ly/cli/output-path
+[22:06:23.982] 
+[22:06:23.983] ✔ Generated Prisma Client (v6.7.0) to ./node_modules/@prisma/client in 95ms
+[22:06:23.983] 
+[22:06:23.983] Start by importing your Prisma Client (See: https://pris.ly/d/importing-client)
+[22:06:23.984] 
+[22:06:23.984] Tip: Need your database queries to be 1000x faster? Accelerate offers you that and more: https://pris.ly/tip-2-accelerate
+[22:06:23.984] 
+[22:06:24.812]    ▲ Next.js 15.3.1
+[22:06:24.813] 
+[22:06:24.883]    Creating an optimized production build ...
+[22:06:33.836]  ✓ Compiled successfully in 8.0s
+[22:06:33.840]    Linting and checking validity of types ...
+[22:06:38.379] 
+[22:06:38.383] Failed to compile.
+[22:06:38.384] 
+[22:06:38.384] ./src/app/api/events/route.ts
+[22:06:38.384] 13:11  Error: 'isPublished' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+[22:06:38.385] 
+[22:06:38.385] info  - Need to disable some ESLint rules? Learn more here: https://nextjs.org/docs/app/api-reference/config/eslint#disabling-rules
+[22:06:38.434] Error: Command "npm run build" exited with 1
+[22:06:38.702] 
