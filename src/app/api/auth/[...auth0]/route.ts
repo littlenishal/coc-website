@@ -2,7 +2,9 @@
 import { handleAuth, handleCallback } from '@auth0/nextjs-auth0';
 import prisma from '@/lib/prisma';
 
-const afterCallback = async (req: Request, session: { user?: { sub: string; email?: string; given_name?: string; family_name?: string } }) => {
+import { AfterCallbackAppRoute } from '@auth0/nextjs-auth0';
+
+const afterCallback: AfterCallbackAppRoute = async (req, session, options) => {
   if (!session?.user) return session;
 
   const { sub, email, given_name, family_name } = session.user;
@@ -27,7 +29,9 @@ const afterCallback = async (req: Request, session: { user?: { sub: string; emai
 };
 
 export const GET = handleAuth({
-  callback: handleCallback({ afterCallback })
+  callback: handleCallback({
+    afterCallback: afterCallback as any // Temporary type assertion until Auth0 fixes types
+  })
 });
 
 export const POST = handleAuth();
