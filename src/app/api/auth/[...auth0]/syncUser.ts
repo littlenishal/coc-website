@@ -1,12 +1,16 @@
 
 import { handleProfile } from '@auth0/nextjs-auth0';
-import { NextApiRequest, NextApiResponse } from 'next';
+import { NextRequest } from 'next/server';
 import prisma from '@/lib/prisma';
+import { AppRouteHandlerFnContext } from '@auth0/nextjs-auth0/dist/types';
 
-export default async function syncUser(req: NextApiRequest, res: NextApiResponse) {
+export async function GET(
+  req: NextRequest,
+  ctx: AppRouteHandlerFnContext
+) {
   try {
-    await handleProfile(req, res, {
-      afterCallback: async (_, session) => {
+    return await handleProfile(req, ctx, {
+      async afterCallback(_, session) {
         if (session?.user) {
           const { sub, email } = session.user;
           
@@ -26,10 +30,10 @@ export default async function syncUser(req: NextApiRequest, res: NextApiResponse
           });
         }
         return session;
-      },
+      }
     });
   } catch (error) {
     console.error('Error syncing user:', error);
-    res.status(500).json({ error: 'Failed to sync user' });
+    throw error;
   }
 }
