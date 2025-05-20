@@ -11,7 +11,7 @@ const getPrismaClient = () => {
     datasources: {
       db: {
         url: process.env.NODE_ENV === 'production' 
-          ? process.env.DATABASE_URL?.replace('.us-east-2', '-pooler.us-east-2')
+          ? process.env.DATABASE_URL?.replace('.us-west-2', '-pooler.us-west-2')
           : process.env.DATABASE_URL
       }
     }
