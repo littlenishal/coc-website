@@ -11,9 +11,6 @@ const getPrismaClient = () => {
       db: {
         url: process.env.DATABASE_URL
       }
-    },
-    connection: {
-      options: { keepAlive: true }
     }
   });
 };
