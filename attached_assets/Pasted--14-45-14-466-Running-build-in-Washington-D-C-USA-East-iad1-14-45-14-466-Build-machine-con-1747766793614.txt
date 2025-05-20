@@ -1,0 +1,49 @@
+[14:45:14.466] Running build in Washington, D.C., USA (East) – iad1
+[14:45:14.466] Build machine configuration: 2 cores, 8 GB
+[14:45:14.482] Cloning github.com/littlenishal/coc-website (Branch: main, Commit: a93f8f3)
+[14:45:14.769] Cloning completed: 287.000ms
+[14:45:18.339] Restored build cache from previous deployment (4yRi3Y4Nso8zuVSSuj1GNznuUfxZ)
+[14:45:19.389] Running "vercel build"
+[14:45:19.883] Vercel CLI 42.1.1
+[14:45:20.193] Installing dependencies...
+[14:45:21.546] 
+[14:45:21.547] up to date in 1s
+[14:45:21.547] 
+[14:45:21.548] 151 packages are looking for funding
+[14:45:21.548]   run `npm fund` for details
+[14:45:21.580] Detected Next.js version: 15.3.1
+[14:45:21.586] Running "npm run build"
+[14:45:21.697] 
+[14:45:21.698] > coc-website@0.1.0 build
+[14:45:21.698] > prisma generate && next build
+[14:45:21.698] 
+[14:45:22.261] Prisma schema loaded from prisma/schema.prisma
+[14:45:22.340] Warning: You did not specify an output path for your `generator` in schema.prisma. This behavior is deprecated and will no longer be supported in Prisma 7.0.0. To learn more visit https://pris.ly/cli/output-path
+[14:45:22.502] 
+[14:45:22.502] ✔ Generated Prisma Client (v6.7.0) to ./node_modules/@prisma/client in 121ms
+[14:45:22.502] 
+[14:45:22.502] Start by importing your Prisma Client (See: https://pris.ly/d/importing-client)
+[14:45:22.502] 
+[14:45:22.502] Tip: Easily identify and fix slow SQL queries in your app. Optimize helps you enhance your visibility: https://pris.ly/--optimize
+[14:45:22.502] 
+[14:45:23.316]    ▲ Next.js 15.3.1
+[14:45:23.316] 
+[14:45:23.386]    Creating an optimized production build ...
+[14:45:28.357]  ✓ Compiled successfully in 4.0s
+[14:45:28.367]    Linting and checking validity of types ...
+[14:45:35.595] Failed to compile.
+[14:45:35.596] 
+[14:45:35.596] ./src/app/api/events/[id]/route.ts:55:27
+[14:45:35.597] Type error: Cannot find name 'getSession'. Did you mean 'session'?
+[14:45:35.597] 
+[14:45:35.597] [0m [90m 53 |[39m ) {[0m
+[14:45:35.597] [0m [90m 54 |[39m   [36mtry[39m {[0m
+[14:45:35.597] [0m[31m[1m>[22m[39m[90m 55 |[39m     [36mconst[39m session [33m=[39m [36mawait[39m getSession()[33m;[39m[0m
+[14:45:35.598] [0m [90m    |[39m                           [31m[1m^[22m[39m[0m
+[14:45:35.598] [0m [90m 56 |[39m     [36mif[39m ([33m![39msession[33m?[39m[33m.[39muser [33m||[39m [33m![39mcheckRole(session[33m.[39muser[33m,[39m [[32m'ADMIN'[39m[33m,[39m [32m'STAFF'[39m])) {[0m
+[14:45:35.598] [0m [90m 57 |[39m       [36mreturn[39m [33mNextResponse[39m[33m.[39mjson([0m
+[14:45:35.598] [0m [90m 58 |[39m         { error[33m:[39m [32m'Unauthorized - Requires ADMIN or STAFF role'[39m }[33m,[39m[0m
+[14:45:35.620] Next.js build worker exited with code: 1 and signal: null
+[14:45:35.653] Error: Command "npm run build" exited with 1
+[14:45:35.900] 
+[14:45:39.006] Exiting build container
