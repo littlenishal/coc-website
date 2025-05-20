@@ -98,3 +98,50 @@ export async function DELETE(
     );
   }
 }
+
+export async function PUT(
+  request: NextRequest,
+  { params }: { params: { id: string } }
+) {
+  try {
+    const session = await getSession();
+    if (!session?.user) {
+      return NextResponse.json(
+        { error: 'Unauthorized' },
+        { status: 401 }
+      );
+    }
+
+    const eventData = await request.json();
+
+    // Validate required fields
+    if (!eventData.title || !eventData.startDate || !eventData.location) {
+      return NextResponse.json(
+        { error: 'Missing required fields' },
+        { status: 400 }
+      );
+    }
+
+    const updatedEvent = await prisma.event.update({
+      where: { id: params.id },
+      data: {
+        title: eventData.title,
+        description: eventData.description,
+        startDate: new Date(eventData.startDate),
+        endDate: eventData.endDate ? new Date(eventData.endDate) : null,
+        location: eventData.location,
+        type: eventData.type,
+        capacity: eventData.capacity,
+        isPublished: eventData.isPublished
+      }
+    });
+
+    return NextResponse.json(updatedEvent);
+  } catch (error) {
+    console.error('Error updating event:', error);
+    return NextResponse.json(
+      { error: 'Failed to update event' },
+      { status: 500 }
+    );
+  }
+}
