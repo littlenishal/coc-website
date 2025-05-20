@@ -13,7 +13,9 @@
 
 ### Ticket 1.2: Set Up Database & Prisma ORM
 **Description:** Set up PostgreSQL database and configure Prisma ORM based on the data model.
+
 **Status:** Done
+
 **Acceptance Criteria:**
 - PostgreSQL database created and accessible
 - Prisma schema implemented based on the provided data model
@@ -23,7 +25,9 @@
 
 ### Ticket 1.3: Configure Authentication System
 **Description:** Implement user authentication using Auth0.
+
 **Status:** Done
+
 **Acceptance Criteria:**
 - Auth0 integration configured
 - Login/signup pages created
@@ -33,7 +37,9 @@
 
 ### Ticket 1.4: Set Up CI/CD Pipeline with GitHub Actions
 **Description:** Establish automated testing and deployment workflow.
+
 **Status:** Done
+
 **Acceptance Criteria:**
 - GitHub Actions workflow configured for automated testing
 - Deployment pipeline to staging environment
@@ -55,7 +61,9 @@
 
 **Ticket 2.1 breakdown:**
 Task 2.1.1: Project Setup & Component Structure
+
 **Status:** Done
+
 Description: Set up the basic structure for the homepage components
 Steps:
 - Create component folder structure for homepage elements
@@ -64,7 +72,9 @@ Steps:
 - Implement basic page skeleton
 
 Task 2.1.2: Navigation Menu Implementation
+
 **Status:** Done
+
 Description: Create responsive main navigation with mobile support
 Steps:
 - Design and implement desktop navigation bar with logo
@@ -76,7 +86,9 @@ Steps:
 
 Task 2.1.3: Hero Section Design
 Description: Implement hero section with organization mission
+
 **Status:** Done
+
 Steps:
 - Create responsive hero component with background image
 - Add mission statement with appropriate typography
@@ -85,7 +97,9 @@ Steps:
 - Optimize hero image loading performance
 
 Task 2.1.4: Featured Events Section
+
 **Status:** Done
+
 Description: Create section to display upcoming events
 Steps:
 - Design event card components
@@ -96,7 +110,9 @@ Steps:
 - Filter logic to show only upcoming events
 
 Task 2.1.5: Photo Gallery Preview
+
 **Status:** Done
+
 Description: Implement Photo Gallery integration on homepage
 Steps:
 - Create responsive grid for CMS-hosted photos
@@ -107,7 +123,9 @@ Steps:
 - Add "Follow Us" button with Instagram link
 
 Task 2.1.6: Donation Call-to-Action Section
+
 **Status:** Done
+
 Description: Create compelling donation CTA section
 Steps:
 - Design visually striking CTA component
@@ -115,7 +133,9 @@ Steps:
 - Implement responsive layout for different devices
 
 Task 2.1.7: Footer Implementation
+
 **Status:** Done
+
 Description: Create website footer with essential links and information
 Steps:
 - Design responsive footer layout
@@ -126,7 +146,9 @@ Steps:
 - Include copyright and legal information
 
 Task 2.1.8: SEO & Metadata
+
 **Status:** Done
+
 Description: Implement SEO basics for homepage
 Steps:
 - Add proper meta tags for title and description
@@ -150,6 +172,9 @@ Steps:
 
 Task 2.2.1: Set up GET endpoint for retrieving all events
 **Description:** Implement the API endpoint to fetch all events with optional filtering
+
+**Status: Done**
+
 **Steps:**
 - Update the existing `/api/events/route.ts` file to implement proper filtering
 - Add query parameter support for filtering by event type, date range, and published status
@@ -159,6 +184,9 @@ Task 2.2.1: Set up GET endpoint for retrieving all events
 
 Task 2.2.2: Implement GET endpoint for retrieving a single event
 **Description:** Create an API endpoint to retrieve details of a specific event by ID
+
+**Status: Done**
+
 **Steps:**
 - Create `/api/events/[id]/route.ts` file
 - Implement validation for the event ID parameter
@@ -169,6 +197,9 @@ Task 2.2.2: Implement GET endpoint for retrieving a single event
 
 Task 2.2.3: Create POST endpoint for creating new events
 **Description:** Implement API endpoint for creating new events
+
+**Status: Done**
+
 **Steps:**
 - Create or update `/api/events/route.ts` to handle POST requests
 - Implement validation for required event fields (title, description, dates, location, etc.)
@@ -199,6 +230,9 @@ Task 2.2.5: Implement DELETE endpoint for removing events
 
 Task 2.2.6: Fix Prisma client initialization for Vercel deployment
 **Description:** Resolve the Prisma client initialization issue during Vercel deployment
+
+**Status: Done**
+
 **Steps:**
 - Update `package.json` build script to include `prisma generate` 
 - Ensure prisma client is properly exported from lib/prisma.ts
