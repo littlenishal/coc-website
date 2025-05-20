@@ -128,10 +128,10 @@ export async function PUT(
       data: {
         title: eventData.title,
         description: eventData.description,
-        startDate: new Date(eventData.startDate),
-        endDate: eventData.endDate ? new Date(eventData.endDate) : null,
+        startDateTime: new Date(eventData.startDate),
+        endDateTime: eventData.endDate ? new Date(eventData.endDate) : null,
         location: eventData.location,
-        type: eventData.type,
+        eventType: eventData.type,
         capacity: eventData.capacity,
         isPublished: eventData.isPublished
       }
