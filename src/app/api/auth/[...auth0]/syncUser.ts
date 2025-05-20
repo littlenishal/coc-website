@@ -2,11 +2,10 @@
 import { handleProfile } from '@auth0/nextjs-auth0';
 import { NextRequest } from 'next/server';
 import prisma from '@/lib/prisma';
-import { AppRouteHandlerFnContext } from '@auth0/nextjs-auth0/dist/types';
 
 export async function GET(
   req: NextRequest,
-  ctx: AppRouteHandlerFnContext
+  ctx: { params: { auth0: string[] } }
 ) {
   try {
     return await handleProfile(req, ctx, {
