@@ -47,6 +47,9 @@ export async function GET(
   }
 }
 
+import { getSession } from '@auth0/nextjs-auth0';
+import { checkRole } from '@/lib/auth';
+
 export async function DELETE(
   _request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
