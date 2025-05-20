@@ -46,3 +46,52 @@ export async function GET(
     );
   }
 }
+
+export async function DELETE(
+  _request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  try {
+    const session = await getSession();
+    if (!session?.user || !checkRole(session.user, ['ADMIN', 'STAFF'])) {
+      return NextResponse.json(
+        { error: 'Unauthorized - Requires ADMIN or STAFF role' },
+        { status: 401 }
+      );
+    }
+
+    const { id } = await params;
+
+    if (!id) {
+      return NextResponse.json(
+        { error: 'Missing ID parameter' },
+        { status: 400 }
+      );
+    }
+
+    // Check if event exists
+    const event = await prisma.event.findUnique({
+      where: { id }
+    });
+
+    if (!event) {
+      return NextResponse.json(
+        { error: 'Event not found' },
+        { status: 404 }
+      );
+    }
+
+    // Delete the event
+    await prisma.event.delete({
+      where: { id }
+    });
+
+    return new NextResponse(null, { status: 204 });
+  } catch (error) {
+    console.error('Error deleting event:', error);
+    return NextResponse.json(
+      { error: 'Internal Server Error' },
+      { status: 500 }
+    );
+  }
+}
