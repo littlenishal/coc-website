@@ -6,21 +6,16 @@ const globalForPrisma = globalThis as unknown as {
 };
 
 const getPrismaClient = () => {
-  // For production, use connection pooling
-  if (process.env.NODE_ENV === 'production') {
-    const url = process.env.DATABASE_URL?.replace(
-      'neondb_owner:',
-      'neondb_owner:pooler-'
-    );
-    return new PrismaClient({
-      datasources: {
-        db: { url }
+  return new PrismaClient({
+    datasources: {
+      db: {
+        url: process.env.DATABASE_URL
       }
-    });
-  }
-  
-  // For development, use regular connection
-  return new PrismaClient();
+    },
+    connection: {
+      options: { keepAlive: true }
+    }
+  });
 };
 
 export const prisma = globalForPrisma.prisma ?? getPrismaClient();
