@@ -1,0 +1,55 @@
+[10:31:57.691] Running build in Washington, D.C., USA (East) – iad1
+[10:31:57.692] Build machine configuration: 2 cores, 8 GB
+[10:31:57.709] Cloning github.com/littlenishal/coc-website (Branch: main, Commit: dd64e4c)
+[10:31:58.072] Cloning completed: 363.000ms
+[10:32:01.362] Restored build cache from previous deployment (BQx6ZWop9vZqxAq1wbyyNcVc5Sme)
+[10:32:02.728] Running "vercel build"
+[10:32:03.194] Vercel CLI 41.7.3
+[10:32:03.505] Installing dependencies...
+[10:32:07.240] 
+[10:32:07.241] changed 1 package in 3s
+[10:32:07.241] 
+[10:32:07.241] 151 packages are looking for funding
+[10:32:07.242]   run `npm fund` for details
+[10:32:07.277] Detected Next.js version: 15.3.1
+[10:32:07.281] Running "npm run build"
+[10:32:07.415] 
+[10:32:07.416] > coc-website@0.1.0 build
+[10:32:07.416] > prisma generate && next build
+[10:32:07.416] 
+[10:32:07.979] Prisma schema loaded from prisma/schema.prisma
+[10:32:08.052] Warning: You did not specify an output path for your `generator` in schema.prisma. This behavior is deprecated and will no longer be supported in Prisma 7.0.0. To learn more visit https://pris.ly/cli/output-path
+[10:32:08.169] 
+[10:32:08.170] ✔ Generated Prisma Client (v6.7.0) to ./node_modules/@prisma/client in 53ms
+[10:32:08.170] 
+[10:32:08.170] Start by importing your Prisma Client (See: https://pris.ly/d/importing-client)
+[10:32:08.170] 
+[10:32:08.170] Tip: Want to turn off tips and other hints? https://pris.ly/tip-4-nohints
+[10:32:08.170] 
+[10:32:08.976]    ▲ Next.js 15.3.1
+[10:32:08.977] 
+[10:32:09.040]    Creating an optimized production build ...
+[10:32:14.560]  ✓ Compiled successfully in 5.0s
+[10:32:14.564]    Linting and checking validity of types ...
+[10:32:20.942] Failed to compile.
+[10:32:20.943] 
+[10:32:20.943] ./src/app/api/auth/[...auth0]/syncUser.ts:8:11
+[10:32:20.943] Type error: No overload matches this call.
+[10:32:20.943]   Overload 1 of 5, '(req: NextRequest, ctx: AppRouteHandlerFnContext, options?: ProfileOptions | undefined): Response | Promise<...>', gave the following error.
+[10:32:20.943]     Argument of type 'NextApiRequest' is not assignable to parameter of type 'NextRequest'.
+[10:32:20.943]       Type 'NextApiRequest' is missing the following properties from type 'NextRequest': nextUrl, page, ua, [INTERNALS], and 18 more.
+[10:32:20.944]   Overload 2 of 5, '(req: NextApiRequest, res: NextApiResponse, options?: ProfileOptions | undefined): unknown', gave the following error.
+[10:32:20.944]     Object literal may only specify known properties, and 'afterCallback' does not exist in type 'ProfileOptions'.
+[10:32:20.944]   Overload 3 of 5, '(req: NextRequest | NextApiRequest, resOrOpts: NextApiResponse | AppRouteHandlerFnContext, options?: ProfileOptions | undefined): unknown', gave the following error.
+[10:32:20.944]     Object literal may only specify known properties, and 'afterCallback' does not exist in type 'ProfileOptions'.
+[10:32:20.945] 
+[10:32:20.945] [0m [90m  6 |[39m [36mexport[39m [36mdefault[39m [36masync[39m [36mfunction[39m syncUser(req[33m:[39m [33mNextApiRequest[39m[33m,[39m res[33m:[39m [33mNextApiResponse[39m) {[0m
+[10:32:20.945] [0m [90m  7 |[39m   [36mtry[39m {[0m
+[10:32:20.945] [0m[31m[1m>[22m[39m[90m  8 |[39m     [36mawait[39m handleProfile(req[33m,[39m res[33m,[39m {[0m
+[10:32:20.945] [0m [90m    |[39m           [31m[1m^[22m[39m[0m
+[10:32:20.945] [0m [90m  9 |[39m       afterCallback[33m:[39m [36masync[39m (_[33m,[39m session) [33m=>[39m {[0m
+[10:32:20.946] [0m [90m 10 |[39m         [36mif[39m (session[33m?[39m[33m.[39muser) {[0m
+[10:32:20.946] [0m [90m 11 |[39m           [36mconst[39m { sub[33m,[39m email } [33m=[39m session[33m.[39muser[33m;[39m[0m
+[10:32:20.965] Next.js build worker exited with code: 1 and signal: null
+[10:32:20.999] Error: Command "npm run build" exited with 1
+[10:32:21.237] 
