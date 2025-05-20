@@ -8,31 +8,31 @@ export async function GET(
   ctx: { params: { auth0: string[] } }
 ) {
   try {
-    return await handleProfile(req, ctx, {
-      async afterCallback(_, session) {
-        if (session?.user) {
-          const { sub, email } = session.user;
-          
-          await prisma.user.upsert({
-            where: { id: sub },
-            update: {
-              email: email || '',
-              updatedAt: new Date(),
-            },
-            create: {
-              id: sub,
-              email: email || '',
-              firstName: session.user.given_name || '',
-              lastName: session.user.family_name || '',
-              role: 'DONOR', // Default role
-            },
-          });
-        }
-        return session;
-      }
-    });
+    const response = await handleProfile(req, ctx);
+    const session = await response.json();
+
+    if (session?.user) {
+      const { sub, email } = session.user;
+      
+      await prisma.user.upsert({
+        where: { id: sub },
+        update: {
+          email: email || '',
+          updatedAt: new Date(),
+        },
+        create: {
+          id: sub,
+          email: email || '',
+          firstName: session.user.given_name || '',
+          lastName: session.user.family_name || '',
+          role: 'DONOR',
+        },
+      });
+    }
+
+    return response;
   } catch (error) {
     console.error('Error syncing user:', error);
-    throw error;
+    return new Response('Internal Server Error', { status: 500 });
   }
 }
