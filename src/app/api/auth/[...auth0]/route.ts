@@ -2,7 +2,7 @@
 import { handleAuth, handleCallback } from '@auth0/nextjs-auth0';
 import prisma from '@/lib/prisma';
 
-const afterCallback = async (req: any, session: any) => {
+const afterCallback = async (req: Request, session: { user?: { sub: string; email?: string; given_name?: string; family_name?: string } }) => {
   if (!session?.user) return session;
 
   const { sub, email, given_name, family_name } = session.user;
