@@ -132,7 +132,7 @@ export async function PUT(
         ...(eventData.endDate ? { endDateTime: new Date(eventData.endDate) } : {}),
         location: eventData.location,
         eventType: eventData.type,
-        maxAttendees: eventData.capacity ? parseInt(eventData.capacity.toString()) : null,
+        ...(eventData.capacity ? { maxAttendees: parseInt(eventData.capacity.toString()) } : {}),
         isPublished: eventData.isPublished
       }
     });
