@@ -1,4 +1,3 @@
-
 import { NextResponse } from 'next/server';
 
 export async function GET() {
@@ -14,6 +13,9 @@ export async function GET() {
     return NextResponse.json(mockPhotos);
   } catch (error) {
     console.error('Error fetching photos:', error);
-    return NextResponse.json({ error: 'Failed to fetch photos' }, { status: 500 });
+    return NextResponse.json({ 
+      message: 'Internal Server Error',
+      details: error instanceof Error ? error.message : 'Unknown error'
+    }, { status: 500 });
   }
 }
