@@ -1,8 +1,32 @@
+Adding event schema validation middleware to the POST request handler.
+```
+```replit_final_file
 import { NextRequest, NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
 import { EventType } from '@prisma/client';
 import { getSession } from '@auth0/nextjs-auth0';
 import { checkRole } from '@/lib/auth';
+import { z } from 'zod';
+
+const eventSchema = z.object({
+  title: z.string().min(3, { message: "Title must be at least 3 characters." }),
+  description: z.string().optional(),
+  eventType: z.enum(['CONFERENCE', 'MEETUP', 'WORKSHOP', 'OTHER']).optional(),
+  startDateTime: z.string().datetime(),
+  endDateTime: z.string().datetime(),
+  location: z.string().min(3, { message: "Location must be at least 3 characters." }),
+  address: z.string().optional(),
+  isPublished: z.boolean().optional()
+});
+
+async function validateEvent(data: any) {
+  try {
+    eventSchema.parse(data);
+    return true;
+  } catch (error) {
+    throw error;
+  }
+}
 
 export async function POST(request: NextRequest) {
   try {
@@ -15,18 +39,18 @@ export async function POST(request: NextRequest) {
     }
 
     const data = await request.json();
-    
-    // Validate required fields
-    if (!data.title?.trim()) {
-      return NextResponse.json(
-        { error: 'Title is required' },
-        { status: 400 }
-      );
-    }
 
-    if (!data.startDateTime || !data.endDateTime || !data.location?.trim()) {
+    try {
+      await validateEvent(data);
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        return NextResponse.json(
+          { error: error.errors.map(e => e.message).join(', ') },
+          { status: 400 }
+        );
+      }
       return NextResponse.json(
-        { error: 'Start date, end date and location are required' },
+        { error: 'Invalid event data' },
         { status: 400 }
       );
     }
