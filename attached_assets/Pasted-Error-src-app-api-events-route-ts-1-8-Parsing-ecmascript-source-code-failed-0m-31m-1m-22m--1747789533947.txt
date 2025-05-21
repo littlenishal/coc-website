@@ -1,0 +1,22 @@
+Error: ./src/app/api/events/route.ts:1:8
+Parsing ecmascript source code failed
+[0m[31m[1m>[22m[39m[90m 1 |[39m [33mAdding[39m event schema validation middleware to the [33mPOST[39m request handler[33m.[39m[0m
+[0m [90m   |[39m        [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[0m
+[0m [90m 2 |[39m [32m``[39m[32m`[39m[0m
+[0m [90m 3 |[39m [32m`[39m[32m``[39mreplit_final_file[0m
+[0m [90m 4 |[39m [36mimport[39m { [33mNextRequest[39m[33m,[39m [33mNextResponse[39m } [36mfrom[39m [32m'next/server'[39m[33m;[39m[0m
+
+Expected ';', '}' or <eof>
+    at BuildError (https://1f1e086a-5908-4b5d-9b3d-165ff9178f0e-00-w7ujk9toe6ft.kirk.replit.dev/_next/static/chunks/node_modules_next_dist_client_8f19e6fb._.js:11144:41)
+    at react-stack-bottom-frame (https://1f1e086a-5908-4b5d-9b3d-165ff9178f0e-00-w7ujk9toe6ft.kirk.replit.dev/_next/static/chunks/node_modules_next_dist_compiled_2ce9398a._.js:14911:24)
+    at renderWithHooksAgain (https://1f1e086a-5908-4b5d-9b3d-165ff9178f0e-00-w7ujk9toe6ft.kirk.replit.dev/_next/static/chunks/node_modules_next_dist_compiled_2ce9398a._.js:6256:24)
+    at renderWithHooks (https://1f1e086a-5908-4b5d-9b3d-165ff9178f0e-00-w7ujk9toe6ft.kirk.replit.dev/_next/static/chunks/node_modules_next_dist_compiled_2ce9398a._.js:6207:28)
+    at updateFunctionComponent (https://1f1e086a-5908-4b5d-9b3d-165ff9178f0e-00-w7ujk9toe6ft.kirk.replit.dev/_next/static/chunks/node_modules_next_dist_compiled_2ce9398a._.js:7543:21)
+    at beginWork (https://1f1e086a-5908-4b5d-9b3d-165ff9178f0e-00-w7ujk9toe6ft.kirk.replit.dev/_next/static/chunks/node_modules_next_dist_compiled_2ce9398a._.js:8142:24)
+    at runWithFiberInDEV (https://1f1e086a-5908-4b5d-9b3d-165ff9178f0e-00-w7ujk9toe6ft.kirk.replit.dev/_next/static/chunks/node_modules_next_dist_compiled_2ce9398a._.js:3073:74)
+    at performUnitOfWork (https://1f1e086a-5908-4b5d-9b3d-165ff9178f0e-00-w7ujk9toe6ft.kirk.replit.dev/_next/static/chunks/node_modules_next_dist_compiled_2ce9398a._.js:10243:97)
+    at workLoopSync (https://1f1e086a-5908-4b5d-9b3d-165ff9178f0e-00-w7ujk9toe6ft.kirk.replit.dev/_next/static/chunks/node_modules_next_dist_compiled_2ce9398a._.js:10135:40)
+    at renderRootSync (https://1f1e086a-5908-4b5d-9b3d-165ff9178f0e-00-w7ujk9toe6ft.kirk.replit.dev/_next/static/chunks/node_modules_next_dist_compiled_2ce9398a._.js:10118:13)
+    at performWorkOnRoot (https://1f1e086a-5908-4b5d-9b3d-165ff9178f0e-00-w7ujk9toe6ft.kirk.replit.dev/_next/static/chunks/node_modules_next_dist_compiled_2ce9398a._.js:9853:212)
+    at performWorkOnRootViaSchedulerTask (https://1f1e086a-5908-4b5d-9b3d-165ff9178f0e-00-w7ujk9toe6ft.kirk.replit.dev/_next/static/chunks/node_modules_next_dist_compiled_2ce9398a._.js:10826:9)
+    at MessagePort.performWorkUntilDeadline (https://1f1e086a-5908-4b5d-9b3d-165ff9178f0e-00-w7ujk9toe6ft.kirk.replit.dev/_next/static/chunks/node_modules_next_dist_compiled_2ce9398a._.js:1982:64)
