@@ -259,6 +259,9 @@ Task 2.2.7: Implement API testing and documentation
 
 Task 2.2.8: Event schema validation middleware
 **Description:** Create middleware for validating event data in requests
+
+**Status: Done**
+
 **Steps:**
 - Implement validation functions for event creation and updates
 - Define schema for event data validation
