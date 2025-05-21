@@ -1,32 +1,10 @@
-Adding event schema validation middleware to the POST request handler.
-```
-```replit_final_file
 import { NextRequest, NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
 import { EventType } from '@prisma/client';
 import { getSession } from '@auth0/nextjs-auth0';
 import { checkRole } from '@/lib/auth';
 import { z } from 'zod';
-
-const eventSchema = z.object({
-  title: z.string().min(3, { message: "Title must be at least 3 characters." }),
-  description: z.string().optional(),
-  eventType: z.enum(['CONFERENCE', 'MEETUP', 'WORKSHOP', 'OTHER']).optional(),
-  startDateTime: z.string().datetime(),
-  endDateTime: z.string().datetime(),
-  location: z.string().min(3, { message: "Location must be at least 3 characters." }),
-  address: z.string().optional(),
-  isPublished: z.boolean().optional()
-});
-
-async function validateEvent(data: any) {
-  try {
-    eventSchema.parse(data);
-    return true;
-  } catch (error) {
-    throw error;
-  }
-}
+import { validateEvent } from '@/lib/validation';
 
 export async function POST(request: NextRequest) {
   try {
@@ -98,9 +76,7 @@ export async function POST(request: NextRequest) {
   }
 }
 
-export async function GET(
-  request: NextRequest
-) {
+export async function GET(request: NextRequest) {
   try {
     const searchParams = request.nextUrl.searchParams;
 
