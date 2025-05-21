@@ -79,7 +79,7 @@ export async function POST(request: NextRequest) {
         title: data.title,
         description: data.description,
         startDateTime: new Date(data.startDate),
-        endDateTime: data.endDate ? new Date(data.endDate) : null,
+        ...(data.endDate && { endDateTime: new Date(data.endDate) }),
         location: data.location,
         eventType: data.type,
         maxAttendees: data.capacity ? parseInt(data.capacity.toString()) : null,
