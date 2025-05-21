@@ -210,6 +210,9 @@ Task 2.2.3: Create POST endpoint for creating new events
 
 Task 2.2.4: Implement PUT endpoint for updating events
 **Description:** Create API endpoint for updating existing events
+
+**Status: Done**
+
 **Steps:**
 - Create `/api/events/[id]/route.ts` PUT handler
 - Implement validation for event ID and update data
@@ -220,6 +223,9 @@ Task 2.2.4: Implement PUT endpoint for updating events
 
 Task 2.2.5: Implement DELETE endpoint for removing events
 **Description:** Create API endpoint for deleting events
+
+**Status: Done**
+
 **Steps:**
 - Add DELETE handler to `/api/events/[id]/route.ts`
 - Implement validation for event ID
@@ -242,7 +248,6 @@ Task 2.2.6: Fix Prisma client initialization for Vercel deployment
 Task 2.2.7: Implement API testing and documentation
 **Description:** Create test scripts and document the API endpoints
 **Steps:**
-- Write curl or Postman collection examples for each endpoint
 - Document request/response formats for all endpoints
 - Create sample requests for different filtering scenarios
 - Test authentication and authorization workflows
