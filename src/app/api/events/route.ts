@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { EventType } from '@prisma/client';
 import { getSession } from '@auth0/nextjs-auth0';
 import prisma from '@/lib/prisma';
 import { checkRole } from '@/lib/auth';
@@ -18,7 +19,7 @@ export async function GET(request: NextRequest) {
 
     const events = await prisma.event.findMany({
       where: {
-        ...(type && { eventType: type }),
+        ...(type && { eventType: type as EventType }),
         ...(startDate && { startDateTime: { gte: new Date(startDate) } }),
         ...(endDate && { endDateTime: { lte: new Date(endDate) } }),
         isPublished: true,
