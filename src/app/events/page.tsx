@@ -1,14 +1,60 @@
 
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { Calendar, List, ChevronLeft } from "lucide-react";
+import { Calendar as CalendarIcon, List, ChevronLeft } from "lucide-react";
+import { Calendar } from "@/components/Calendar";
+import { EventModal } from "@/components/EventModal";
+
+type Event = {
+  id: string;
+  title: string;
+  description: string;
+  startDateTime: string;
+  endDateTime: string;
+  location: string;
+  eventType: string;
+  isPublished: boolean;
+};
 
 export default function EventsPage() {
   const [currentView, setCurrentView] = useState<'calendar' | 'list'>('calendar');
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [events, setEvents] = useState<Event[]>([]);
+  const [selectedEvent, setSelectedEvent] = useState<Event | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  useEffect(() => {
+    async function fetchEvents() {
+      try {
+        const response = await fetch('/api/events');
+        if (!response.ok) {
+          throw new Error('Failed to fetch events');
+        }
+        const data = await response.json();
+        setEvents(data.filter((event: Event) => event.isPublished));
+      } catch (error) {
+        console.error('Error fetching events:', error);
+        setEvents([]);
+      } finally {
+        setIsLoading(false);
+      }
+    }
+
+    fetchEvents();
+  }, []);
+
+  const handleEventClick = (event: Event) => {
+    setSelectedEvent(event);
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setSelectedEvent(null);
+  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -39,7 +85,7 @@ export default function EventsPage() {
                 className="flex items-center gap-2"
                 disabled={isLoading}
               >
-                <Calendar className="h-4 w-4" />
+                <CalendarIcon className="h-4 w-4" />
                 Calendar View
               </Button>
               <Button
@@ -66,13 +112,10 @@ export default function EventsPage() {
             ) : (
               <div className="bg-card rounded-lg border p-6">
                 {currentView === 'calendar' ? (
-                  <div className="text-center py-12 space-y-4">
-                    <Calendar className="h-12 w-12 text-muted-foreground mx-auto" />
-                    <h3 className="text-lg font-medium">Calendar View</h3>
-                    <p className="text-muted-foreground">
-                      Calendar component will be implemented here
-                    </p>
-                  </div>
+                  <Calendar 
+                    events={events} 
+                    onEventClick={handleEventClick}
+                  />
                 ) : (
                   <div className="text-center py-12 space-y-4">
                     <List className="h-12 w-12 text-muted-foreground mx-auto" />
@@ -85,6 +128,15 @@ export default function EventsPage() {
               </div>
             )}
           </div>
+        </div>
+      </div>
+
+      {/* Event Details Modal */}
+      <EventModal 
+        event={selectedEvent}
+        isOpen={isModalOpen}
+        onClose={handleCloseModal}
+      />
         </div>
       </div>
     </div>
