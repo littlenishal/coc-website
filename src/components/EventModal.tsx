@@ -257,16 +257,16 @@ export function EventModal({ event, isOpen, onClose }: EventModalProps) {
         </div>
 
         {/* Modal Footer */}
-        <div className="flex items-center justify-end gap-3 p-6 border-t bg-muted/30">
-          <Button variant="outline" onClick={onClose}>
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-end gap-3 p-4 sm:p-6 border-t bg-muted/30">
+          <Button variant="outline" onClick={onClose} className="order-3 sm:order-1">
             Close
           </Button>
-          <Button variant="outline" asChild>
+          <Button variant="outline" asChild className="order-2 sm:order-2">
             <a href={`/events/${event.id}`} target="_blank">
               View Full Details
             </a>
           </Button>
-          <Button>
+          <Button className="order-1 sm:order-3">
             Register for Event
           </Button>
         </div>
