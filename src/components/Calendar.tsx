@@ -1,9 +1,8 @@
-
 'use client';
 
 import { useState, useMemo } from 'react';
 import { Button } from "@/components/ui/button";
-import { ChevronLeft, ChevronRight, MapPin, Clock } from "lucide-react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 type Event = {
@@ -31,7 +30,7 @@ const MONTHS = [
 // Timezone mapping based on location
 const getTimezoneFromLocation = (location: string): string => {
   const locationLower = location.toLowerCase();
-  
+
   // Eastern Time states/cities
   if (locationLower.includes('arlington') || locationLower.includes('virginia') || 
       locationLower.includes('va') || locationLower.includes('washington dc') ||
@@ -42,7 +41,7 @@ const getTimezoneFromLocation = (location: string): string => {
       locationLower.includes('south carolina') || locationLower.includes('sc')) {
     return 'America/New_York';
   }
-  
+
   // Central Time states/cities
   if (locationLower.includes('chicago') || locationLower.includes('illinois') ||
       locationLower.includes('il') || locationLower.includes('texas') ||
@@ -52,7 +51,7 @@ const getTimezoneFromLocation = (location: string): string => {
       locationLower.includes('missouri') || locationLower.includes('mo')) {
     return 'America/Chicago';
   }
-  
+
   // Mountain Time states/cities
   if (locationLower.includes('denver') || locationLower.includes('colorado') ||
       locationLower.includes('co') || locationLower.includes('utah') ||
@@ -61,7 +60,7 @@ const getTimezoneFromLocation = (location: string): string => {
       locationLower.includes('nm')) {
     return 'America/Denver';
   }
-  
+
   // Pacific Time states/cities
   if (locationLower.includes('california') || locationLower.includes('ca') ||
       locationLower.includes('los angeles') || locationLower.includes('san francisco') ||
@@ -70,7 +69,7 @@ const getTimezoneFromLocation = (location: string): string => {
       locationLower.includes('or')) {
     return 'America/Los_Angeles';
   }
-  
+
   // Default to Eastern Time if location not recognized
   return 'America/New_York';
 };
@@ -78,7 +77,7 @@ const getTimezoneFromLocation = (location: string): string => {
 const formatEventTime = (dateTime: string, location: string): string => {
   const timezone = getTimezoneFromLocation(location);
   const date = new Date(dateTime);
-  
+
   return new Intl.DateTimeFormat('en-US', {
     hour: 'numeric',
     minute: '2-digit',
@@ -96,7 +95,6 @@ export function Calendar({ events, onEventClick }: CalendarProps) {
   }), [currentDate]);
 
   const firstDayOfMonth = useMemo(() => new Date(year, month, 1), [year, month]);
-  const lastDayOfMonth = useMemo(() => new Date(year, month + 1, 0), [year, month]);
   const startDate = useMemo(() => {
     const start = new Date(firstDayOfMonth);
     start.setDate(start.getDate() - start.getDay());
@@ -106,28 +104,28 @@ export function Calendar({ events, onEventClick }: CalendarProps) {
   const calendarDays = useMemo(() => {
     const days = [];
     const current = new Date(startDate);
-    
+
     for (let i = 0; i < 42; i++) { // 6 weeks × 7 days
       days.push(new Date(current));
       current.setDate(current.getDate() + 1);
     }
-    
+
     return days;
   }, [startDate]);
 
   const eventsByDate = useMemo(() => {
     const eventMap = new Map<string, Event[]>();
-    
+
     events.forEach(event => {
       const eventDate = new Date(event.startDateTime);
       const dateKey = `${eventDate.getFullYear()}-${eventDate.getMonth()}-${eventDate.getDate()}`;
-      
+
       if (!eventMap.has(dateKey)) {
         eventMap.set(dateKey, []);
       }
       eventMap.get(dateKey)!.push(event);
     });
-    
+
     return eventMap;
   }, [events]);
 
@@ -235,7 +233,7 @@ export function Calendar({ events, onEventClick }: CalendarProps) {
 
               {/* Events */}
               <div className="space-y-1">
-                {dayEvents.slice(0, 3).map((event, eventIndex) => (
+                {dayEvents.slice(0, 3).map((event) => (
                   <button
                     key={event.id}
                     onClick={() => onEventClick(event)}
@@ -256,7 +254,7 @@ export function Calendar({ events, onEventClick }: CalendarProps) {
                     </div>
                   </button>
                 ))}
-                
+
                 {/* Show "more events" indicator */}
                 {dayEvents.length > 3 && (
                   <button

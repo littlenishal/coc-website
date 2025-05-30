@@ -2,7 +2,7 @@
 'use client';
 
 import { Button } from "@/components/ui/button";
-import { X, Calendar, Clock, MapPin, Users } from "lucide-react";
+import { X, Calendar, MapPin } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 type Event = {
