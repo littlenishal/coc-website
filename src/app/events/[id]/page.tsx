@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useUser } from '@auth0/nextjs-auth0/client';
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -137,15 +137,7 @@ export default function EventPage({ params }: { params: Promise<{ id: string }> 
   const [isSubmittingComment, setIsSubmittingComment] = useState(false);
   const { user, isLoading: userLoading } = useUser();
 
-  useEffect(() => {
-    async function resolveParams() {
-      const resolvedParams = await params;
-      await fetchEvent(resolvedParams.id);
-    }
-    resolveParams();
-  }, [params, fetchEvent]);
-
-  const fetchEvent = async (eventId: string) => {
+  const fetchEvent = useCallback(async (eventId: string) => {
     try {
       const response = await fetch(`/api/events/${eventId}`);
       if (!response.ok) {
@@ -167,7 +159,15 @@ export default function EventPage({ params }: { params: Promise<{ id: string }> 
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [user]);
+
+  useEffect(() => {
+    async function resolveParams() {
+      const resolvedParams = await params;
+      await fetchEvent(resolvedParams.id);
+    }
+    resolveParams();
+  }, [params, fetchEvent]);
 
   const handleRegister = async () => {
     if (!user || !event) return;
