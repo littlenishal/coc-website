@@ -21,7 +21,7 @@ type Event = {
 };
 
 export default function EventsPage() {
-  const [currentView, setCurrentView] = useState<'calendar' | 'list'>('calendar');
+  const [currentView, setCurrentView] = useState<'calendar' | 'list'>('list');
   const [isLoading, setIsLoading] = useState(true);
   const [events, setEvents] = useState<Event[]>([]);
   const [selectedEvent, setSelectedEvent] = useState<Event | null>(null);
