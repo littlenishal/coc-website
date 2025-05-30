@@ -442,24 +442,29 @@ Task 2.3.10: Performance Optimization and Testing
 - User dashboard showing registered events
 - Test by registering for an event and verifying confirmation email and dashboard display
 
-### Ticket 2.5: Instagram Integration - API Setup
-**Description:** Configure Instagram Graph API integration for the photo gallery.
+### Ticket 2.5: Photo Gallery - Backend API
+**Description:** Implement backend API for photo management and serving.
 **Acceptance Criteria:**
-- Instagram API authentication configured
-- API service for fetching Instagram posts
-- Scheduled refresh of Instagram content
+- API endpoint to retrieve photos (GET /api/photos)
+- API endpoint to upload new photos (POST /api/photos) 
+- Photo metadata storage (title, description, upload date)
+- Image optimization and resizing capabilities
 - Error handling for API failures
-- Test by verifying Instagram posts are retrieved via API endpoint
+- Test by verifying photos are retrieved via API endpoint
 
-### Ticket 2.6: Instagram Integration - Gallery UI
-**Description:** Implement the photo gallery UI component that displays Instagram posts.
+**Status:** Done
+
+### Ticket 2.6: Photo Gallery - Frontend UI  
+**Description:** Implement the photo gallery UI component that displays organization photos.
 **Acceptance Criteria:**
 - Responsive grid layout for photos
 - Lightbox for viewing enlarged photos
-- Caption and date display
-- Fallback UI for when Instagram API is unavailable
+- Caption and date information displayed with each photo
+- Loading states and error handling
 - Option to follow organization's Instagram account
 - Test by viewing gallery on different devices and verifying images load correctly
+
+**Status:** Done
 
 ### Ticket 2.7: Stripe Payment Integration - Backend
 **Description:** Implement Stripe API integration for donation processing.
