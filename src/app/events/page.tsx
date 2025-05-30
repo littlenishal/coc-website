@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { Calendar as CalendarIcon, List, ChevronLeft } from "lucide-react";
 import { Calendar } from "@/components/Calendar";
+import { EventList } from "@/components/EventList";
 import { EventModal } from "@/components/EventModal";
 
 type Event = {
@@ -123,15 +124,10 @@ export default function EventsPage() {
                   onEventClick={handleEventClick}
                 />
               ) : (
-                <div className="text-center py-20 space-y-6">
-                  <List className="h-12 w-12 text-muted-foreground mx-auto" />
-                  <div className="space-y-2">
-                    <h3 className="text-xl font-medium">List View</h3>
-                    <p className="text-muted-foreground max-w-md mx-auto">
-                      Event list component will be implemented here to show events in a structured format
-                    </p>
-                  </div>
-                </div>
+                <EventList 
+                  events={events} 
+                  onEventClick={handleEventClick}
+                />
               )}
             </div>
           )}
