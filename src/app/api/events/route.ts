@@ -85,7 +85,7 @@ export async function POST(request: NextRequest) {
         eventType: data.type,
         maxAttendees: data.capacity ? parseInt(data.capacity.toString()) : null,
         isPublished: data.isPublished ?? false,
-        creatorId: session.user.sub,
+        createdById: session.user.sub,
         ...(data.imageUrl && { imageUrl: data.imageUrl })
       }
     });
