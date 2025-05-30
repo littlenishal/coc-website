@@ -261,6 +261,11 @@ export function EventModal({ event, isOpen, onClose }: EventModalProps) {
           <Button variant="outline" onClick={onClose}>
             Close
           </Button>
+          <Button variant="outline" asChild>
+            <a href={`/events/${event.id}`} target="_blank">
+              View Full Details
+            </a>
+          </Button>
           <Button>
             Register for Event
           </Button>

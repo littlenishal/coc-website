@@ -27,6 +27,24 @@ export async function GET(
             email: true,
           },
         },
+        registrations: {
+          select: {
+            id: true,
+            userId: true,
+            status: true,
+          },
+        },
+        comments: {
+          include: {
+            user: {
+              select: {
+                firstName: true,
+                lastName: true,
+              },
+            },
+          },
+          orderBy: { createdAt: 'desc' },
+        },
       },
     });
 
