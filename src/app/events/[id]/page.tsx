@@ -8,7 +8,7 @@ import { Card } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
 import Link from "next/link";
 import Image from "next/image";
-import { Calendar, MapPin, Users, Share2, ChevronLeft, Clock, MessageCircle, Send } from "lucide-react";
+import { Calendar, MapPin, Users, Share2, ChevronLeft, MessageCircle, Send } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 type Event = {
@@ -143,7 +143,7 @@ export default function EventPage({ params }: { params: Promise<{ id: string }> 
       await fetchEvent(resolvedParams.id);
     }
     resolveParams();
-  }, [params]);
+  }, [params, fetchEvent]);
 
   const fetchEvent = async (eventId: string) => {
     try {
@@ -157,7 +157,7 @@ export default function EventPage({ params }: { params: Promise<{ id: string }> 
       // Check if user is registered
       if (user && eventData.registrations) {
         const userRegistration = eventData.registrations.find(
-          (reg: any) => reg.userId === user.sub && reg.status === 'REGISTERED'
+          (reg: { userId: string; status: string }) => reg.userId === user.sub && reg.status === 'REGISTERED'
         );
         setIsRegistered(!!userRegistration);
       }
