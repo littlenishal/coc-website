@@ -43,7 +43,7 @@ export async function POST(
     }
 
     // Check if event is full
-    if (event.maxCapacity && event.registrations.length >= event.maxCapacity) {
+    if (event.maxAttendees && event.registrations.length >= event.maxAttendees) {
       return NextResponse.json(
         { error: 'Event is full' },
         { status: 400 }
