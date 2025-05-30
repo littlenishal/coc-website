@@ -310,7 +310,7 @@ Task 2.3.1: Create Calendar Page Layout and Navigation
 Task 2.3.2: Implement Calendar Grid Component
 **Description:** Create the monthly calendar grid view to display events
 
-**Status:** Pending
+**Status:** Done
 
 **Steps:**
 - Create `Calendar.tsx` component with monthly grid layout
