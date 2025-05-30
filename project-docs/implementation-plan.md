@@ -324,7 +324,7 @@ Task 2.3.2: Implement Calendar Grid Component
 Task 2.3.3: Implement List View Component
 **Description:** Create the list view for displaying events in a structured format
 
-**Status:** Pending
+**Status:** Done
 
 **Steps:**
 - Create `EventList.tsx` component for list view
