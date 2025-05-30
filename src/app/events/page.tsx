@@ -137,8 +137,6 @@ export default function EventsPage() {
         isOpen={isModalOpen}
         onClose={handleCloseModal}
       />
-        </div>
-      </div>
     </div>
   );
 }
