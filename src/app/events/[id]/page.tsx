@@ -373,7 +373,7 @@ export default function EventPage({ params }: { params: Promise<{ id: string }> 
                       <>
                         <div className="text-green-600 font-medium flex items-center gap-2">
                           <div className="w-2 h-2 bg-green-600 rounded-full"></div>
-                          You're registered for this event
+                          You&apos;re registered for this event
                         </div>
                         <Button
                           variant="outline"
