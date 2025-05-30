@@ -1,0 +1,46 @@
+[15:42:57.644] Running build in Washington, D.C., USA (East) – iad1
+[15:42:57.644] Build machine configuration: 2 cores, 8 GB
+[15:42:57.656] Cloning github.com/littlenishal/coc-website (Branch: main, Commit: 8df963e)
+[15:42:58.076] Cloning completed: 420.000ms
+[15:43:00.081] Restored build cache from previous deployment (APHF4heRPSGeMwKTp6Ct2sXCvxr4)
+[15:43:02.687] Running "vercel build"
+[15:43:03.157] Vercel CLI 42.2.0
+[15:43:03.451] Installing dependencies...
+[15:43:05.030] 
+[15:43:05.031] up to date in 1s
+[15:43:05.031] 
+[15:43:05.032] 151 packages are looking for funding
+[15:43:05.032]   run `npm fund` for details
+[15:43:05.067] Detected Next.js version: 15.3.1
+[15:43:05.072] Running "npm run build"
+[15:43:05.185] 
+[15:43:05.186] > coc-website@0.1.0 build
+[15:43:05.186] > prisma generate && next build
+[15:43:05.186] 
+[15:43:05.758] Prisma schema loaded from prisma/schema.prisma
+[15:43:05.852] Warning: You did not specify an output path for your `generator` in schema.prisma. This behavior is deprecated and will no longer be supported in Prisma 7.0.0. To learn more visit https://pris.ly/cli/output-path
+[15:43:06.120] 
+[15:43:06.121] ✔ Generated Prisma Client (v6.7.0) to ./node_modules/@prisma/client in 199ms
+[15:43:06.121] 
+[15:43:06.121] Start by importing your Prisma Client (See: https://pris.ly/d/importing-client)
+[15:43:06.121] 
+[15:43:06.122] Tip: Curious about the SQL queries Prisma ORM generates? Optimize helps you enhance your visibility: https://pris.ly/tip-2-optimize
+[15:43:06.122] 
+[15:43:06.990]    ▲ Next.js 15.3.1
+[15:43:06.991] 
+[15:43:07.058]    Creating an optimized production build ...
+[15:43:20.908]  ✓ Compiled successfully in 13.0s
+[15:43:20.918]    Linting and checking validity of types ...
+[15:43:26.587] 
+[15:43:26.588] Failed to compile.
+[15:43:26.588] 
+[15:43:26.588] ./src/app/events/[id]/page.tsx
+[15:43:26.588] 148:9  Warning: The 'fetchEvent' function makes the dependencies of useEffect Hook (at line 146) change on every render. To fix this, wrap the definition of 'fetchEvent' in its own useCallback() Hook.  react-hooks/exhaustive-deps
+[15:43:26.588] 376:30  Error: `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`.  react/no-unescaped-entities
+[15:43:26.589] 
+[15:43:26.589] ./src/components/ui/textarea.tsx
+[15:43:26.589] 5:18  Error: An interface declaring no members is equivalent to its supertype.  @typescript-eslint/no-empty-object-type
+[15:43:26.589] 
+[15:43:26.589] info  - Need to disable some ESLint rules? Learn more here: https://nextjs.org/docs/app/api-reference/config/eslint#disabling-rules
+[15:43:26.659] Error: Command "npm run build" exited with 1
+[15:43:26.936] 
