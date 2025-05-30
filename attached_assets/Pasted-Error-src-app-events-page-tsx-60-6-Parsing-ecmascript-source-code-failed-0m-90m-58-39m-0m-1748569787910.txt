@@ -1,0 +1,23 @@
+Error: ./src/app/events/page.tsx:60:6
+Parsing ecmascript source code failed
+[0m [90m 58 |[39m[0m
+[0m [90m 59 |[39m   [36mreturn[39m ([0m
+[0m[31m[1m>[22m[39m[90m 60 |[39m     [33m<[39m[33mdiv[39m className[33m=[39m[32m"min-h-screen bg-background"[39m[33m>[39m[0m
+[0m [90m    |[39m      [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[0m
+[0m [90m 61 |[39m       {[90m/* Breadcrumb Navigation */[39m}[0m
+[0m [90m 62 |[39m       [33m<[39m[33mdiv[39m className[33m=[39m[32m"border-b bg-muted/30"[39m[33m>[39m[0m
+[0m [90m 63 |[39m         [33m<[39m[33mdiv[39m className[33m=[39m[32m"container px-4 py-3"[39m[33m>[39m[0m
+
+Unexpected token `div`. Expected jsx identifier
+    at BuildError (https://1f1e086a-5908-4b5d-9b3d-165ff9178f0e-00-w7ujk9toe6ft.kirk.replit.dev/_next/static/chunks/%5Broot-of-the-server%5D__ec07ee34._.js:17509:41)
+    at react-stack-bottom-frame (https://1f1e086a-5908-4b5d-9b3d-165ff9178f0e-00-w7ujk9toe6ft.kirk.replit.dev/_next/static/chunks/node_modules_react-dom_82bb97c6._.js:13596:24)
+    at renderWithHooks (https://1f1e086a-5908-4b5d-9b3d-165ff9178f0e-00-w7ujk9toe6ft.kirk.replit.dev/_next/static/chunks/node_modules_react-dom_82bb97c6._.js:3560:24)
+    at updateFunctionComponent (https://1f1e086a-5908-4b5d-9b3d-165ff9178f0e-00-w7ujk9toe6ft.kirk.replit.dev/_next/static/chunks/node_modules_react-dom_82bb97c6._.js:5317:21)
+    at beginWork (https://1f1e086a-5908-4b5d-9b3d-165ff9178f0e-00-w7ujk9toe6ft.kirk.replit.dev/_next/static/chunks/node_modules_react-dom_82bb97c6._.js:5916:24)
+    at runWithFiberInDEV (https://1f1e086a-5908-4b5d-9b3d-165ff9178f0e-00-w7ujk9toe6ft.kirk.replit.dev/_next/static/chunks/node_modules_react-dom_82bb97c6._.js:1335:74)
+    at performUnitOfWork (https://1f1e086a-5908-4b5d-9b3d-165ff9178f0e-00-w7ujk9toe6ft.kirk.replit.dev/_next/static/chunks/node_modules_react-dom_82bb97c6._.js:7988:97)
+    at workLoopSync (https://1f1e086a-5908-4b5d-9b3d-165ff9178f0e-00-w7ujk9toe6ft.kirk.replit.dev/_next/static/chunks/node_modules_react-dom_82bb97c6._.js:7880:40)
+    at renderRootSync (https://1f1e086a-5908-4b5d-9b3d-165ff9178f0e-00-w7ujk9toe6ft.kirk.replit.dev/_next/static/chunks/node_modules_react-dom_82bb97c6._.js:7863:13)
+    at performWorkOnRoot (https://1f1e086a-5908-4b5d-9b3d-165ff9178f0e-00-w7ujk9toe6ft.kirk.replit.dev/_next/static/chunks/node_modules_react-dom_82bb97c6._.js:7602:212)
+    at performWorkOnRootViaSchedulerTask (https://1f1e086a-5908-4b5d-9b3d-165ff9178f0e-00-w7ujk9toe6ft.kirk.replit.dev/_next/static/chunks/node_modules_react-dom_82bb97c6._.js:8566:9)
+    at MessagePort.performWorkUntilDeadline (https://1f1e086a-5908-4b5d-9b3d-165ff9178f0e-00-w7ujk9toe6ft.kirk.replit.dev/_next/static/chunks/node_modules_a51498a5._.js:1119:64)
