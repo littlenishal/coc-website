@@ -25,6 +25,8 @@ async function main() {
       endDateTime: new Date("2025-06-15T16:00:00Z"),
       location: "Arlington Community Center",
       address: "123 Main St, Arlington, VA 22201",
+      imageUrl: "https://images.unsplash.com/photo-1544968503-7ad532ac882c?w=800&h=400&fit=crop",
+      maxCapacity: 100,
       isPublished: true,
       createdById: admin.id,
     },
