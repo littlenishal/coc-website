@@ -72,10 +72,10 @@ export default function EventsPage() {
       </section>
 
       {/* Page Header */}
-      <section className="w-full py-16">
+      <section className="w-full py-12">
         <div className="container px-8 md:px-12">
-          <div className="flex flex-col items-center space-y-12">
-            <div className="flex flex-col items-center text-center gap-8 max-w-4xl mx-auto">
+          <div className="flex flex-col items-center space-y-8">
+            <div className="flex flex-col items-center text-center gap-6 max-w-4xl mx-auto">
               <div>
                 <h1 className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl">Event Calendar</h1>
                 <p className="text-xl text-muted-foreground mt-4">
