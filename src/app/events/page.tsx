@@ -57,10 +57,10 @@ export default function EventsPage() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center gap-16">
+    <div className="min-h-screen bg-background">
       {/* Breadcrumb Navigation */}
-      <section className="w-full border-b bg-muted/30">
-        <div className="container px-4 py-4">
+      <div className="border-b bg-muted/30">
+        <div className="container px-4 py-3">
           <nav className="flex items-center space-x-2 text-sm text-muted-foreground">
             <Link href="/" className="hover:text-foreground transition-colors">
               Home
@@ -69,82 +69,74 @@ export default function EventsPage() {
             <span className="text-foreground font-medium">Events</span>
           </nav>
         </div>
-      </section>
+      </div>
 
-      {/* Page Header */}
-      <section className="w-full py-12">
-        <div className="container px-8 md:px-12">
-          <div className="flex flex-col items-center space-y-8">
-            <div className="flex flex-col items-center text-center gap-6 max-w-4xl mx-auto">
-              <div>
-                <h1 className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl">Event Calendar</h1>
-                <p className="text-xl text-muted-foreground mt-4">
-                  Discover upcoming events and activities in our community
-                </p>
-              </div>
-              
-              {/* View Toggle Tabs */}
-              <div className="flex gap-4">
-                <Button
-                  variant={currentView === 'calendar' ? 'default' : 'outline'}
-                  onClick={() => setCurrentView('calendar')}
-                  className="flex items-center gap-2"
-                  disabled={isLoading}
-                  size="lg"
-                >
-                  <CalendarIcon className="h-4 w-4" />
-                  Calendar View
-                </Button>
-                <Button
-                  variant={currentView === 'list' ? 'default' : 'outline'}
-                  onClick={() => setCurrentView('list')}
-                  className="flex items-center gap-2"
-                  disabled={isLoading}
-                  size="lg"
-                >
-                  <List className="h-4 w-4" />
-                  List View
-                </Button>
+      {/* Header with Title and View Toggle */}
+      <div className="container px-4 py-6">
+        <div className="flex items-start justify-between">
+          <div>
+            <h1 className="text-3xl font-bold tracking-tight">Event Calendar</h1>
+            <p className="text-muted-foreground mt-1">
+              Discover upcoming events and activities in our community
+            </p>
+          </div>
+          
+          {/* View Toggle Buttons */}
+          <div className="flex gap-2">
+            <Button
+              variant={currentView === 'calendar' ? 'default' : 'outline'}
+              onClick={() => setCurrentView('calendar')}
+              className="flex items-center gap-2"
+              disabled={isLoading}
+            >
+              <CalendarIcon className="h-4 w-4" />
+              Calendar View
+            </Button>
+            <Button
+              variant={currentView === 'list' ? 'default' : 'outline'}
+              onClick={() => setCurrentView('list')}
+              className="flex items-center gap-2"
+              disabled={isLoading}
+            >
+              <List className="h-4 w-4" />
+              List View
+            </Button>
+          </div>
+        </div>
+      </div>
+
+      {/* Main Calendar Component Area */}
+      <div className="container px-4 pb-8">
+        <div className="border rounded-lg bg-card">
+          {isLoading ? (
+            <div className="flex items-center justify-center py-20">
+              <div className="text-center space-y-4">
+                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto"></div>
+                <p className="text-muted-foreground">Loading events...</p>
               </div>
             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Content Area */}
-      <section className="w-full pb-16">
-        <div className="container px-8 md:px-12">
-          <div className="max-w-7xl mx-auto">
-            {isLoading ? (
-              <div className="flex items-center justify-center py-20">
-                <div className="text-center space-y-6">
-                  <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto"></div>
-                  <p className="text-muted-foreground text-lg">Loading events...</p>
-                </div>
-              </div>
-            ) : (
-              <div className="bg-card rounded-lg border p-12 shadow-sm">
-                {currentView === 'calendar' ? (
-                  <Calendar 
-                    events={events} 
-                    onEventClick={handleEventClick}
-                  />
-                ) : (
-                  <div className="text-center py-20 space-y-8">
-                    <List className="h-16 w-16 text-muted-foreground mx-auto" />
-                    <div className="space-y-3">
-                      <h3 className="text-2xl font-medium">List View</h3>
-                      <p className="text-muted-foreground text-lg max-w-md mx-auto">
-                        Event list component will be implemented here to show events in a structured format
-                      </p>
-                    </div>
+          ) : (
+            <div className="p-6">
+              {currentView === 'calendar' ? (
+                <Calendar 
+                  events={events} 
+                  onEventClick={handleEventClick}
+                />
+              ) : (
+                <div className="text-center py-20 space-y-6">
+                  <List className="h-12 w-12 text-muted-foreground mx-auto" />
+                  <div className="space-y-2">
+                    <h3 className="text-xl font-medium">List View</h3>
+                    <p className="text-muted-foreground max-w-md mx-auto">
+                      Event list component will be implemented here to show events in a structured format
+                    </p>
                   </div>
-                )}
-              </div>
-            )}
-          </div>
+                </div>
+              )}
+            </div>
+          )}
         </div>
-      </section>
+      </div>
 
       {/* Event Details Modal */}
       <EventModal 
