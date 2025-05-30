@@ -81,10 +81,12 @@ export async function POST(request: NextRequest) {
         startDateTime: new Date(data.startDate),
         ...(data.endDate && { endDateTime: new Date(data.endDate) }),
         location: data.location,
+        address: data.address || '',
         eventType: data.type,
         maxAttendees: data.capacity ? parseInt(data.capacity.toString()) : null,
         isPublished: data.isPublished ?? false,
-        creatorId: session.user.sub
+        creatorId: session.user.sub,
+        ...(data.imageUrl && { imageUrl: data.imageUrl })
       }
     });
 
