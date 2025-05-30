@@ -272,7 +272,7 @@ export function Calendar({ events, onEventClick }: CalendarProps) {
 
       {/* Legend */}
       <div className="mt-4 text-sm text-muted-foreground">
-        <p>Click on an event to view details. Times are shown in the event's local timezone.</p>
+        <p>Click on an event to view details. Times are shown in the event&apos;s local timezone.</p>
       </div>
     </div>
   );
