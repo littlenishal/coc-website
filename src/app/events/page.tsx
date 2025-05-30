@@ -72,19 +72,19 @@ export default function EventsPage() {
       </section>
 
       {/* Page Header */}
-      <section className="w-full">
-        <div className="container px-4">
-          <div className="flex flex-col items-center space-y-8">
-            <div className="flex flex-col items-center text-center gap-6 max-w-4xl mx-auto">
+      <section className="w-full py-16">
+        <div className="container px-8 md:px-12">
+          <div className="flex flex-col items-center space-y-12">
+            <div className="flex flex-col items-center text-center gap-8 max-w-4xl mx-auto">
               <div>
                 <h1 className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl">Event Calendar</h1>
-                <p className="text-lg text-muted-foreground mt-2">
+                <p className="text-xl text-muted-foreground mt-4">
                   Discover upcoming events and activities in our community
                 </p>
               </div>
               
               {/* View Toggle Tabs */}
-              <div className="flex gap-3">
+              <div className="flex gap-4">
                 <Button
                   variant={currentView === 'calendar' ? 'default' : 'outline'}
                   onClick={() => setCurrentView('calendar')}
@@ -112,27 +112,27 @@ export default function EventsPage() {
       </section>
 
       {/* Content Area */}
-      <section className="w-full">
-        <div className="container px-4">
-          <div className="max-w-6xl mx-auto">
+      <section className="w-full pb-16">
+        <div className="container px-8 md:px-12">
+          <div className="max-w-7xl mx-auto">
             {isLoading ? (
-              <div className="flex items-center justify-center py-16">
-                <div className="text-center space-y-4">
+              <div className="flex items-center justify-center py-20">
+                <div className="text-center space-y-6">
                   <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto"></div>
                   <p className="text-muted-foreground text-lg">Loading events...</p>
                 </div>
               </div>
             ) : (
-              <div className="bg-card rounded-lg border p-8 shadow-sm">
+              <div className="bg-card rounded-lg border p-12 shadow-sm">
                 {currentView === 'calendar' ? (
                   <Calendar 
                     events={events} 
                     onEventClick={handleEventClick}
                   />
                 ) : (
-                  <div className="text-center py-16 space-y-6">
+                  <div className="text-center py-20 space-y-8">
                     <List className="h-16 w-16 text-muted-foreground mx-auto" />
-                    <div className="space-y-2">
+                    <div className="space-y-3">
                       <h3 className="text-2xl font-medium">List View</h3>
                       <p className="text-muted-foreground text-lg max-w-md mx-auto">
                         Event list component will be implemented here to show events in a structured format
