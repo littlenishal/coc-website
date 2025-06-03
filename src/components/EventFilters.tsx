@@ -23,6 +23,7 @@ type Event = {
 type EventFiltersProps = {
   events: Event[];
   onFilteredEventsChange: (filteredEvents: Event[]) => void;
+  onFiltersCleared?: () => void;
   className?: string;
 };
 
@@ -42,7 +43,7 @@ const DATE_FILTER_OPTIONS = [
   { value: 'custom' as DateFilter, label: 'Custom Range' }
 ];
 
-export function EventFilters({ events, onFilteredEventsChange, className }: EventFiltersProps) {
+export function EventFilters({ events, onFilteredEventsChange, onFiltersCleared, className }: EventFiltersProps) {
   const [isCollapsed, setIsCollapsed] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedEventTypes, setSelectedEventTypes] = useState<string[]>([]);
@@ -195,6 +196,7 @@ export function EventFilters({ events, onFilteredEventsChange, className }: Even
     setCustomStartDate('');
     setCustomEndDate('');
     setIsCollapsed(true);
+    onFiltersCleared?.();
   };
 
   const hasActiveFilters = searchQuery || selectedEventTypes.length > 0 || dateFilter !== 'upcoming' || customStartDate || customEndDate;

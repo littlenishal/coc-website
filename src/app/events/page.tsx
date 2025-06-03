@@ -4,7 +4,7 @@
 import { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { Calendar as CalendarIcon, List, ChevronLeft } from "lucide-react";
+import { Calendar as CalendarIcon, List, ChevronLeft, Filter } from "lucide-react";
 import { Calendar } from "@/components/Calendar";
 import { EventList } from "@/components/EventList";
 import { EventModal } from "@/components/EventModal";
@@ -28,6 +28,7 @@ export default function EventsPage() {
   const [filteredEvents, setFilteredEvents] = useState<Event[]>([]);
   const [selectedEvent, setSelectedEvent] = useState<Event | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [showFilters, setShowFilters] = useState(false);
 
   useEffect(() => {
     async function fetchEvents() {
@@ -50,6 +51,18 @@ export default function EventsPage() {
     }
 
     fetchEvents();
+  }, []);
+
+  // Check URL parameters on load to show filters if any exist
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const hasFilters = urlParams.has('search') || urlParams.has('types') || 
+                      (urlParams.has('date') && urlParams.get('date') !== 'upcoming') ||
+                      urlParams.has('start_date') || urlParams.has('end_date');
+    
+    if (hasFilters) {
+      setShowFilters(true);
+    }
   }, []);
 
   const handleEventClick = (event: Event) => {
@@ -77,7 +90,7 @@ export default function EventsPage() {
         </div>
       </div>
 
-      {/* Header with Title and View Toggle */}
+      {/* Header with Title and Controls */}
       <div className="container px-4 py-6">
         <div className="flex items-start justify-between">
           <div>
@@ -87,8 +100,17 @@ export default function EventsPage() {
             </p>
           </div>
           
-          {/* View Toggle Buttons */}
+          {/* Controls: Filter Toggle and View Toggle Buttons */}
           <div className="flex gap-2">
+            <Button
+              variant={showFilters ? 'default' : 'outline'}
+              onClick={() => setShowFilters(!showFilters)}
+              className="flex items-center gap-2"
+              disabled={isLoading}
+            >
+              <Filter className="h-4 w-4" />
+              Filter
+            </Button>
             <Button
               variant={currentView === 'calendar' ? 'default' : 'outline'}
               onClick={() => setCurrentView('calendar')}
@@ -111,22 +133,25 @@ export default function EventsPage() {
         </div>
       </div>
 
-      {/* Main Content Area with Sidebar */}
+      {/* Main Content Area */}
       <div className="container px-4 pb-8">
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-          {/* Sidebar with Filters */}
-          <div className="lg:col-span-1">
-            {!isLoading && (
-              <EventFilters
-                events={events}
-                onFilteredEventsChange={setFilteredEvents}
-                className="sticky top-6"
-              />
-            )}
-          </div>
+        <div className={`grid gap-6 ${showFilters ? 'grid-cols-1 lg:grid-cols-4' : 'grid-cols-1'}`}>
+          {/* Conditional Sidebar with Filters */}
+          {showFilters && (
+            <div className="lg:col-span-1">
+              {!isLoading && (
+                <EventFilters
+                  events={events}
+                  onFilteredEventsChange={setFilteredEvents}
+                  onFiltersCleared={() => setShowFilters(false)}
+                  className="sticky top-6"
+                />
+              )}
+            </div>
+          )}
 
           {/* Main Calendar/List Component */}
-          <div className="lg:col-span-3">
+          <div className={showFilters ? 'lg:col-span-3' : 'col-span-1'}>
             <div className="border rounded-lg bg-card">
               {isLoading ? (
                 <div className="flex items-center justify-center py-20">
