@@ -5,9 +5,14 @@ import { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
-import { Card } from "@/components/ui/card";
-import { Search, X, Calendar, Filter, ChevronDown, ChevronUp } from "lucide-react";
+import { Search, X, Calendar } from "lucide-react";
 import { cn } from "@/lib/utils";
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+} from "@/components/ui/sheet";
 
 type Event = {
   id: string;
@@ -23,7 +28,8 @@ type Event = {
 type EventFiltersProps = {
   events: Event[];
   onFilteredEventsChange: (filteredEvents: Event[]) => void;
-  onFiltersCleared?: () => void;
+  isOpen: boolean;
+  onClose: () => void;
   className?: string;
 };
 
@@ -43,8 +49,7 @@ const DATE_FILTER_OPTIONS = [
   { value: 'custom' as DateFilter, label: 'Custom Range' }
 ];
 
-export function EventFilters({ events, onFilteredEventsChange, onFiltersCleared, className }: EventFiltersProps) {
-  const [isCollapsed, setIsCollapsed] = useState(true);
+export function EventFilters({ events, onFilteredEventsChange, isOpen, onClose, className }: EventFiltersProps) {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedEventTypes, setSelectedEventTypes] = useState<string[]>([]);
   const [dateFilter, setDateFilter] = useState<DateFilter>('upcoming');
@@ -54,41 +59,30 @@ export function EventFilters({ events, onFilteredEventsChange, onFiltersCleared,
   // Initialize filters from URL parameters
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
-    let hasUrlFilters = false;
     
     const searchParam = urlParams.get('search');
     if (searchParam) {
       setSearchQuery(searchParam);
-      hasUrlFilters = true;
     }
     
     const typesParam = urlParams.get('types');
     if (typesParam) {
       setSelectedEventTypes(typesParam.split(','));
-      hasUrlFilters = true;
     }
     
     const dateParam = urlParams.get('date') as DateFilter;
     if (dateParam && DATE_FILTER_OPTIONS.find(opt => opt.value === dateParam)) {
       setDateFilter(dateParam);
-      if (dateParam !== 'upcoming') hasUrlFilters = true;
     }
     
     const startDateParam = urlParams.get('start_date');
     if (startDateParam) {
       setCustomStartDate(startDateParam);
-      hasUrlFilters = true;
     }
     
     const endDateParam = urlParams.get('end_date');
     if (endDateParam) {
       setCustomEndDate(endDateParam);
-      hasUrlFilters = true;
-    }
-
-    // Expand filters if there are active filters from URL
-    if (hasUrlFilters) {
-      setIsCollapsed(false);
     }
   }, []);
 
@@ -195,25 +189,18 @@ export function EventFilters({ events, onFilteredEventsChange, onFiltersCleared,
     setDateFilter('upcoming');
     setCustomStartDate('');
     setCustomEndDate('');
-    setIsCollapsed(true);
-    onFiltersCleared?.();
+    onClose();
   };
 
   const hasActiveFilters = searchQuery || selectedEventTypes.length > 0 || dateFilter !== 'upcoming' || customStartDate || customEndDate;
 
   return (
-    <Card className={cn("overflow-hidden", className)}>
-      {/* Collapsible Header */}
-      <div className="p-4 border-b">
-        <Button
-          variant="ghost"
-          onClick={() => setIsCollapsed(!isCollapsed)}
-          className="w-full justify-between p-0 h-auto hover:bg-transparent"
-        >
-          <div className="flex items-center gap-2">
-            <Filter className="h-5 w-5" />
-            <h3 className="text-lg font-semibold">Filter Events</h3>
-            {hasActiveFilters && !isCollapsed && (
+    <Sheet open={isOpen} onOpenChange={onClose}>
+      <SheetContent side="right" className="w-full sm:max-w-md">
+        <SheetHeader className="space-y-4">
+          <SheetTitle className="text-xl font-semibold">Filter Events</SheetTitle>
+          {hasActiveFilters && (
+            <div className="flex items-center justify-between">
               <Badge variant="secondary" className="text-xs">
                 {[
                   searchQuery && 'Search',
@@ -222,126 +209,110 @@ export function EventFilters({ events, onFilteredEventsChange, onFiltersCleared,
                   customStartDate && 'Custom'
                 ].filter(Boolean).join(', ')}
               </Badge>
-            )}
-          </div>
-          <div className="flex items-center gap-2">
-            {hasActiveFilters && (
               <Button
                 variant="outline"
                 size="sm"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  clearAllFilters();
-                }}
+                onClick={clearAllFilters}
                 className="flex items-center gap-1 text-xs h-6 px-2"
               >
                 <X className="h-3 w-3" />
-                Clear
+                Clear All
               </Button>
-            )}
-            {isCollapsed ? (
-              <ChevronDown className="h-4 w-4" />
-            ) : (
-              <ChevronUp className="h-4 w-4" />
-            )}
-          </div>
-        </Button>
-      </div>
+            </div>
+          )}
+        </SheetHeader>
 
-      {/* Filter Content */}
-      {!isCollapsed && (
-        <div className="p-6 space-y-6">
-
-        {/* Search */}
-        <div className="space-y-2">
-          <label className="text-sm font-medium">Search</label>
-          <div className="relative">
-            <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-            <Input
-              placeholder="Search events by title, description, or location..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-10"
-            />
-            {searchQuery && (
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => setSearchQuery('')}
-                className="absolute right-1 top-1 h-8 w-8 p-0"
-              >
-                <X className="h-4 w-4" />
-              </Button>
-            )}
-          </div>
-        </div>
-
-        {/* Event Type Filter */}
-        <div className="space-y-3">
-          <label className="text-sm font-medium">Event Types</label>
-          <div className="flex flex-wrap gap-2">
-            {EVENT_TYPE_OPTIONS.map((option) => (
-              <Badge
-                key={option.value}
-                variant={selectedEventTypes.includes(option.value) ? "default" : "outline"}
-                className="cursor-pointer hover:bg-primary/80 transition-colors"
-                onClick={() => handleEventTypeToggle(option.value)}
-              >
-                {option.label}
-                {selectedEventTypes.includes(option.value) && (
-                  <X className="ml-1 h-3 w-3" />
-                )}
-              </Badge>
-            ))}
-          </div>
-        </div>
-
-        {/* Date Filter */}
-        <div className="space-y-3">
-          <label className="text-sm font-medium">Date Range</label>
-          <div className="flex flex-wrap gap-2">
-            {DATE_FILTER_OPTIONS.map((option) => (
-              <Badge
-                key={option.value}
-                variant={dateFilter === option.value ? "default" : "outline"}
-                className="cursor-pointer hover:bg-primary/80 transition-colors"
-                onClick={() => setDateFilter(option.value)}
-              >
-                <Calendar className="mr-1 h-3 w-3" />
-                {option.label}
-              </Badge>
-            ))}
-          </div>
-        </div>
-
-        {/* Custom Date Range */}
-        {dateFilter === 'custom' && (
-          <div className="space-y-3 pl-4 border-l-2 border-muted">
-            <label className="text-sm font-medium">Custom Date Range</label>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              <div>
-                <label className="text-xs text-muted-foreground">Start Date</label>
-                <Input
-                  type="date"
-                  value={customStartDate}
-                  onChange={(e) => setCustomStartDate(e.target.value)}
-                  className="mt-1"
-                />
-              </div>
-              <div>
-                <label className="text-xs text-muted-foreground">End Date</label>
-                <Input
-                  type="date"
-                  value={customEndDate}
-                  onChange={(e) => setCustomEndDate(e.target.value)}
-                  className="mt-1"
-                />
-              </div>
+        <div className="mt-8 space-y-6">
+          {/* Search */}
+          <div className="space-y-2">
+            <label className="text-sm font-medium">Search</label>
+            <div className="relative">
+              <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+              <Input
+                placeholder="Search events by title, description, or location..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="pl-10"
+              />
+              {searchQuery && (
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => setSearchQuery('')}
+                  className="absolute right-1 top-1 h-8 w-8 p-0"
+                >
+                  <X className="h-4 w-4" />
+                </Button>
+              )}
             </div>
           </div>
-        )}
 
-        {/* Active Filters Summary */}
+          {/* Event Type Filter */}
+          <div className="space-y-3">
+            <label className="text-sm font-medium">Event Types</label>
+            <div className="flex flex-wrap gap-2">
+              {EVENT_TYPE_OPTIONS.map((option) => (
+                <Badge
+                  key={option.value}
+                  variant={selectedEventTypes.includes(option.value) ? "default" : "outline"}
+                  className="cursor-pointer hover:bg-primary/80 transition-colors"
+                  onClick={() => handleEventTypeToggle(option.value)}
+                >
+                  {option.label}
+                  {selectedEventTypes.includes(option.value) && (
+                    <X className="ml-1 h-3 w-3" />
+                  )}
+                </Badge>
+              ))}
+            </div>
+          </div>
+
+          {/* Date Filter */}
+          <div className="space-y-3">
+            <label className="text-sm font-medium">Date Range</label>
+            <div className="flex flex-wrap gap-2">
+              {DATE_FILTER_OPTIONS.map((option) => (
+                <Badge
+                  key={option.value}
+                  variant={dateFilter === option.value ? "default" : "outline"}
+                  className="cursor-pointer hover:bg-primary/80 transition-colors"
+                  onClick={() => setDateFilter(option.value)}
+                >
+                  <Calendar className="mr-1 h-3 w-3" />
+                  {option.label}
+                </Badge>
+              ))}
+            </div>
+          </div>
+
+          {/* Custom Date Range */}
+          {dateFilter === 'custom' && (
+            <div className="space-y-3 pl-4 border-l-2 border-muted">
+              <label className="text-sm font-medium">Custom Date Range</label>
+              <div className="grid grid-cols-1 gap-3">
+                <div>
+                  <label className="text-xs text-muted-foreground">Start Date</label>
+                  <Input
+                    type="date"
+                    value={customStartDate}
+                    onChange={(e) => setCustomStartDate(e.target.value)}
+                    className="mt-1"
+                  />
+                </div>
+                <div>
+                  <label className="text-xs text-muted-foreground">End Date</label>
+                  <Input
+                    type="date"
+                    value={customEndDate}
+                    onChange={(e) => setCustomEndDate(e.target.value)}
+                    className="mt-1"
+                  />
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Active Filters Summary */}
           {hasActiveFilters && (
             <div className="pt-3 border-t">
               <div className="text-sm text-muted-foreground mb-2">Active filters:</div>
@@ -365,7 +336,7 @@ export function EventFilters({ events, onFilteredEventsChange, onFiltersCleared,
             </div>
           )}
         </div>
-      )}
-    </Card>
+      </SheetContent>
+    </Sheet>
   );
 }

@@ -135,23 +135,19 @@ export default function EventsPage() {
 
       {/* Main Content Area */}
       <div className="container px-4 pb-8">
-        <div className={`grid gap-6 ${showFilters ? 'grid-cols-1 lg:grid-cols-4' : 'grid-cols-1'}`}>
-          {/* Conditional Sidebar with Filters */}
-          {showFilters && (
-            <div className="lg:col-span-1">
-              {!isLoading && (
-                <EventFilters
-                  events={events}
-                  onFilteredEventsChange={setFilteredEvents}
-                  onFiltersCleared={() => setShowFilters(false)}
-                  className="sticky top-6"
-                />
-              )}
-            </div>
+        <div className="grid gap-6 grid-cols-1">
+          {/* Filters Sheet - no conditional rendering needed since Sheet handles visibility */}
+          {!isLoading && (
+            <EventFilters
+              events={events}
+              onFilteredEventsChange={setFilteredEvents}
+              isOpen={showFilters}
+              onClose={() => setShowFilters(false)}
+            />
           )}
 
           {/* Main Calendar/List Component */}
-          <div className={showFilters ? 'lg:col-span-3' : 'col-span-1'}>
+          <div className="col-span-1">
             <div className="border rounded-lg bg-card">
               {isLoading ? (
                 <div className="flex items-center justify-center py-20">
