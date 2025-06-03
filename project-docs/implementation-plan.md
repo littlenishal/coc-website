@@ -352,7 +352,7 @@ Task 2.3.4: Create Event Details Modal/Page
 Task 2.3.5: Implement Event Filtering and Search
 **Description:** Add filtering capabilities for event types and search functionality
 
-**Status:** Pending
+**Status:** Done
 
 **Steps:**
 - Create `EventFilters.tsx` component with filter options
