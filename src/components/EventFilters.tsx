@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
-import { Search, X, Calendar, Filter } from "lucide-react";
+import { Search, X, Calendar, Filter, ChevronDown, ChevronUp } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 type Event = {
@@ -43,6 +43,7 @@ const DATE_FILTER_OPTIONS = [
 ];
 
 export function EventFilters({ events, onFilteredEventsChange, className }: EventFiltersProps) {
+  const [isCollapsed, setIsCollapsed] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedEventTypes, setSelectedEventTypes] = useState<string[]>([]);
   const [dateFilter, setDateFilter] = useState<DateFilter>('upcoming');
@@ -52,23 +53,42 @@ export function EventFilters({ events, onFilteredEventsChange, className }: Even
   // Initialize filters from URL parameters
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
+    let hasUrlFilters = false;
     
     const searchParam = urlParams.get('search');
-    if (searchParam) setSearchQuery(searchParam);
+    if (searchParam) {
+      setSearchQuery(searchParam);
+      hasUrlFilters = true;
+    }
     
     const typesParam = urlParams.get('types');
-    if (typesParam) setSelectedEventTypes(typesParam.split(','));
+    if (typesParam) {
+      setSelectedEventTypes(typesParam.split(','));
+      hasUrlFilters = true;
+    }
     
     const dateParam = urlParams.get('date') as DateFilter;
     if (dateParam && DATE_FILTER_OPTIONS.find(opt => opt.value === dateParam)) {
       setDateFilter(dateParam);
+      if (dateParam !== 'upcoming') hasUrlFilters = true;
     }
     
     const startDateParam = urlParams.get('start_date');
-    if (startDateParam) setCustomStartDate(startDateParam);
+    if (startDateParam) {
+      setCustomStartDate(startDateParam);
+      hasUrlFilters = true;
+    }
     
     const endDateParam = urlParams.get('end_date');
-    if (endDateParam) setCustomEndDate(endDateParam);
+    if (endDateParam) {
+      setCustomEndDate(endDateParam);
+      hasUrlFilters = true;
+    }
+
+    // Expand filters if there are active filters from URL
+    if (hasUrlFilters) {
+      setIsCollapsed(false);
+    }
   }, []);
 
   // Filter events based on current filter state
@@ -174,31 +194,61 @@ export function EventFilters({ events, onFilteredEventsChange, className }: Even
     setDateFilter('upcoming');
     setCustomStartDate('');
     setCustomEndDate('');
+    setIsCollapsed(true);
   };
 
   const hasActiveFilters = searchQuery || selectedEventTypes.length > 0 || dateFilter !== 'upcoming' || customStartDate || customEndDate;
 
   return (
-    <Card className={cn("p-6", className)}>
-      <div className="space-y-6">
-        {/* Header */}
-        <div className="flex items-center justify-between">
+    <Card className={cn("overflow-hidden", className)}>
+      {/* Collapsible Header */}
+      <div className="p-4 border-b">
+        <Button
+          variant="ghost"
+          onClick={() => setIsCollapsed(!isCollapsed)}
+          className="w-full justify-between p-0 h-auto hover:bg-transparent"
+        >
           <div className="flex items-center gap-2">
             <Filter className="h-5 w-5" />
             <h3 className="text-lg font-semibold">Filter Events</h3>
+            {hasActiveFilters && !isCollapsed && (
+              <Badge variant="secondary" className="text-xs">
+                {[
+                  searchQuery && 'Search',
+                  selectedEventTypes.length > 0 && `${selectedEventTypes.length} Type${selectedEventTypes.length > 1 ? 's' : ''}`,
+                  dateFilter !== 'upcoming' && 'Date',
+                  customStartDate && 'Custom'
+                ].filter(Boolean).join(', ')}
+              </Badge>
+            )}
           </div>
-          {hasActiveFilters && (
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={clearAllFilters}
-              className="flex items-center gap-2"
-            >
-              <X className="h-4 w-4" />
-              Clear All
-            </Button>
-          )}
-        </div>
+          <div className="flex items-center gap-2">
+            {hasActiveFilters && (
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  clearAllFilters();
+                }}
+                className="flex items-center gap-1 text-xs h-6 px-2"
+              >
+                <X className="h-3 w-3" />
+                Clear
+              </Button>
+            )}
+            {isCollapsed ? (
+              <ChevronDown className="h-4 w-4" />
+            ) : (
+              <ChevronUp className="h-4 w-4" />
+            )}
+          </div>
+        </Button>
+      </div>
+
+      {/* Filter Content */}
+      {!isCollapsed && (
+        <div className="p-6 space-y-6">
 
         {/* Search */}
         <div className="space-y-2">
@@ -290,29 +340,30 @@ export function EventFilters({ events, onFilteredEventsChange, className }: Even
         )}
 
         {/* Active Filters Summary */}
-        {hasActiveFilters && (
-          <div className="pt-3 border-t">
-            <div className="text-sm text-muted-foreground mb-2">Active filters:</div>
-            <div className="flex flex-wrap gap-1">
-              {searchQuery && (
-                <Badge variant="secondary" className="text-xs">
-                  Search: "{searchQuery}"
-                </Badge>
-              )}
-              {selectedEventTypes.map(type => (
-                <Badge key={type} variant="secondary" className="text-xs">
-                  {EVENT_TYPE_OPTIONS.find(opt => opt.value === type)?.label}
-                </Badge>
-              ))}
-              {dateFilter !== 'upcoming' && (
-                <Badge variant="secondary" className="text-xs">
-                  {DATE_FILTER_OPTIONS.find(opt => opt.value === dateFilter)?.label}
-                </Badge>
-              )}
+          {hasActiveFilters && (
+            <div className="pt-3 border-t">
+              <div className="text-sm text-muted-foreground mb-2">Active filters:</div>
+              <div className="flex flex-wrap gap-1">
+                {searchQuery && (
+                  <Badge variant="secondary" className="text-xs">
+                    Search: "{searchQuery}"
+                  </Badge>
+                )}
+                {selectedEventTypes.map(type => (
+                  <Badge key={type} variant="secondary" className="text-xs">
+                    {EVENT_TYPE_OPTIONS.find(opt => opt.value === type)?.label}
+                  </Badge>
+                ))}
+                {dateFilter !== 'upcoming' && (
+                  <Badge variant="secondary" className="text-xs">
+                    {DATE_FILTER_OPTIONS.find(opt => opt.value === dateFilter)?.label}
+                  </Badge>
+                )}
+              </div>
             </div>
-          </div>
-        )}
-      </div>
+          )}
+        </div>
+      )}
     </Card>
   );
 }
