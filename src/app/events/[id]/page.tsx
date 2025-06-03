@@ -10,6 +10,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { Calendar, MapPin, Users, Share2, ChevronLeft, MessageCircle, Send } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { generateCalendarLink, downloadICSFile } from "@/lib/calendar";
 
 type Event = {
   id: string;
@@ -429,6 +430,66 @@ export default function EventPage({ params }: { params: Promise<{ id: string }> 
               <p className="whitespace-pre-wrap text-muted-foreground leading-relaxed">
                 {event.description}
               </p>
+            </div>
+          </Card>
+
+          {/* Calendar Integration */}
+          <Card className="p-6 mb-8">
+            <h2 className="text-2xl font-semibold mb-4">Add to Calendar</h2>
+            <p className="text-muted-foreground mb-4">
+              Save this event to your calendar so you don't miss it!
+            </p>
+            <div className="flex flex-wrap gap-3">
+              <Button variant="outline" size="sm" asChild>
+                <a 
+                  href={generateCalendarLink('google', {
+                    title: event.title,
+                    description: event.description,
+                    startDateTime: event.startDateTime,
+                    endDateTime: event.endDateTime,
+                    location: event.location
+                  })} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2"
+                >
+                  <Calendar className="h-4 w-4" />
+                  Google Calendar
+                </a>
+              </Button>
+              <Button variant="outline" size="sm" asChild>
+                <a 
+                  href={generateCalendarLink('outlook', {
+                    title: event.title,
+                    description: event.description,
+                    startDateTime: event.startDateTime,
+                    endDateTime: event.endDateTime,
+                    location: event.location
+                  })} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2"
+                >
+                  <Calendar className="h-4 w-4" />
+                  Outlook
+                </a>
+              </Button>
+              <Button 
+                variant="outline" 
+                size="sm"
+                onClick={() => downloadICSFile({
+                  title: event.title,
+                  description: event.description,
+                  startDateTime: event.startDateTime,
+                  endDateTime: event.endDateTime,
+                  location: event.location,
+                  id: event.id
+                })}
+                className="flex items-center gap-2"
+              >
+                <Calendar className="h-4 w-4" />
+                Download (.ics)
+              </Button>
             </div>
           </Card>
 

@@ -4,6 +4,7 @@
 import { Button } from "@/components/ui/button";
 import { X, Calendar, MapPin } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { generateCalendarLink, downloadICSFile } from "@/lib/calendar";
 
 type Event = {
   id: string;
@@ -120,41 +121,7 @@ export function EventModal({ event, isOpen, onClose }: EventModalProps) {
     }
   };
 
-  const generateCalendarLink = (type: 'google' | 'outlook' | 'ics') => {
-    const startDate = new Date(event.startDateTime);
-    const endDate = new Date(event.endDateTime);
-    const timezone = getTimezoneFromLocation(event.location);
-    
-    const formatDateForCalendar = (date: Date) => {
-      return date.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
-    };
-
-    if (type === 'google') {
-      const params = new URLSearchParams({
-        action: 'TEMPLATE',
-        text: event.title,
-        dates: `${formatDateForCalendar(startDate)}/${formatDateForCalendar(endDate)}`,
-        details: event.description,
-        location: event.location,
-        ctz: timezone
-      });
-      return `https://calendar.google.com/calendar/render?${params.toString()}`;
-    }
-
-    if (type === 'outlook') {
-      const params = new URLSearchParams({
-        subject: event.title,
-        startdt: startDate.toISOString(),
-        enddt: endDate.toISOString(),
-        body: event.description,
-        location: event.location
-      });
-      return `https://outlook.live.com/calendar/0/deeplink/compose?${params.toString()}`;
-    }
-
-    // For ICS download, we would need to generate the file content
-    return '#';
-  };
+  
 
   return (
     <div 
@@ -233,7 +200,13 @@ export function EventModal({ event, isOpen, onClose }: EventModalProps) {
             <div className="flex flex-wrap gap-2">
               <Button variant="outline" size="sm" asChild>
                 <a 
-                  href={generateCalendarLink('google')} 
+                  href={generateCalendarLink('google', {
+                    title: event.title,
+                    description: event.description,
+                    startDateTime: event.startDateTime,
+                    endDateTime: event.endDateTime,
+                    location: event.location
+                  })} 
                   target="_blank" 
                   rel="noopener noreferrer"
                 >
@@ -242,14 +215,31 @@ export function EventModal({ event, isOpen, onClose }: EventModalProps) {
               </Button>
               <Button variant="outline" size="sm" asChild>
                 <a 
-                  href={generateCalendarLink('outlook')} 
+                  href={generateCalendarLink('outlook', {
+                    title: event.title,
+                    description: event.description,
+                    startDateTime: event.startDateTime,
+                    endDateTime: event.endDateTime,
+                    location: event.location
+                  })} 
                   target="_blank" 
                   rel="noopener noreferrer"
                 >
                   Outlook
                 </a>
               </Button>
-              <Button variant="outline" size="sm">
+              <Button 
+                variant="outline" 
+                size="sm"
+                onClick={() => downloadICSFile({
+                  title: event.title,
+                  description: event.description,
+                  startDateTime: event.startDateTime,
+                  endDateTime: event.endDateTime,
+                  location: event.location,
+                  id: event.id
+                })}
+              >
                 Download .ics
               </Button>
             </div>
