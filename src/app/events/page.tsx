@@ -8,6 +8,7 @@ import { Calendar as CalendarIcon, List, ChevronLeft } from "lucide-react";
 import { Calendar } from "@/components/Calendar";
 import { EventList } from "@/components/EventList";
 import { EventModal } from "@/components/EventModal";
+import { EventFilters } from "@/components/EventFilters";
 
 type Event = {
   id: string;
@@ -24,6 +25,7 @@ export default function EventsPage() {
   const [currentView, setCurrentView] = useState<'calendar' | 'list'>('list');
   const [isLoading, setIsLoading] = useState(true);
   const [events, setEvents] = useState<Event[]>([]);
+  const [filteredEvents, setFilteredEvents] = useState<Event[]>([]);
   const [selectedEvent, setSelectedEvent] = useState<Event | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -35,10 +37,13 @@ export default function EventsPage() {
           throw new Error('Failed to fetch events');
         }
         const data = await response.json();
-        setEvents(data.filter((event: Event) => event.isPublished));
+        const publishedEvents = data.filter((event: Event) => event.isPublished);
+        setEvents(publishedEvents);
+        setFilteredEvents(publishedEvents);
       } catch (error) {
         console.error('Error fetching events:', error);
         setEvents([]);
+        setFilteredEvents([]);
       } finally {
         setIsLoading(false);
       }
@@ -106,31 +111,47 @@ export default function EventsPage() {
         </div>
       </div>
 
-      {/* Main Calendar Component Area */}
+      {/* Main Content Area with Sidebar */}
       <div className="container px-4 pb-8">
-        <div className="border rounded-lg bg-card">
-          {isLoading ? (
-            <div className="flex items-center justify-center py-20">
-              <div className="text-center space-y-4">
-                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto"></div>
-                <p className="text-muted-foreground">Loading events...</p>
-              </div>
-            </div>
-          ) : (
-            <div className="p-6">
-              {currentView === 'calendar' ? (
-                <Calendar 
-                  events={events} 
-                  onEventClick={handleEventClick}
-                />
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+          {/* Sidebar with Filters */}
+          <div className="lg:col-span-1">
+            {!isLoading && (
+              <EventFilters
+                events={events}
+                onFilteredEventsChange={setFilteredEvents}
+                className="sticky top-6"
+              />
+            )}
+          </div>
+
+          {/* Main Calendar/List Component */}
+          <div className="lg:col-span-3">
+            <div className="border rounded-lg bg-card">
+              {isLoading ? (
+                <div className="flex items-center justify-center py-20">
+                  <div className="text-center space-y-4">
+                    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto"></div>
+                    <p className="text-muted-foreground">Loading events...</p>
+                  </div>
+                </div>
               ) : (
-                <EventList 
-                  events={events} 
-                  onEventClick={handleEventClick}
-                />
+                <div className="p-6">
+                  {currentView === 'calendar' ? (
+                    <Calendar 
+                      events={filteredEvents} 
+                      onEventClick={handleEventClick}
+                    />
+                  ) : (
+                    <EventList 
+                      events={filteredEvents} 
+                      onEventClick={handleEventClick}
+                    />
+                  )}
+                </div>
               )}
             </div>
-          )}
+          </div>
         </div>
       </div>
 
