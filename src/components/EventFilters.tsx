@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -30,7 +29,6 @@ type EventFiltersProps = {
   onFilteredEventsChange: (filteredEvents: Event[]) => void;
   isOpen: boolean;
   onClose: () => void;
-  className?: string;
 };
 
 type DateFilter = 'all' | 'upcoming' | 'this-month' | 'custom';
@@ -49,7 +47,7 @@ const DATE_FILTER_OPTIONS = [
   { value: 'custom' as DateFilter, label: 'Custom Range' }
 ];
 
-export function EventFilters({ events, onFilteredEventsChange, isOpen, onClose, className }: EventFiltersProps) {
+export function EventFilters({ events, onFilteredEventsChange, isOpen, onClose }: EventFiltersProps) {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedEventTypes, setSelectedEventTypes] = useState<string[]>([]);
   const [dateFilter, setDateFilter] = useState<DateFilter>('upcoming');
@@ -59,27 +57,27 @@ export function EventFilters({ events, onFilteredEventsChange, isOpen, onClose, 
   // Initialize filters from URL parameters
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
-    
+
     const searchParam = urlParams.get('search');
     if (searchParam) {
       setSearchQuery(searchParam);
     }
-    
+
     const typesParam = urlParams.get('types');
     if (typesParam) {
       setSelectedEventTypes(typesParam.split(','));
     }
-    
+
     const dateParam = urlParams.get('date') as DateFilter;
     if (dateParam && DATE_FILTER_OPTIONS.find(opt => opt.value === dateParam)) {
       setDateFilter(dateParam);
     }
-    
+
     const startDateParam = urlParams.get('start_date');
     if (startDateParam) {
       setCustomStartDate(startDateParam);
     }
-    
+
     const endDateParam = urlParams.get('end_date');
     if (endDateParam) {
       setCustomEndDate(endDateParam);
@@ -141,31 +139,31 @@ export function EventFilters({ events, onFilteredEventsChange, isOpen, onClose, 
   // Update URL parameters when filters change
   useEffect(() => {
     const url = new URL(window.location.href);
-    
+
     if (searchQuery) {
       url.searchParams.set('search', searchQuery);
     } else {
       url.searchParams.delete('search');
     }
-    
+
     if (selectedEventTypes.length > 0) {
       url.searchParams.set('types', selectedEventTypes.join(','));
     } else {
       url.searchParams.delete('types');
     }
-    
+
     if (dateFilter !== 'upcoming') {
       url.searchParams.set('date', dateFilter);
     } else {
       url.searchParams.delete('date');
     }
-    
+
     if (customStartDate) {
       url.searchParams.set('start_date', customStartDate);
     } else {
       url.searchParams.delete('start_date');
     }
-    
+
     if (customEndDate) {
       url.searchParams.set('end_date', customEndDate);
     } else {
@@ -229,7 +227,7 @@ export function EventFilters({ events, onFilteredEventsChange, isOpen, onClose, 
             <div className="relative">
               <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
               <Input
-                placeholder="Search events by title, description, or location..."
+                placeholder="Search events..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="pl-10"
