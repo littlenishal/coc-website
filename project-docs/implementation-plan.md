@@ -366,7 +366,7 @@ Task 2.3.5: Implement Event Filtering and Search
 Task 2.3.6: Add Calendar Integration ("Add to Calendar")
 **Description:** Implement functionality to add events to external calendars
 
-**Status:** Pending
+**Status:** Done
 
 **Steps:**
 - Create utility functions for generating calendar files (.ics format)

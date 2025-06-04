@@ -1,0 +1,52 @@
+[19:13:08.600] Running build in Washington, D.C., USA (East) – iad1
+[19:13:08.600] Build machine configuration: 2 cores, 8 GB
+[19:13:08.617] Cloning github.com/littlenishal/coc-website (Branch: main, Commit: 205a29c)
+[19:13:09.077] Cloning completed: 460.000ms
+[19:13:12.078] Restored build cache from previous deployment (3waFpi4MXPUHeSNHGE6cjDUkPD4h)
+[19:13:12.648] Running "vercel build"
+[19:13:13.086] Vercel CLI 42.2.0
+[19:13:13.380] Installing dependencies...
+[19:13:14.992] 
+[19:13:14.993] changed 6 packages in 1s
+[19:13:14.993] 
+[19:13:14.993] 151 packages are looking for funding
+[19:13:14.993]   run `npm fund` for details
+[19:13:15.027] Detected Next.js version: 15.3.1
+[19:13:15.032] Running "npm run build"
+[19:13:15.145] 
+[19:13:15.146] > coc-website@0.1.0 build
+[19:13:15.146] > prisma generate && next build
+[19:13:15.146] 
+[19:13:15.727] Prisma schema loaded from prisma/schema.prisma
+[19:13:15.820] Warning: You did not specify an output path for your `generator` in schema.prisma. This behavior is deprecated and will no longer be supported in Prisma 7.0.0. To learn more visit https://pris.ly/cli/output-path
+[19:13:16.049] 
+[19:13:16.049] ✔ Generated Prisma Client (v6.7.0) to ./node_modules/@prisma/client in 161ms
+[19:13:16.050] 
+[19:13:16.050] Start by importing your Prisma Client (See: https://pris.ly/d/importing-client)
+[19:13:16.050] 
+[19:13:16.050] Tip: Want to turn off tips and other hints? https://pris.ly/tip-4-nohints
+[19:13:16.050] 
+[19:13:16.960]    ▲ Next.js 15.3.1
+[19:13:16.961] 
+[19:13:17.027]    Creating an optimized production build ...
+[19:13:24.555]  ✓ Compiled successfully in 7.0s
+[19:13:24.559]    Linting and checking validity of types ...
+[19:13:30.348] 
+[19:13:30.348] Failed to compile.
+[19:13:30.348] 
+[19:13:30.348] ./src/app/events/[id]/page.tsx
+[19:13:30.348] 440:58  Error: `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`.  react/no-unescaped-entities
+[19:13:30.348] 
+[19:13:30.349] ./src/components/EventFilters.tsx
+[19:13:30.349] 9:10  Error: 'cn' is defined but never used.  @typescript-eslint/no-unused-vars
+[19:13:30.349] 52:81  Error: 'className' is defined but never used.  @typescript-eslint/no-unused-vars
+[19:13:30.349] 322:29  Error: `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`.  react/no-unescaped-entities
+[19:13:30.349] 322:43  Error: `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`.  react/no-unescaped-entities
+[19:13:30.349] 
+[19:13:30.349] ./src/components/ui/input.tsx
+[19:13:30.349] 6:18  Error: An interface declaring no members is equivalent to its supertype.  @typescript-eslint/no-empty-object-type
+[19:13:30.349] 
+[19:13:30.349] info  - Need to disable some ESLint rules? Learn more here: https://nextjs.org/docs/app/api-reference/config/eslint#disabling-rules
+[19:13:30.408] Error: Command "npm run build" exited with 1
+[19:13:30.680] 
+[19:13:33.914] Exiting build container
