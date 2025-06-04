@@ -5,7 +5,6 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Search, X, Calendar } from "lucide-react";
-import { cn } from "@/lib/utils";
 import {
   Sheet,
   SheetContent,
@@ -317,7 +316,7 @@ export function EventFilters({ events, onFilteredEventsChange, isOpen, onClose }
               <div className="flex flex-wrap gap-1">
                 {searchQuery && (
                   <Badge variant="secondary" className="text-xs">
-                    Search: "{searchQuery}"
+                    Search: &quot;{searchQuery}&quot;
                   </Badge>
                 )}
                 {selectedEventTypes.map(type => (

@@ -437,7 +437,7 @@ export default function EventPage({ params }: { params: Promise<{ id: string }> 
           <Card className="p-6 mb-8">
             <h2 className="text-2xl font-semibold mb-4">Add to Calendar</h2>
             <p className="text-muted-foreground mb-4">
-              Save this event to your calendar so you don't miss it!
+              Save this event to your calendar so you don&apos;t miss it!
             </p>
             <div className="flex flex-wrap gap-3">
               <Button variant="outline" size="sm" asChild>
