@@ -1,4 +1,3 @@
-
 'use client';
 
 import { Button } from "@/components/ui/button";
@@ -25,7 +24,7 @@ type EventModalProps = {
 
 const getTimezoneFromLocation = (location: string): string => {
   const locationLower = location.toLowerCase();
-  
+
   if (locationLower.includes('arlington') || locationLower.includes('virginia') || 
       locationLower.includes('va') || locationLower.includes('washington dc') ||
       locationLower.includes('new york') || locationLower.includes('ny') ||
@@ -35,7 +34,7 @@ const getTimezoneFromLocation = (location: string): string => {
       locationLower.includes('south carolina') || locationLower.includes('sc')) {
     return 'America/New_York';
   }
-  
+
   if (locationLower.includes('chicago') || locationLower.includes('illinois') ||
       locationLower.includes('il') || locationLower.includes('texas') ||
       locationLower.includes('tx') || locationLower.includes('minnesota') ||
@@ -44,7 +43,7 @@ const getTimezoneFromLocation = (location: string): string => {
       locationLower.includes('missouri') || locationLower.includes('mo')) {
     return 'America/Chicago';
   }
-  
+
   if (locationLower.includes('denver') || locationLower.includes('colorado') ||
       locationLower.includes('co') || locationLower.includes('utah') ||
       locationLower.includes('ut') || locationLower.includes('arizona') ||
@@ -52,7 +51,7 @@ const getTimezoneFromLocation = (location: string): string => {
       locationLower.includes('nm')) {
     return 'America/Denver';
   }
-  
+
   if (locationLower.includes('california') || locationLower.includes('ca') ||
       locationLower.includes('los angeles') || locationLower.includes('san francisco') ||
       locationLower.includes('seattle') || locationLower.includes('washington') ||
@@ -60,14 +59,14 @@ const getTimezoneFromLocation = (location: string): string => {
       locationLower.includes('or')) {
     return 'America/Los_Angeles';
   }
-  
+
   return 'America/New_York';
 };
 
 const formatEventDateTime = (dateTime: string, location: string): string => {
   const timezone = getTimezoneFromLocation(location);
   const date = new Date(dateTime);
-  
+
   return new Intl.DateTimeFormat('en-US', {
     weekday: 'long',
     month: 'long',
@@ -121,7 +120,7 @@ export function EventModal({ event, isOpen, onClose }: EventModalProps) {
     }
   };
 
-  
+
 
   return (
     <div 
