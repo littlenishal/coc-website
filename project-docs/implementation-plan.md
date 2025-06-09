@@ -442,6 +442,149 @@ Task 2.3.10: Performance Optimization and Testing
 - User dashboard showing registered events
 - Test by registering for an event and verifying confirmation email and dashboard display
 
+**Ticket 2.4 Breakdown**
+
+Task 2.4.1: Event Registration Backend API
+**Description:** Create API endpoints for event registration functionality
+
+**Status:** Pending
+
+**Steps:**
+- Create POST `/api/events/[id]/register` endpoint for user registration
+- Implement capacity checking logic to prevent over-registration
+- Add validation for user authentication and event availability
+- Create GET `/api/events/[id]/registrations` endpoint for viewing registrations (admin only)
+- Implement registration cancellation endpoint DELETE `/api/events/[id]/register`
+- Add proper error handling for duplicate registrations and capacity limits
+- Test with cURL to verify all registration endpoints work correctly
+
+Task 2.4.2: Registration Database Schema Updates
+**Description:** Extend database schema to support event registrations
+
+**Status:** Pending
+
+**Steps:**
+- Create EventRegistration model in Prisma schema
+- Add relationship between User, Event, and EventRegistration models
+- Include registration fields: registrationDate, status, notes
+- Add capacity tracking fields to Event model if not already present
+- Create and run database migrations for new schema
+- Update seed data to include sample registrations for testing
+- Test schema changes with Prisma Studio
+
+Task 2.4.3: Event Registration Form Component
+**Description:** Create frontend registration form for events
+
+**Status:** Pending
+
+**Steps:**
+- Create `EventRegistrationForm.tsx` component
+- Implement form validation for required fields
+- Add capacity display and remaining spots counter
+- Create registration confirmation modal
+- Implement loading states during registration process
+- Add error handling for registration failures
+- Include terms and conditions acceptance checkbox
+- Test form submission and validation logic
+
+Task 2.4.4: Registration Status Management
+**Description:** Implement registration status tracking and management
+
+**Status:** Pending
+
+**Steps:**
+- Create registration status enum (Registered, Waitlisted, Cancelled)
+- Implement waitlist functionality for capacity-full events
+- Add registration confirmation email template
+- Create registration cancellation functionality
+- Implement waitlist promotion when spots become available
+- Add admin interface for managing registrations manually
+- Test various registration scenarios and status transitions
+
+Task 2.4.5: User Registration Dashboard
+**Description:** Create user dashboard to view and manage event registrations
+
+**Status:** Pending
+
+**Steps:**
+- Create `/app/dashboard/registrations/page.tsx` for user dashboard
+- Design layout showing upcoming and past registered events
+- Implement filtering by registration status and event date
+- Add registration cancellation functionality from dashboard
+- Create calendar export feature for registered events
+- Include registration confirmation details and event reminders
+- Test dashboard functionality with multiple registered events
+
+Task 2.4.6: Email Notification System
+**Description:** Implement email notifications for registration events
+
+**Status:** Pending
+
+**Steps:**
+- Set up email service integration (SendGrid, Resend, or similar)
+- Create email templates for registration confirmation
+- Implement reminder emails for upcoming registered events
+- Add cancellation confirmation emails
+- Create waitlist notification emails
+- Implement email preferences and unsubscribe functionality
+- Test email delivery and template rendering
+
+Task 2.4.7: Capacity Management System
+**Description:** Implement robust capacity tracking and management
+
+**Status:** Pending
+
+**Steps:**
+- Add real-time capacity tracking with database constraints
+- Implement race condition handling for simultaneous registrations
+- Create admin interface for adjusting event capacity
+- Add capacity warnings and notifications for event organizers
+- Implement waiting list management with automatic promotion
+- Create capacity analytics and reporting features
+- Test capacity limits with concurrent registration attempts
+
+Task 2.4.8: Registration Integration with Event Details
+**Description:** Integrate registration functionality into existing event components
+
+**Status:** Pending
+
+**Steps:**
+- Update `EventModal.tsx` to include registration button and form
+- Modify event detail pages to show registration status
+- Add registration count display to event cards
+- Update calendar view to show registration status indicators
+- Implement registration-based event filtering
+- Add "My Events" filter option to event calendar
+- Test integration across all event display components
+
+Task 2.4.9: Admin Registration Management
+**Description:** Create admin interface for managing event registrations
+
+**Status:** Pending
+
+**Steps:**
+- Create admin dashboard page for viewing all registrations
+- Implement registration search and filtering capabilities
+- Add bulk actions for registration management
+- Create registration export functionality (CSV, Excel)
+- Implement manual registration addition by admins
+- Add registration analytics and reporting features
+- Test admin functionality with various registration scenarios
+
+Task 2.4.10: Mobile Optimization and Accessibility
+**Description:** Optimize registration system for mobile devices and accessibility
+
+**Status:** Pending
+
+**Steps:**
+- Ensure registration forms work smoothly on mobile devices
+- Implement touch-friendly registration interactions
+- Add proper ARIA labels and roles for screen readers
+- Create keyboard navigation support for registration flows
+- Optimize registration confirmation and dashboard for mobile
+- Test registration process on various devices and browsers
+- Verify accessibility compliance with screen reader testing
+
 ### Ticket 2.5: Photo Gallery - Backend API
 **Description:** Implement backend API for photo management and serving.
 **Acceptance Criteria:**
