@@ -1,4 +1,3 @@
-
 import { NextRequest, NextResponse } from 'next/server';
 import { getSession } from '@auth0/nextjs-auth0';
 import { checkRole } from '@/lib/auth';
@@ -93,16 +92,10 @@ export async function POST(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    // Apply rate limiting (5 registration attempts per minute per IP)
-    const rateLimitResult = await rateLimit.check(request, 5, '60 s');
-    if (!rateLimitResult.success) {
-      return NextResponse.json(
-        { 
-          error: 'Rate limit exceeded',
-          details: 'Too many registration attempts. Please try again later.'
-        },
-        { status: 429 }
-      );
+    // Check rate limit
+    const rateLimitResponse = await checkRateLimit();
+    if (rateLimitResponse) {
+      return rateLimitResponse;
     }
 
     const session = await getSession();
@@ -164,10 +157,10 @@ export async function POST(
 
     const registeredCount = event.registrations.length;
     const spotsRemaining = event.maxAttendees ? event.maxAttendees - registeredCount : null;
-    
+
     // Determine registration status based on capacity
     let registrationStatus: 'REGISTERED' | 'WAITLISTED' = 'REGISTERED';
-    
+
     if (event.maxAttendees && registeredCount >= event.maxAttendees) {
       registrationStatus = 'WAITLISTED';
     }
