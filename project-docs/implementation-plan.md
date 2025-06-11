@@ -444,21 +444,7 @@ Task 2.3.10: Performance Optimization and Testing
 
 **Ticket 2.4 Breakdown**
 
-Task 2.4.1: Event Registration Backend API
-**Description:** Create API endpoints for event registration functionality
-
-**Status:** Pending
-
-**Steps:**
-- Create POST `/api/events/[id]/register` endpoint for user registration
-- Implement capacity checking logic to prevent over-registration
-- Add validation for user authentication and event availability
-- Create GET `/api/events/[id]/registrations` endpoint for viewing registrations (admin only)
-- Implement registration cancellation endpoint DELETE `/api/events/[id]/register`
-- Add proper error handling for duplicate registrations and capacity limits
-- Test with cURL to verify all registration endpoints work correctly
-
-Task 2.4.2: Registration Database Schema Updates
+Task 2.4.1: Registration Database Schema Updates
 **Description:** Extend database schema to support event registrations
 
 **Status:** Pending
@@ -471,6 +457,20 @@ Task 2.4.2: Registration Database Schema Updates
 - Create and run database migrations for new schema
 - Update seed data to include sample registrations for testing
 - Test schema changes with Prisma Studio
+
+Task 2.4.2: Event Registration Backend API
+**Description:** Create API endpoints for event registration functionality
+
+**Status:** Pending
+
+**Steps:**
+- Create POST `/api/events/[id]/register` endpoint for user registration
+- Implement capacity checking logic to prevent over-registration
+- Add validation for user authentication and event availability
+- Create GET `/api/events/[id]/registrations` endpoint for viewing registrations (admin only)
+- Implement registration cancellation endpoint DELETE `/api/events/[id]/register`
+- Add proper error handling for duplicate registrations and capacity limits
+- Test with cURL to verify all registration endpoints work correctly
 
 Task 2.4.3: Event Registration Form Component
 **Description:** Create frontend registration form for events
