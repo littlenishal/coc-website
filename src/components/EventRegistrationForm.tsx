@@ -13,8 +13,8 @@ interface Event {
   id: string;
   title: string;
   description: string;
-  startDate: string;
-  endDate: string;
+  startDateTime: string;
+  endDateTime: string;
   location: string;
   maxAttendees?: number;
   registrations: Array<{
@@ -151,13 +151,13 @@ export default function EventRegistrationForm({ event, onRegistrationComplete }:
         <div className="space-y-2 p-4 bg-gray-50 rounded-lg">
           <div className="flex items-center gap-2 text-sm text-gray-600">
             <Calendar className="h-4 w-4" />
-            <span>{new Date(event.startDate).toLocaleDateString()}</span>
+            <span>{new Date(event.startDateTime).toLocaleDateString()}</span>
           </div>
           <div className="flex items-center gap-2 text-sm text-gray-600">
             <Clock className="h-4 w-4" />
             <span>
-              {new Date(event.startDate).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} - 
-              {new Date(event.endDate).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+              {new Date(event.startDateTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} - 
+              {new Date(event.endDateTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
             </span>
           </div>
           <div className="flex items-center gap-2 text-sm text-gray-600">
