@@ -1,13 +1,110 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { getSession } from '@auth0/nextjs-auth0';
+import { checkRole } from '@/lib/auth';
+import { rateLimit } from '@/lib/rateLimit';
 import prisma from '@/lib/prisma';
 
-export async function POST(
+export async function GET(
   _request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const session = await getSession();
+    if (!session?.user) {
+      return NextResponse.json(
+        { error: 'Unauthorized - Please log in to access this resource' },
+        { status: 401 }
+      );
+    }
+
+    // Check if user has admin or staff role
+    if (!checkRole(session.user, ['ADMIN', 'STAFF'])) {
+      return NextResponse.json(
+        { error: 'Forbidden - Admin or Staff access required' },
+        { status: 403 }
+      );
+    }
+
+    const { id: eventId } = await params;
+
+    // Check if event exists
+    const event = await prisma.event.findUnique({
+      where: { id: eventId },
+      select: { id: true, title: true, maxAttendees: true }
+    });
+
+    if (!event) {
+      return NextResponse.json(
+        { error: 'Event not found' },
+        { status: 404 }
+      );
+    }
+
+    // Get all registrations with user details
+    const registrations = await prisma.eventRegistration.findMany({
+      where: { eventId },
+      include: {
+        user: {
+          select: {
+            id: true,
+            firstName: true,
+            lastName: true,
+            email: true
+          }
+        }
+      },
+      orderBy: { registeredAt: 'asc' }
+    });
+
+    // Calculate statistics
+    const registeredCount = registrations.filter(reg => reg.status === 'REGISTERED').length;
+    const waitlistedCount = registrations.filter(reg => reg.status === 'WAITLISTED').length;
+    const cancelledCount = registrations.filter(reg => reg.status === 'CANCELLED').length;
+    const attendedCount = registrations.filter(reg => reg.status === 'ATTENDED').length;
+
+    return NextResponse.json({
+      event: {
+        id: event.id,
+        title: event.title,
+        maxAttendees: event.maxAttendees
+      },
+      registrations,
+      statistics: {
+        total: registrations.length,
+        registered: registeredCount,
+        waitlisted: waitlistedCount,
+        cancelled: cancelledCount,
+        attended: attendedCount,
+        spotsRemaining: event.maxAttendees ? event.maxAttendees - registeredCount : null
+      }
+    });
+  } catch (error) {
+    console.error('Error fetching event registrations:', error);
+    return NextResponse.json(
+      { error: 'Internal Server Error - Unable to fetch registrations' },
+      { status: 500 }
+    );
+  }
+}
+
+export async function POST(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  try {
+    // Apply rate limiting (5 registration attempts per minute per IP)
+    const rateLimitResult = await rateLimit.check(request, 5, '60 s');
+    if (!rateLimitResult.success) {
+      return NextResponse.json(
+        { 
+          error: 'Rate limit exceeded',
+          details: 'Too many registration attempts. Please try again later.'
+        },
+        { status: 429 }
+      );
+    }
+
     const session = await getSession();
     if (!session?.user) {
       return NextResponse.json(
@@ -42,14 +139,6 @@ export async function POST(
       );
     }
 
-    // Check if event is full
-    if (event.maxAttendees && event.registrations.length >= event.maxAttendees) {
-      return NextResponse.json(
-        { error: 'Event is full' },
-        { status: 400 }
-      );
-    }
-
     // Check if user is already registered
     const existingRegistration = await prisma.eventRegistration.findUnique({
       where: {
@@ -62,9 +151,25 @@ export async function POST(
 
     if (existingRegistration) {
       return NextResponse.json(
-        { error: 'Already registered for this event' },
+        { 
+          error: 'Already registered for this event',
+          details: {
+            currentStatus: existingRegistration.status,
+            registeredAt: existingRegistration.registeredAt
+          }
+        },
         { status: 400 }
       );
+    }
+
+    const registeredCount = event.registrations.length;
+    const spotsRemaining = event.maxAttendees ? event.maxAttendees - registeredCount : null;
+    
+    // Determine registration status based on capacity
+    let registrationStatus: 'REGISTERED' | 'WAITLISTED' = 'REGISTERED';
+    
+    if (event.maxAttendees && registeredCount >= event.maxAttendees) {
+      registrationStatus = 'WAITLISTED';
     }
 
     // Create registration
@@ -72,11 +177,25 @@ export async function POST(
       data: {
         eventId,
         userId: session.user.sub,
-        status: 'REGISTERED'
+        status: registrationStatus
       }
     });
 
-    return NextResponse.json(registration, { status: 201 });
+    // Enhanced response with detailed information
+    const responseData = {
+      registration,
+      eventDetails: {
+        title: event.title,
+        maxAttendees: event.maxAttendees,
+        currentRegistrations: registeredCount + 1,
+        spotsRemaining: spotsRemaining !== null ? Math.max(0, spotsRemaining - 1) : null
+      },
+      message: registrationStatus === 'WAITLISTED' 
+        ? 'Event is full - you have been added to the waitlist'
+        : 'Successfully registered for the event'
+    };
+
+    return NextResponse.json(responseData, { status: 201 });
   } catch (error) {
     console.error('Error registering for event:', error);
     return NextResponse.json(
@@ -101,23 +220,49 @@ export async function DELETE(
 
     const { id: eventId } = await params;
 
-    // Find and delete registration
+    // Find registration
     const registration = await prisma.eventRegistration.findUnique({
       where: {
         eventId_userId: {
           eventId,
           userId: session.user.sub
         }
+      },
+      include: {
+        event: {
+          select: {
+            title: true,
+            maxAttendees: true,
+            registrations: {
+              where: { status: 'REGISTERED' },
+              select: { id: true }
+            }
+          }
+        }
       }
     });
 
     if (!registration) {
       return NextResponse.json(
-        { error: 'Registration not found' },
+        { 
+          error: 'Registration not found',
+          details: 'You are not currently registered for this event'
+        },
         { status: 404 }
       );
     }
 
+    if (registration.status === 'CANCELLED') {
+      return NextResponse.json(
+        { 
+          error: 'Registration already cancelled',
+          details: 'This registration was previously cancelled'
+        },
+        { status: 400 }
+      );
+    }
+
+    // Delete registration
     await prisma.eventRegistration.delete({
       where: {
         eventId_userId: {
@@ -127,7 +272,31 @@ export async function DELETE(
       }
     });
 
-    return new NextResponse(null, { status: 204 });
+    // If this was a registered user and there's a waitlist, promote the next person
+    if (registration.status === 'REGISTERED') {
+      const nextWaitlisted = await prisma.eventRegistration.findFirst({
+        where: {
+          eventId,
+          status: 'WAITLISTED'
+        },
+        orderBy: { registeredAt: 'asc' }
+      });
+
+      if (nextWaitlisted) {
+        await prisma.eventRegistration.update({
+          where: { id: nextWaitlisted.id },
+          data: { status: 'REGISTERED' }
+        });
+      }
+    }
+
+    return NextResponse.json(
+      { 
+        message: 'Successfully unregistered from event',
+        eventTitle: registration.event.title
+      },
+      { status: 200 }
+    );
   } catch (error) {
     console.error('Error unregistering from event:', error);
     return NextResponse.json(
