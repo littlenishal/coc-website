@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getSession } from '@auth0/nextjs-auth0';
 import { checkRole } from '@/lib/auth';
-import { rateLimit } from '@/lib/rateLimit';
+import { checkRateLimit } from '@/lib/rateLimit';
 import prisma from '@/lib/prisma';
 
 export async function GET(
