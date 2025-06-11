@@ -11,6 +11,7 @@ import Image from "next/image";
 import { Calendar, MapPin, Users, Share2, ChevronLeft, MessageCircle, Send } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { generateCalendarLink, downloadICSFile } from "@/lib/calendar";
+import EventRegistrationForm from '@/components/EventRegistrationForm';
 
 type Event = {
   id: string;
@@ -559,6 +560,16 @@ export default function EventPage({ params }: { params: Promise<{ id: string }> 
             </div>
           </Card>
         </div>
+      </div>
+       {/* Registration Section */}
+       <div className="mt-8">
+        <EventRegistrationForm 
+          event={event}
+          onRegistrationComplete={() => {
+            // Refresh the page to update registration status
+            window.location.reload();
+          }}
+        />
       </div>
     </div>
   );
