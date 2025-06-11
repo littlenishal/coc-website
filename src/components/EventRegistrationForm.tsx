@@ -17,7 +17,7 @@ interface Event {
   endDateTime: string;
   location: string;
   maxAttendees?: number;
-  registrations: Array<{
+  registrations?: Array<{
     id: string;
     userId: string;
     status: string;
@@ -38,12 +38,13 @@ export default function EventRegistrationForm({ event, onRegistrationComplete }:
   const [acceptTerms, setAcceptTerms] = useState(false);
 
   // Calculate registration stats
-  const registeredCount = event.registrations?.filter(r => r.status === 'REGISTERED').length || 0;
+  const registrations = event.registrations || [];
+  const registeredCount = registrations.filter(r => r.status === 'REGISTERED').length;
   const spotsRemaining = event.maxAttendees ? event.maxAttendees - registeredCount : null;
   const isCapacityFull = event.maxAttendees ? registeredCount >= event.maxAttendees : false;
   
   // Check if user is already registered
-  const userRegistration = event.registrations?.find(r => r.userId === user?.sub);
+  const userRegistration = registrations.find(r => r.userId === user?.sub);
   const isAlreadyRegistered = !!userRegistration;
 
   const handleRegistration = async () => {
