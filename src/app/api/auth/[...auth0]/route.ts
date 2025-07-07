@@ -10,7 +10,7 @@ export const GET = handleAuth({
     }
   }),
   callback: handleCallback({
-    afterCallback: async (req, session) => {
+    afterCallback: async (req: any, session: any) => {
       if (!session?.user) return session;
 
       const { sub, email, given_name, family_name } = session.user;
