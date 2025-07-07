@@ -31,7 +31,7 @@ export async function GET(request: NextRequest) {
     // Build filter conditions
     const whereClause: {
       eventId?: string;
-      status?: string;
+      status?: 'REGISTERED' | 'WAITLISTED' | 'CANCELLED' | 'ATTENDED';
     } = {};
 
     if (eventId) {
@@ -39,7 +39,11 @@ export async function GET(request: NextRequest) {
     }
 
     if (status && status !== 'all') {
-      whereClause.status = status.toUpperCase();
+      const validStatuses = ['REGISTERED', 'WAITLISTED', 'CANCELLED', 'ATTENDED'];
+      const upperStatus = status.toUpperCase();
+      if (validStatuses.includes(upperStatus)) {
+        whereClause.status = upperStatus as 'REGISTERED' | 'WAITLISTED' | 'CANCELLED' | 'ATTENDED';
+      }
     }
 
     // Get registrations with pagination
