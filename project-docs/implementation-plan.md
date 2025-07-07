@@ -447,7 +447,7 @@ Task 2.3.10: Performance Optimization and Testing
 Task 2.4.1: Registration Database Schema Updates
 **Description:** Extend database schema to support event registrations
 
-**Status:** Pending
+**Status:** Done
 
 **Steps:**
 - Create EventRegistration model in Prisma schema
@@ -461,7 +461,7 @@ Task 2.4.1: Registration Database Schema Updates
 Task 2.4.2: Event Registration Backend API
 **Description:** Create API endpoints for event registration functionality
 
-**Status:** Pending
+**Status:** Done
 
 **Steps:**
 - Create POST `/api/events/[id]/register` endpoint for user registration
@@ -475,7 +475,7 @@ Task 2.4.2: Event Registration Backend API
 Task 2.4.3: Event Registration Form Component
 **Description:** Create frontend registration form for events
 
-**Status:** Pending
+**Status:** Done
 
 **Steps:**
 - Create `EventRegistrationForm.tsx` component
