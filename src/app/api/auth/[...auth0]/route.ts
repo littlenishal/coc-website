@@ -2,7 +2,7 @@ import { handleAuth, handleCallback, handleLogin, handleLogout } from '@auth0/ne
 import prisma from '@/lib/prisma';
 import { NextApiRequest, NextApiResponse } from 'next';
 
-const afterCallback = async (req: NextApiRequest, res: NextApiResponse, session: any) => {
+const afterCallback = async (req: NextApiRequest, res: NextApiResponse, session: { user?: { sub: string; email?: string; given_name?: string; family_name?: string } }) => {
   if (!session?.user) return session;
 
   const { sub, email, given_name, family_name } = session.user;
