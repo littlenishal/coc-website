@@ -114,7 +114,7 @@ export async function POST(
     }
 
     const { id: eventId } = await params;
-    
+
     // Parse request body for registration details
     const body = await request.json();
     const { numberOfGuests = 0, specialRequirements, notes } = body;
