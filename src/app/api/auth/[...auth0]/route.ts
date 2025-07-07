@@ -1,5 +1,5 @@
 
-import { handleAuth, handleCallback, handleLogin, handleLogout } from '@auth0/nextjs-auth0';
+import { handleAuth, handleCallback, handleLogin, handleLogout, AfterCallback } from '@auth0/nextjs-auth0';
 import prisma from '@/lib/prisma';
 
 export const GET = handleAuth({
@@ -10,7 +10,7 @@ export const GET = handleAuth({
     }
   }),
   callback: handleCallback({
-    afterCallback: async (req: any, session: any) => {
+    afterCallback: (async (req, session) => {
       if (!session?.user) return session;
 
       const { sub, email, given_name, family_name } = session.user;
@@ -69,7 +69,7 @@ export const GET = handleAuth({
       }
 
       return session;
-    }
+    }) as AfterCallback
   }),
   logout: handleLogout({
     returnTo: process.env.AUTH0_BASE_URL
