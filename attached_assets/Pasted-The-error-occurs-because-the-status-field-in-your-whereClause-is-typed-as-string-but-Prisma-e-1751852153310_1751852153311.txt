@@ -1,0 +1,105 @@
+The error occurs because the `status` field in your `whereClause` is typed as `string`, but Prisma expects it to be of type `RegistrationStatus` (likely an enum). Here are several ways to fix this:
+
+## Solution 1: Type assertion (Quick fix)
+
+```typescript
+const registrations = await prisma.eventRegistration.findMany({
+  where: whereClause as EventRegistrationWhereInput,
+  include: {
+    // ... rest of your code
+  }
+});
+```
+
+## Solution 2: Properly type the whereClause
+
+```typescript
+import { Prisma, RegistrationStatus } from '@prisma/client';
+
+// Build your where clause with proper typing
+const whereClause: Prisma.EventRegistrationWhereInput = {
+  userId: userId,
+  ...(status && { status: status as RegistrationStatus }),
+  ...(upcoming && {
+    event: {
+      startDateTime: {
+        gte: new Date()
+      }
+    }
+  })
+};
+
+const registrations = await prisma.eventRegistration.findMany({
+  where: whereClause,
+  include: {
+    // ... rest of your code
+  }
+});
+```
+
+## Solution 3: Validate the status value
+
+```typescript
+import { RegistrationStatus } from '@prisma/client';
+
+// Validate that the status is a valid enum value
+const isValidStatus = (status: string): status is RegistrationStatus => {
+  return Object.values(RegistrationStatus).includes(status as RegistrationStatus);
+};
+
+// Build where clause with validation
+const whereClause: any = {
+  userId: userId
+};
+
+if (status && isValidStatus(status)) {
+  whereClause.status = status;
+}
+
+if (upcoming) {
+  whereClause.event = {
+    startDateTime: {
+      gte: new Date()
+    }
+  };
+}
+
+const registrations = await prisma.eventRegistration.findMany({
+  where: whereClause,
+  include: {
+    // ... rest of your code
+  }
+});
+```
+
+## Solution 4: Use Prisma's generated types directly
+
+```typescript
+import { Prisma } from '@prisma/client';
+
+// Assuming you're getting status from query params
+const status = req.nextUrl.searchParams.get('status');
+const upcoming = req.nextUrl.searchParams.get('upcoming');
+
+const registrations = await prisma.eventRegistration.findMany({
+  where: {
+    userId: userId,
+    ...(status && { status: status as Prisma.EnumRegistrationStatusFilter }),
+    ...(upcoming && {
+      event: {
+        startDateTime: {
+          gte: new Date()
+        }
+      }
+    })
+  },
+  include: {
+    // ... rest of your code
+  }
+});
+```
+
+The best solution depends on your use case:
+- Use **Solution 2** if you want type safety throughout
+- Use **Solution 3** if you need runtime validation
+- Use **Solution 1** if you're confident the status values are always valid
