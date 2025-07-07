@@ -43,7 +43,14 @@ export async function GET(
     // Get all registrations with user details
     const registrations = await prisma.eventRegistration.findMany({
       where: { eventId },
-      include: {
+      select: {
+        id: true,
+        status: true,
+        registeredAt: true,
+        updatedAt: true,
+        numberOfGuests: true,
+        specialRequirements: true,
+        notes: true,
         user: {
           select: {
             id: true,
@@ -107,6 +114,18 @@ export async function POST(
     }
 
     const { id: eventId } = await params;
+    
+    // Parse request body for registration details
+    const body = await request.json();
+    const { numberOfGuests = 0, specialRequirements, notes } = body;
+
+    // Validate numberOfGuests
+    if (numberOfGuests < 0 || numberOfGuests > 10) {
+      return NextResponse.json(
+        { error: 'Number of guests must be between 0 and 10' },
+        { status: 400 }
+      );
+    }
 
     // Check if event exists and has capacity
     const event = await prisma.event.findUnique({
@@ -170,7 +189,10 @@ export async function POST(
       data: {
         eventId,
         userId: session.user.sub,
-        status: registrationStatus
+        status: registrationStatus,
+        numberOfGuests,
+        specialRequirements: specialRequirements || null,
+        notes: notes || null
       }
     });
 
