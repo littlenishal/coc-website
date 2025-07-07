@@ -1,4 +1,3 @@
-
 import { NextRequest, NextResponse } from 'next/server';
 import { getSession } from '@auth0/nextjs-auth0';
 import { checkRole } from '@/lib/auth';
@@ -78,7 +77,7 @@ export async function GET(request: NextRequest) {
         pages: Math.ceil(totalCount / limit)
       }
     });
-  } catch (error) {
+  } catch (error: unknown) {
     console.error('Error fetching admin registrations:', error);
     return NextResponse.json(
       { error: 'Internal Server Error' },
@@ -155,7 +154,7 @@ export async function PATCH(request: NextRequest) {
       message: `Successfully ${action === 'delete' ? 'deleted' : 'updated'} ${result.count} registrations`,
       affectedCount: result.count
     });
-  } catch (error) {
+  } catch (error: unknown) {
     console.error('Error in bulk registration operation:', error);
     return NextResponse.json(
       { error: 'Internal Server Error' },

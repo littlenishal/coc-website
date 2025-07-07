@@ -1,4 +1,3 @@
-
 import { handleAuth, handleCallback, handleLogin, handleLogout } from '@auth0/nextjs-auth0';
 import prisma from '@/lib/prisma';
 import { NextRequest } from 'next/server';

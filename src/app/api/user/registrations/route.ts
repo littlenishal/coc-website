@@ -1,4 +1,3 @@
-
 import { NextRequest, NextResponse } from 'next/server';
 import { getSession } from '@auth0/nextjs-auth0';
 import prisma from '@/lib/prisma';
@@ -63,7 +62,7 @@ export async function GET(request: NextRequest) {
       registrations,
       count: registrations.length
     });
-  } catch (error) {
+  } catch (error: unknown) {
     console.error('Error fetching user registrations:', error);
     return NextResponse.json(
       { error: 'Internal Server Error' },
