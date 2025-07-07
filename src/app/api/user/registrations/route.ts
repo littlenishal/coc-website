@@ -1,45 +1,32 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getSession } from '@auth0/nextjs-auth0';
+import { Prisma, RegistrationStatus } from '@prisma/client';
 import prisma from '@/lib/prisma';
 
-export async function GET(request: NextRequest) {
+export async function GET(req: NextRequest) {
   try {
     const session = await getSession();
     if (!session?.user) {
-      return NextResponse.json(
-        { error: 'Unauthorized' },
-        { status: 401 }
-      );
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const { searchParams } = new URL(request.url);
+    const userId = session.user.sub;
+    const { searchParams } = new URL(req.url);
     const status = searchParams.get('status');
     const upcoming = searchParams.get('upcoming') === 'true';
 
-    // Build filter conditions
-    const whereClause: {
-      userId: string;
-      status?: string;
-      event?: {
-        startDateTime: {
-          gte: Date;
-        };
-      };
-    } = {
-      userId: session.user.sub
-    };
-
-    if (status && status !== 'all') {
-      whereClause.status = status.toUpperCase();
-    }
-
-    if (upcoming) {
-      whereClause.event = {
-        startDateTime: {
-          gte: new Date()
+    // Build where clause with proper typing
+    const whereClause: Prisma.EventRegistrationWhereInput = {
+      userId: userId,
+      ...(status && { status: status as RegistrationStatus }),
+      ...(upcoming && {
+        event: {
+          startDateTime: {
+            gte: new Date()
+          }
         }
-      };
-    }
+      })
+    };
 
     // Get user's registrations with event details
     const registrations = await prisma.eventRegistration.findMany({
