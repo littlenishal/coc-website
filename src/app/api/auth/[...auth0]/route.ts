@@ -1,5 +1,5 @@
 
-import { handleAuth, handleCallback, handleLogin, handleLogout, AfterCallback, AfterCallbackAppRoute } from '@auth0/nextjs-auth0';
+import { handleAuth, handleCallback, handleLogin, handleLogout, AfterCallbackAppRoute } from '@auth0/nextjs-auth0';
 import prisma from '@/lib/prisma';
 
 const afterCallback: AfterCallbackAppRoute = async (req, session) => {
