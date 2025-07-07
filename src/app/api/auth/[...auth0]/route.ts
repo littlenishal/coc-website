@@ -1,8 +1,8 @@
 import { handleAuth, handleCallback, handleLogin, handleLogout } from '@auth0/nextjs-auth0';
 import prisma from '@/lib/prisma';
-import { NextRequest } from 'next/server';
+import { NextApiRequest, NextApiResponse } from 'next';
 
-const afterCallback = async (req: NextRequest, session: { user?: { sub: string; email?: string; given_name?: string; family_name?: string } }) => {
+const afterCallback = async (req: NextApiRequest, res: NextApiResponse, session: any) => {
   if (!session?.user) return session;
 
   const { sub, email, given_name, family_name } = session.user;
