@@ -153,7 +153,7 @@ export default function EventPage({ params }: { params: Promise<{ id: string }> 
     } finally {
       setIsLoading(false);
     }
-  }, [user]);
+  }, []);
 
   useEffect(() => {
     async function resolveParams() {

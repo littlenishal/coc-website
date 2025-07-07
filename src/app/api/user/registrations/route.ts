@@ -17,7 +17,15 @@ export async function GET(request: NextRequest) {
     const upcoming = searchParams.get('upcoming') === 'true';
 
     // Build filter conditions
-    const whereClause: any = {
+    const whereClause: {
+      userId: string;
+      status?: string;
+      event?: {
+        startDateTime: {
+          gte: Date;
+        };
+      };
+    } = {
       userId: session.user.sub
     };
 

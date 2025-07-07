@@ -29,7 +29,10 @@ export async function GET(request: NextRequest) {
     const skip = (page - 1) * limit;
 
     // Build filter conditions
-    const whereClause: any = {};
+    const whereClause: {
+      eventId?: string;
+      status?: string;
+    } = {};
 
     if (eventId) {
       whereClause.eventId = eventId;
