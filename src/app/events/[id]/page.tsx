@@ -133,11 +133,9 @@ export default function EventPage({ params }: { params: Promise<{ id: string }> 
   const [event, setEvent] = useState<Event | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [isRegistered, setIsRegistered] = useState(false);
-  const [isRegistering, setIsRegistering] = useState(false);
   const [newComment, setNewComment] = useState('');
   const [isSubmittingComment, setIsSubmittingComment] = useState(false);
-  const { user, isLoading: userLoading } = useUser();
+  const { user } = useUser();
 
   const fetchEvent = useCallback(async (eventId: string) => {
     try {
@@ -148,20 +146,14 @@ export default function EventPage({ params }: { params: Promise<{ id: string }> 
       const eventData = await response.json();
       setEvent(eventData);
 
-      // Check if user is registered
-      if (user && eventData.registrations) {
-        const userRegistration = eventData.registrations.find(
-          (reg: { userId: string; status: string }) => reg.userId === user.sub && reg.status === 'REGISTERED'
-        );
-        setIsRegistered(!!userRegistration);
-      }
+      
     } catch (error) {
       console.error('Error fetching event:', error);
       setError('Failed to load event');
     } finally {
       setIsLoading(false);
     }
-  }, [user]);
+  }, []);
 
   useEffect(() => {
     async function resolveParams() {
@@ -171,54 +163,7 @@ export default function EventPage({ params }: { params: Promise<{ id: string }> 
     resolveParams();
   }, [params, fetchEvent]);
 
-  const handleRegister = async () => {
-    if (!user || !event) return;
-
-    setIsRegistering(true);
-    try {
-      const response = await fetch(`/api/events/${event.id}/register`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-
-      if (response.ok) {
-        setIsRegistered(true);
-        // Refresh event data to get updated registration count
-        await fetchEvent(event.id);
-      } else {
-        console.error('Registration failed');
-      }
-    } catch (error) {
-      console.error('Error registering for event:', error);
-    } finally {
-      setIsRegistering(false);
-    }
-  };
-
-  const handleUnregister = async () => {
-    if (!user || !event) return;
-
-    setIsRegistering(true);
-    try {
-      const response = await fetch(`/api/events/${event.id}/register`, {
-        method: 'DELETE',
-      });
-
-      if (response.ok) {
-        setIsRegistered(false);
-        // Refresh event data to get updated registration count
-        await fetchEvent(event.id);
-      } else {
-        console.error('Unregistration failed');
-      }
-    } catch (error) {
-      console.error('Error unregistering from event:', error);
-    } finally {
-      setIsRegistering(false);
-    }
-  };
+  
 
   const handleCommentSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -369,43 +314,13 @@ export default function EventPage({ params }: { params: Promise<{ id: string }> 
 
               {/* Registration Section */}
               <div className="flex flex-col justify-center">
-                {!userLoading && user ? (
-                  <div className="space-y-3">
-                    {isRegistered ? (
-                      <>
-                        <div className="text-green-600 font-medium flex items-center gap-2">
-                          <div className="w-2 h-2 bg-green-600 rounded-full"></div>
-                          You&apos;re registered for this event
-                        </div>
-                        <Button
-                          variant="outline"
-                          onClick={handleUnregister}
-                          disabled={isRegistering}
-                          className="w-full"
-                        >
-                          {isRegistering ? 'Processing...' : 'Unregister'}
-                        </Button>
-                      </>
-                    ) : (
-                      <Button
-                        onClick={handleRegister}
-                        disabled={isRegistering || (spotsLeft !== null && spotsLeft <= 0)}
-                        className="w-full"
-                        size="lg"
-                      >
-                        {isRegistering ? 'Registering...' : 
-                         spotsLeft !== null && spotsLeft <= 0 ? 'Event Full' : 'Register for Event'}
-                      </Button>
-                    )}
-                  </div>
-                ) : (
-                  <div className="space-y-3">
-                    <p className="text-muted-foreground text-sm">Sign in to register for this event</p>
-                    <Button asChild className="w-full" size="lg">
-                      <Link href="/api/auth/login">Sign In to Register</Link>
-                    </Button>
-                  </div>
-                )}
+                <EventRegistrationForm 
+                  event={event}
+                  onRegistrationComplete={() => {
+                    // Refresh event data to update registration status
+                    fetchEvent(event.id);
+                  }}
+                />
               </div>
             </div>
           </div>
@@ -561,16 +476,7 @@ export default function EventPage({ params }: { params: Promise<{ id: string }> 
           </Card>
         </div>
       </div>
-       {/* Registration Section */}
-       <div className="mt-8">
-        <EventRegistrationForm 
-          event={event}
-          onRegistrationComplete={() => {
-            // Refresh the page to update registration status
-            window.location.reload();
-          }}
-        />
-      </div>
+       
     </div>
   );
 }

@@ -1,0 +1,56 @@
+[21:05:00.277] Running build in Washington, D.C., USA (East) – iad1
+[21:05:00.278] Build machine configuration: 2 cores, 8 GB
+[21:05:00.291] Cloning github.com/littlenishal/coc-website (Branch: registration-form, Commit: 859ebcf)
+[21:05:00.686] Cloning completed: 395.000ms
+[21:05:03.071] Restored build cache from previous deployment (3HdgisLKMBKZYnkwG539FHHo8uhX)
+[21:05:03.579] Running "vercel build"
+[21:05:04.021] Vercel CLI 44.2.10
+[21:05:04.344] Installing dependencies...
+[21:05:05.773] 
+[21:05:05.774] up to date in 1s
+[21:05:05.775] 
+[21:05:05.775] 151 packages are looking for funding
+[21:05:05.775]   run `npm fund` for details
+[21:05:05.807] Detected Next.js version: 15.3.1
+[21:05:05.811] Running "npm run build"
+[21:05:05.922] 
+[21:05:05.923] > coc-website@0.1.0 build
+[21:05:05.923] > prisma generate && next build
+[21:05:05.923] 
+[21:05:06.513] Prisma schema loaded from prisma/schema.prisma
+[21:05:06.606] Warning: You did not specify an output path for your `generator` in schema.prisma. This behavior is deprecated and will no longer be supported in Prisma 7.0.0. To learn more visit https://pris.ly/cli/output-path
+[21:05:06.853] 
+[21:05:06.854] ✔ Generated Prisma Client (v6.7.0) to ./node_modules/@prisma/client in 200ms
+[21:05:06.854] 
+[21:05:06.854] Start by importing your Prisma Client (See: https://pris.ly/d/importing-client)
+[21:05:06.854] 
+[21:05:06.855] Help us improve the Prisma ORM for everyone. Share your feedback in a short 2-min survey: https://pris.ly/orm/survey/release-5-22
+[21:05:06.855] 
+[21:05:07.781]    ▲ Next.js 15.3.1
+[21:05:07.781] 
+[21:05:07.847]    Creating an optimized production build ...
+[21:05:22.024]  ✓ Compiled successfully in 13.0s
+[21:05:22.029]    Linting and checking validity of types ...
+[21:05:27.987] 
+[21:05:27.987] Failed to compile.
+[21:05:27.988] 
+[21:05:27.988] ./src/app/api/admin/registrations/route.ts
+[21:05:27.988] 33:24  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+[21:05:27.988] 
+[21:05:27.988] ./src/app/api/auth/[...auth0]/route.ts
+[21:05:27.989] 6:57  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+[21:05:27.989] 
+[21:05:27.989] ./src/app/api/user/registrations/route.ts
+[21:05:27.989] 21:24  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+[21:05:27.989] 
+[21:05:27.989] ./src/app/events/[id]/page.tsx
+[21:05:27.989] 136:10  Error: 'isRegistered' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+[21:05:27.989] 137:10  Error: 'isRegistering' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+[21:05:27.989] 140:28  Error: 'userLoading' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+[21:05:27.989] 174:9  Error: 'handleRegister' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+[21:05:27.989] 200:9  Error: 'handleUnregister' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+[21:05:27.989] 
+[21:05:27.990] info  - Need to disable some ESLint rules? Learn more here: https://nextjs.org/docs/app/api-reference/config/eslint#disabling-rules
+[21:05:28.048] Error: Command "npm run build" exited with 1
+[21:05:28.282] 
+[21:05:31.526] Exiting build container

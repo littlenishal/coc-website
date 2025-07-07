@@ -3,11 +3,12 @@
 
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { useUser } from '@auth0/nextjs-auth0/client';
-import { Calendar, Clock, MapPin, Users, AlertCircle, CheckCircle2 } from 'lucide-react';
+import { Calendar, Clock, MapPin, Users, AlertCircle, CheckCircle2, UserPlus } from 'lucide-react';
 
 interface Event {
   id: string;
@@ -16,11 +17,14 @@ interface Event {
   startDateTime: string;
   endDateTime: string;
   location: string;
-  maxAttendees?: number;
+  maxCapacity?: number;
   registrations?: Array<{
     id: string;
     userId: string;
     status: string;
+    numberOfGuests?: number;
+    specialRequirements?: string;
+    notes?: string;
   }>;
 }
 
@@ -29,23 +33,82 @@ interface EventRegistrationFormProps {
   onRegistrationComplete?: () => void;
 }
 
+interface FormData {
+  numberOfGuests: number;
+  specialRequirements: string;
+  notes: string;
+  acceptTerms: boolean;
+}
+
+interface FormErrors {
+  numberOfGuests?: string;
+  specialRequirements?: string;
+  notes?: string;
+  acceptTerms?: string;
+}
+
 export default function EventRegistrationForm({ event, onRegistrationComplete }: EventRegistrationFormProps) {
   const { user, isLoading: userLoading } = useUser();
   const [isRegistering, setIsRegistering] = useState(false);
   const [registrationStatus, setRegistrationStatus] = useState<'idle' | 'success' | 'error'>('idle');
   const [errorMessage, setErrorMessage] = useState('');
-  const [notes, setNotes] = useState('');
-  const [acceptTerms, setAcceptTerms] = useState(false);
+  
+  // Form state
+  const [formData, setFormData] = useState<FormData>({
+    numberOfGuests: 1,
+    specialRequirements: '',
+    notes: '',
+    acceptTerms: false
+  });
+  
+  const [formErrors, setFormErrors] = useState<FormErrors>({});
 
   // Calculate registration stats
   const registrations = event.registrations || [];
   const registeredCount = registrations.filter(r => r.status === 'REGISTERED').length;
-  const spotsRemaining = event.maxAttendees ? event.maxAttendees - registeredCount : null;
-  const isCapacityFull = event.maxAttendees ? registeredCount >= event.maxAttendees : false;
+  const spotsRemaining = event.maxCapacity ? event.maxCapacity - registeredCount : null;
+  const isCapacityFull = event.maxCapacity ? registeredCount >= event.maxCapacity : false;
   
   // Check if user is already registered
   const userRegistration = registrations.find(r => r.userId === user?.sub);
   const isAlreadyRegistered = !!userRegistration;
+
+  // Form validation
+  const validateForm = (): boolean => {
+    const errors: FormErrors = {};
+
+    if (formData.numberOfGuests < 1) {
+      errors.numberOfGuests = 'Number of guests must be at least 1';
+    }
+
+    if (formData.numberOfGuests > 10) {
+      errors.numberOfGuests = 'Maximum 10 guests allowed per registration';
+    }
+
+    if (formData.specialRequirements.length > 500) {
+      errors.specialRequirements = 'Special requirements must be 500 characters or less';
+    }
+
+    if (formData.notes.length > 1000) {
+      errors.notes = 'Notes must be 1000 characters or less';
+    }
+
+    if (!formData.acceptTerms) {
+      errors.acceptTerms = 'You must accept the terms and conditions to register';
+    }
+
+    setFormErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
+
+  const handleInputChange = (field: keyof FormData, value: string | number | boolean) => {
+    setFormData(prev => ({ ...prev, [field]: value }));
+    
+    // Clear specific error when user starts typing
+    if (formErrors[field as keyof FormErrors]) {
+      setFormErrors(prev => ({ ...prev, [field]: undefined }));
+    }
+  };
 
   const handleRegistration = async () => {
     if (!user) {
@@ -53,8 +116,8 @@ export default function EventRegistrationForm({ event, onRegistrationComplete }:
       return;
     }
 
-    if (!acceptTerms) {
-      setErrorMessage('Please accept the terms and conditions to register.');
+    if (!validateForm()) {
+      setErrorMessage('Please fix the errors below and try again.');
       return;
     }
 
@@ -67,7 +130,11 @@ export default function EventRegistrationForm({ event, onRegistrationComplete }:
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ notes }),
+        body: JSON.stringify({
+          numberOfGuests: formData.numberOfGuests,
+          specialRequirements: formData.specialRequirements.trim() || null,
+          notes: formData.notes.trim() || null
+        }),
       });
 
       const data = await response.json();
@@ -130,6 +197,16 @@ export default function EventRegistrationForm({ event, onRegistrationComplete }:
                 : 'You have been registered for this event. A confirmation email will be sent to you shortly.'
               }
             </p>
+            <Button
+              variant="outline"
+              onClick={() => {
+                setRegistrationStatus('idle');
+                onRegistrationComplete?.();
+              }}
+              className="mt-4"
+            >
+              Continue
+            </Button>
           </div>
         </CardContent>
       </Card>
@@ -137,7 +214,7 @@ export default function EventRegistrationForm({ event, onRegistrationComplete }:
   }
 
   return (
-    <Card className="w-full max-w-md mx-auto">
+    <Card className="w-full max-w-lg mx-auto">
       <CardHeader>
         <CardTitle className="text-xl">
           {isAlreadyRegistered ? 'Manage Registration' : 'Event Registration'}
@@ -165,11 +242,11 @@ export default function EventRegistrationForm({ event, onRegistrationComplete }:
             <MapPin className="h-4 w-4" />
             <span>{event.location}</span>
           </div>
-          {event.maxAttendees && (
+          {event.maxCapacity && (
             <div className="flex items-center gap-2 text-sm text-gray-600">
               <Users className="h-4 w-4" />
               <span>
-                {registeredCount} / {event.maxAttendees} registered
+                {registeredCount} / {event.maxCapacity} registered
                 {spotsRemaining !== null && spotsRemaining > 0 && (
                   <Badge variant="outline" className="ml-2">
                     {spotsRemaining} spots left
@@ -191,20 +268,31 @@ export default function EventRegistrationForm({ event, onRegistrationComplete }:
         )}
 
         {/* Registration Status */}
-        {isAlreadyRegistered && (
+        {isAlreadyRegistered && userRegistration && (
           <div className="p-3 bg-green-50 border border-green-200 rounded-lg">
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 mb-2">
               <CheckCircle2 className="h-4 w-4 text-green-600" />
               <span className="text-sm text-green-800 font-medium">
                 You are registered for this event
-                {userRegistration?.status === 'WAITLISTED' && ' (Waitlisted)'}
+                {userRegistration.status === 'WAITLISTED' && ' (Waitlisted)'}
               </span>
+            </div>
+            <div className="text-xs text-green-700 space-y-1">
+              {userRegistration.numberOfGuests && userRegistration.numberOfGuests > 1 && (
+                <div>Guests: {userRegistration.numberOfGuests}</div>
+              )}
+              {userRegistration.specialRequirements && (
+                <div>Special Requirements: {userRegistration.specialRequirements}</div>
+              )}
+              {userRegistration.notes && (
+                <div>Notes: {userRegistration.notes}</div>
+              )}
             </div>
           </div>
         )}
 
         {/* Error Message */}
-        {registrationStatus === 'error' && errorMessage && (
+        {(registrationStatus === 'error' || errorMessage) && (
           <div className="p-3 bg-red-50 border border-red-200 rounded-lg">
             <div className="flex items-center gap-2">
               <AlertCircle className="h-4 w-4 text-red-600" />
@@ -216,38 +304,98 @@ export default function EventRegistrationForm({ event, onRegistrationComplete }:
         {/* Registration Form */}
         {!isAlreadyRegistered && (
           <>
-            {/* Notes Field */}
+            {/* Number of Guests */}
+            <div className="space-y-2">
+              <label htmlFor="numberOfGuests" className="text-sm font-medium text-gray-700 flex items-center gap-2">
+                <UserPlus className="h-4 w-4" />
+                Number of Guests (including yourself)
+              </label>
+              <Input
+                id="numberOfGuests"
+                type="number"
+                min="1"
+                max="10"
+                value={formData.numberOfGuests}
+                onChange={(e) => handleInputChange('numberOfGuests', parseInt(e.target.value) || 1)}
+                className={formErrors.numberOfGuests ? 'border-red-500' : ''}
+              />
+              {formErrors.numberOfGuests && (
+                <p className="text-sm text-red-600">{formErrors.numberOfGuests}</p>
+              )}
+            </div>
+
+            {/* Special Requirements */}
+            <div className="space-y-2">
+              <label htmlFor="specialRequirements" className="text-sm font-medium text-gray-700">
+                Special Requirements
+              </label>
+              <Textarea
+                id="specialRequirements"
+                placeholder="Dietary restrictions, accessibility needs, etc."
+                value={formData.specialRequirements}
+                onChange={(e) => handleInputChange('specialRequirements', e.target.value)}
+                rows={2}
+                maxLength={500}
+                className={formErrors.specialRequirements ? 'border-red-500' : ''}
+              />
+              <div className="flex justify-between items-center">
+                {formErrors.specialRequirements && (
+                  <p className="text-sm text-red-600">{formErrors.specialRequirements}</p>
+                )}
+                <p className="text-xs text-gray-500 ml-auto">
+                  {formData.specialRequirements.length}/500 characters
+                </p>
+              </div>
+            </div>
+
+            {/* Notes */}
             <div className="space-y-2">
               <label htmlFor="notes" className="text-sm font-medium text-gray-700">
                 Additional Notes (Optional)
               </label>
               <Textarea
                 id="notes"
-                placeholder="Any dietary restrictions or special requirements?"
-                value={notes}
-                onChange={(e) => setNotes(e.target.value)}
+                placeholder="Any additional information you'd like to share..."
+                value={formData.notes}
+                onChange={(e) => handleInputChange('notes', e.target.value)}
                 rows={3}
+                maxLength={1000}
+                className={formErrors.notes ? 'border-red-500' : ''}
               />
+              <div className="flex justify-between items-center">
+                {formErrors.notes && (
+                  <p className="text-sm text-red-600">{formErrors.notes}</p>
+                )}
+                <p className="text-xs text-gray-500 ml-auto">
+                  {formData.notes.length}/1000 characters
+                </p>
+              </div>
             </div>
 
             {/* Terms and Conditions */}
-            <div className="flex items-start gap-2">
-              <input
-                type="checkbox"
-                id="acceptTerms"
-                checked={acceptTerms}
-                onChange={(e) => setAcceptTerms(e.target.checked)}
-                className="mt-1"
-              />
-              <label htmlFor="acceptTerms" className="text-sm text-gray-600">
-                I accept the terms and conditions and understand that I may be contacted regarding this event.
-              </label>
+            <div className="space-y-2">
+              <div className="flex items-start gap-2">
+                <input
+                  type="checkbox"
+                  id="acceptTerms"
+                  checked={formData.acceptTerms}
+                  onChange={(e) => handleInputChange('acceptTerms', e.target.checked)}
+                  className="mt-1"
+                />
+                <label htmlFor="acceptTerms" className="text-sm text-gray-600">
+                  I accept the terms and conditions and understand that I may be contacted regarding this event. 
+                  I acknowledge that registration is subject to event capacity and may result in waitlist placement if the event is full.
+                </label>
+              </div>
+              {formErrors.acceptTerms && (
+                <p className="text-sm text-red-600">{formErrors.acceptTerms}</p>
+              )}
             </div>
           </>
         )}
 
         {/* Action Buttons */}
-        <div className="space-y-2">
+        <div className="space-y-2 pt-4">
           {!userLoading && !user && (
             <Button onClick={() => window.location.href = '/api/auth/login'} className="w-full">
               Sign In to Register
@@ -257,7 +405,7 @@ export default function EventRegistrationForm({ event, onRegistrationComplete }:
           {user && !isAlreadyRegistered && (
             <Button
               onClick={handleRegistration}
-              disabled={isRegistering || !acceptTerms}
+              disabled={isRegistering}
               className="w-full"
             >
               {isRegistering 
