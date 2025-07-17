@@ -1,15 +1,14 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
-import { useUser } from '@auth0/nextjs-auth0/client';
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
-import { Textarea } from "@/components/ui/textarea";
 import Link from "next/link";
 import Image from "next/image";
-import { Calendar, MapPin, Users, Share2, ChevronLeft, MessageCircle, Send } from "lucide-react";
+import { Calendar, MapPin, Users, Share2, ChevronLeft } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { generateCalendarLink, downloadICSFile } from "@/lib/calendar";
 
 type Event = {
   id: string;
