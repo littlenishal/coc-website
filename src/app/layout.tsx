@@ -1,43 +1,42 @@
-
 import type { Metadata } from "next";
 import { Geist } from "next/font/google";
-import { UserProvider } from '@auth0/nextjs-auth0/client';
+import "./globals.css";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
-import "./globals.css";
+import { UserProvider } from '@auth0/nextjs-auth0/client';
 
-const geist = Geist({
+const geistSans = Geist({
+  variable: "--font-geist-sans",
   subsets: ["latin"],
 });
 
 export const metadata: Metadata = {
-  title: {
-    default: "Captains of Commerce",
-    template: "%s | Captains of Commerce"
-  },
-  description: "Providing compassionate and comprehensive support to individuals and families in need within Arlington County and the greater Northern Virginia area.",
-  keywords: ["charity", "nonprofit", "community service", "Arlington", "Virginia", "donations", "volunteering"],
-  authors: [{ name: "Captains of Commerce" }],
-  creator: "Captains of Commerce",
-  metadataBase: new URL('https://captainsofcommerce.org'),
+  title: "Captains of Commerce Arlington | Northern Virginia Community Support & Events",
+  description: "Join Captains of Commerce Arlington for community events, fundraisers, and networking opportunities. Supporting families in need across Arlington County and Northern Virginia.",
+  keywords: "Arlington community events, Northern Virginia fundraisers, community support, networking events, Arlington County, Virginia nonprofit",
+  authors: [{ name: "Captains of Commerce Arlington" }],
+  creator: "Captains of Commerce Arlington",
+  publisher: "Captains of Commerce Arlington",
   openGraph: {
-    type: 'website',
-    locale: 'en_US',
-    title: 'Captains of Commerce',
-    description: 'Supporting the Arlington County community through charitable initiatives and volunteer work.',
-    siteName: 'Captains of Commerce',
-    images: ['/hero-background.jpg'],
+    title: "Captains of Commerce Arlington | Community Support & Events",
+    description: "Join our community events and support local families in Arlington County and Northern Virginia.",
+    type: "website",
+    locale: "en_US",
+    siteName: "Captains of Commerce Arlington",
   },
   twitter: {
-    card: 'summary_large_image',
-    title: 'Captains of Commerce',
-    description: 'Supporting the Arlington County community through charitable initiatives and volunteer work.',
-    images: ['/hero-background.jpg'],
+    card: "summary_large_image",
+    title: "Captains of Commerce Arlington | Community Support & Events",
+    description: "Join our community events and support local families in Arlington County and Northern Virginia.",
   },
   robots: {
     index: true,
     follow: true,
-  }
+    googleBot: {
+      index: true,
+      follow: true,
+    },
+  },
 };
 
 export default function RootLayout({
@@ -47,7 +46,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="h-full" suppressHydrationWarning>
-      <body className={`${geist.className} flex min-h-full flex-col antialiased`} suppressHydrationWarning>
+      <body className={`${geistSans.className} flex min-h-full flex-col antialiased`} suppressHydrationWarning>
         <UserProvider>
           <Header />
           <main className="flex-1">
