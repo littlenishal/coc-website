@@ -1,99 +1,39 @@
+import { Metadata } from 'next';
+import { EventList } from '@/components/EventList';
 
-'use client';
-
-import { useEffect, useState } from 'react';
-import Link from 'next/link';
-import { formatDate } from '@/lib/utils';
-
-type Event = {
-  id: string;
-  title: string;
-  description: string;
-  startDateTime: string;
-  endDateTime: string;
-  location: string;
-  eventType: string;
-  isPublished: boolean;
-}
+export const metadata: Metadata = {
+  title: 'Events | Captains of Commerce Arlington',
+  description: 'Join us for community events, fundraisers, and networking opportunities in Arlington County and Northern Virginia.',
+  keywords: 'Arlington events, Northern Virginia community events, fundraisers, networking, Arlington County events',
+  openGraph: {
+    title: 'Events | Captains of Commerce Arlington',
+    description: 'Join us for community events, fundraisers, and networking opportunities in Arlington County and Northern Virginia.',
+    type: 'website',
+  },
+};
 
 export default function EventsPage() {
-  const [events, setEvents] = useState<Event[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    async function fetchEvents() {
-      try {
-        const response = await fetch('/api/events');
-        const data = await response.json();
-        const publishedEvents = data
-          .filter((event: Event) => event.isPublished)
-          .sort((a: Event, b: Event) => 
-            new Date(a.startDateTime).getTime() - new Date(b.startDateTime).getTime()
-          );
-        setEvents(publishedEvents);
-      } catch (error) {
-        console.error('Error fetching events:', error);
-      } finally {
-        setIsLoading(false);
-      }
-    }
-
-    fetchEvents();
-  }, []);
-
-  if (isLoading) {
-    return (
-      <div className="container mx-auto px-4 py-8">
-        <h1 className="text-4xl font-bold mb-8">Events</h1>
-        <div className="grid gap-6">
-          {[...Array(6)].map((_, i) => (
-            <div key={i} className="h-48 bg-muted animate-pulse rounded-lg" />
-          ))}
-        </div>
-      </div>
-    );
-  }
-
   return (
-    <div className="container mx-auto px-4 py-8">
-      <h1 className="text-4xl font-bold mb-8">Events</h1>
-      
-      {events.length === 0 ? (
-        <div className="text-center py-12">
-          <p className="text-xl text-muted-foreground">No events available at this time.</p>
+    <main className="min-h-screen bg-background">
+      {/* Page Header */}
+      <section className="bg-muted/50 py-12">
+        <div className="container mx-auto px-4">
+          <div className="text-center max-w-3xl mx-auto">
+            <h1 className="text-4xl font-bold mb-4">
+              Community Events
+            </h1>
+            <p className="text-lg text-muted-foreground">
+              Join us for upcoming events that bring our community together. 
+              From fundraisers to networking opportunities, there&apos;s something for everyone.
+            </p>
+          </div>
         </div>
-      ) : (
-        <div className="grid gap-6">
-          {events.map((event) => (
-            <Link key={event.id} href={`/events/${event.id}`}>
-              <div className="border rounded-lg p-6 hover:shadow-lg transition-shadow cursor-pointer">
-                <div className="flex flex-col md:flex-row md:items-center md:justify-between">
-                  <div className="flex-1">
-                    <div className="flex items-center gap-4 mb-2">
-                      <span className="text-sm text-muted-foreground">
-                        {formatDate(new Date(event.startDateTime))}
-                      </span>
-                      <span className="px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded-full">
-                        {event.eventType}
-                      </span>
-                    </div>
-                    <h2 className="text-2xl font-semibold mb-2">{event.title}</h2>
-                    <p className="text-muted-foreground mb-4 line-clamp-2">{event.description}</p>
-                    <p className="text-sm text-muted-foreground">
-                      📍 {event.location}
-                    </p>
-                  </div>
-                  <div className="mt-4 md:mt-0 md:ml-6">
-                    <div className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg font-semibold transition-colors">
-                      Learn More
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </Link>
-          ))}
-        </div>
-      )}
-    </div>
+      </section>
+
+      {/* Events List */}
+      <section>
+        <EventList />
+      </section>
+    </main>
   );
 }

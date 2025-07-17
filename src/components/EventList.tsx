@@ -1,10 +1,15 @@
+
 'use client';
 
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { Card } from '@/components/ui/card';
+import { Calendar, MapPin, Users } from 'lucide-react';
+import { formatDate } from '@/lib/utils';
 
-interface Event {
+type Event = {
   id: string;
   title: string;
   description: string;
@@ -13,103 +18,142 @@ interface Event {
   location: string;
   eventType: string;
   isPublished: boolean;
-}
-
-interface EventListProps {
-  events: Event[];
-}
-
-export function EventList({ events }: EventListProps) {
-  const formatDate = (dateString: string) => {
-    const date = new Date(dateString);
-    return date.toLocaleDateString('en-US', {
-      weekday: 'long',
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-    });
+  creator?: {
+    id: string;
+    firstName: string;
+    lastName: string;
   };
+};
 
-  const formatTime = (dateString: string) => {
-    const date = new Date(dateString);
-    return date.toLocaleTimeString('en-US', {
-      hour: 'numeric',
-      minute: '2-digit',
-      hour12: true,
-    });
-  };
+export function EventList() {
+  const [events, setEvents] = useState<Event[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  const getEventTypeColor = (eventType: string) => {
-    const colors = {
-      FUNDRAISER: 'bg-green-100 text-green-800',
-      WORKSHOP: 'bg-blue-100 text-blue-800',
-      NETWORKING: 'bg-purple-100 text-purple-800',
-      COMMUNITY: 'bg-orange-100 text-orange-800',
-      CONFERENCE: 'bg-red-100 text-red-800',
-    };
-    return colors[eventType as keyof typeof colors] || 'bg-gray-100 text-gray-800';
-  };
+  useEffect(() => {
+    async function fetchEvents() {
+      try {
+        const response = await fetch('/api/events');
+        if (!response.ok) {
+          throw new Error('Failed to fetch events');
+        }
+        const data = await response.json();
+        
+        // Filter for published events only and sort by start date
+        const publishedEvents = data
+          .filter((event: Event) => event.isPublished)
+          .sort((a: Event, b: Event) => 
+            new Date(a.startDateTime).getTime() - new Date(b.startDateTime).getTime()
+          );
+        
+        setEvents(publishedEvents);
+      } catch (error) {
+        console.error('Error fetching events:', error);
+        setError('Failed to load events');
+      } finally {
+        setIsLoading(false);
+      }
+    }
 
-  const publishedEvents = events.filter(event => event.isPublished);
+    fetchEvents();
+  }, []);
 
-  if (publishedEvents.length === 0) {
+  if (isLoading) {
     return (
-      <div className="text-center py-12">
-        <h3 className="text-xl font-semibold text-gray-900 mb-2">No events scheduled</h3>
-        <p className="text-gray-600">Check back soon for upcoming events!</p>
+      <div className="container mx-auto px-4 py-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {[...Array(6)].map((_, i) => (
+            <Card key={i} className="p-6 h-64 animate-pulse bg-muted" />
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="container mx-auto px-4 py-8">
+        <div className="text-center text-red-600">
+          <p>{error}</p>
+          <Button 
+            variant="outline" 
+            onClick={() => window.location.reload()}
+            className="mt-4"
+          >
+            Try Again
+          </Button>
+        </div>
+      </div>
+    );
+  }
+
+  if (events.length === 0) {
+    return (
+      <div className="container mx-auto px-4 py-8">
+        <div className="text-center text-muted-foreground">
+          <p className="text-lg">No events are currently scheduled.</p>
+          <p className="mt-2">Check back soon for upcoming events!</p>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-      {publishedEvents.map((event) => (
-        <Link key={event.id} href={`/events/${event.id}`}>
-          <Card className="h-full hover:shadow-lg transition-shadow cursor-pointer">
-            <CardHeader>
-              <div className="flex justify-between items-start mb-2">
-                <Badge className={getEventTypeColor(event.eventType)}>
+    <div className="container mx-auto px-4 py-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {events.map((event) => (
+          <Card key={event.id} className="p-6 hover:shadow-lg transition-shadow">
+            <div className="space-y-4">
+              {/* Event Type Badge */}
+              <div className="flex justify-between items-start">
+                <Badge variant="secondary" className="text-xs">
                   {event.eventType.replace('_', ' ')}
                 </Badge>
+                <span className="text-sm text-muted-foreground">
+                  {formatDate(new Date(event.startDateTime))}
+                </span>
               </div>
-              <CardTitle className="text-xl font-bold line-clamp-2">
-                {event.title}
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-3">
-                <p className="text-gray-600 line-clamp-3">
+
+              {/* Event Title and Description */}
+              <div>
+                <h3 className="text-xl font-semibold mb-2 line-clamp-2">
+                  {event.title}
+                </h3>
+                <p className="text-muted-foreground text-sm line-clamp-3">
                   {event.description}
                 </p>
+              </div>
 
-                <div className="space-y-2 text-sm">
-                  <div className="flex items-center text-gray-700">
-                    <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                    </svg>
-                    <span>{formatDate(event.startDateTime)}</span>
-                  </div>
-
-                  <div className="flex items-center text-gray-700">
-                    <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                    <span>{formatTime(event.startDateTime)}</span>
-                  </div>
-
-                  <div className="flex items-center text-gray-700">
-                    <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                    </svg>
-                    <span className="line-clamp-1">{event.location}</span>
-                  </div>
+              {/* Event Details */}
+              <div className="space-y-2">
+                <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                  <Calendar className="h-4 w-4" />
+                  <span>
+                    {new Date(event.startDateTime).toLocaleDateString()} at{' '}
+                    {new Date(event.startDateTime).toLocaleTimeString([], { 
+                      hour: '2-digit', 
+                      minute: '2-digit' 
+                    })}
+                  </span>
+                </div>
+                <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                  <MapPin className="h-4 w-4" />
+                  <span className="line-clamp-1">{event.location}</span>
                 </div>
               </div>
-            </CardContent>
+
+              {/* Action Button */}
+              <div className="pt-2">
+                <Button asChild className="w-full">
+                  <Link href={`/events/${event.id}`}>
+                    View Details
+                  </Link>
+                </Button>
+              </div>
+            </div>
           </Card>
-        </Link>
-      ))}
+        ))}
+      </div>
     </div>
   );
 }
