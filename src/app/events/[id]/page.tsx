@@ -84,9 +84,9 @@ export default function EventPage({ params }: { params: Promise<{ id: string }> 
         };
 
         // Add or update structured data script
-        let structuredDataScript = document.getElementById('event-structured-data');
+        let structuredDataScript = document.getElementById('event-structured-data') as HTMLScriptElement;
         if (!structuredDataScript) {
-          structuredDataScript = document.createElement('script');
+          structuredDataScript = document.createElement('script') as HTMLScriptElement;
           structuredDataScript.id = 'event-structured-data';
           structuredDataScript.type = 'application/ld+json';
           document.head.appendChild(structuredDataScript);
