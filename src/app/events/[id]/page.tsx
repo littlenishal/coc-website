@@ -125,7 +125,7 @@ const getEventTypeColor = (eventType: string): string => {
   }
 };
 
-export default function EventPage({ params }: { params: { id: string } }) {
+export default function EventPage({ params }: { params: Promise<{ id: string }> }) {
   const [event, setEvent] = useState<Event | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -138,8 +138,6 @@ export default function EventPage({ params }: { params: { id: string } }) {
       }
       const eventData = await response.json();
       setEvent(eventData);
-
-
     } catch (error) {
       console.error('Error fetching event:', error);
       setError('Failed to load event');
