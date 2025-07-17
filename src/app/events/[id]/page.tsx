@@ -10,7 +10,6 @@ import Link from "next/link";
 import Image from "next/image";
 import { Calendar, MapPin, Users, Share2, ChevronLeft, MessageCircle, Send } from "lucide-react";
 import { cn } from "@/lib/utils";
-import EventRegistrationForm from '@/components/EventRegistrationForm';
 
 type Event = {
   id: string;
@@ -128,13 +127,10 @@ const getEventTypeColor = (eventType: string): string => {
   }
 };
 
-export default function EventPage({ params }: { params: Promise<{ id: string }> }) {
+export default function EventPage({ params }: { params: { id: string } }) {
   const [event, setEvent] = useState<Event | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [newComment, setNewComment] = useState('');
-  const [isSubmittingComment, setIsSubmittingComment] = useState(false);
-  const { user } = useUser();
 
   const fetchEvent = useCallback(async (eventId: string) => {
     try {
@@ -145,7 +141,7 @@ export default function EventPage({ params }: { params: Promise<{ id: string }> 
       const eventData = await response.json();
       setEvent(eventData);
 
-      
+
     } catch (error) {
       console.error('Error fetching event:', error);
       setError('Failed to load event');
@@ -162,35 +158,7 @@ export default function EventPage({ params }: { params: Promise<{ id: string }> 
     resolveParams();
   }, [params, fetchEvent]);
 
-  
 
-  const handleCommentSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!user || !event || !newComment.trim()) return;
-
-    setIsSubmittingComment(true);
-    try {
-      const response = await fetch(`/api/events/${event.id}/comments`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ content: newComment.trim() }),
-      });
-
-      if (response.ok) {
-        setNewComment('');
-        // Refresh event data to get updated comments
-        await fetchEvent(event.id);
-      } else {
-        console.error('Comment submission failed');
-      }
-    } catch (error) {
-      console.error('Error submitting comment:', error);
-    } finally {
-      setIsSubmittingComment(false);
-    }
-  };
 
   const copyEventUrl = () => {
     navigator.clipboard.writeText(window.location.href);
@@ -311,16 +279,13 @@ export default function EventPage({ params }: { params: Promise<{ id: string }> 
                 )}
               </div>
 
-              {/* Registration Section */}
-              <div className="flex flex-col justify-center">
-                <EventRegistrationForm 
-                  event={event}
-                  onRegistrationComplete={() => {
-                    // Refresh event data to update registration status
-                    fetchEvent(event.id);
-                  }}
-                />
-              </div>
+              {/* Contact Information */}
+              <Card className="p-6">
+                <h2 className="text-2xl font-semibold mb-4">Contact Information</h2>
+                <p className="text-muted-foreground">
+                  For more information about this event, please contact the Captains of Commerce organization.
+                </p>
+              </Card>
             </div>
           </div>
 
@@ -348,134 +313,16 @@ export default function EventPage({ params }: { params: Promise<{ id: string }> 
             </div>
           </Card>
 
-          {/* Calendar Integration */}
-          <Card className="p-6 mb-8">
-            <h2 className="text-2xl font-semibold mb-4">Add to Calendar</h2>
-            <p className="text-muted-foreground mb-4">
-              Save this event to your calendar so you don&apos;t miss it!
-            </p>
-            <div className="flex flex-wrap gap-3">
-              <Button variant="outline" size="sm" asChild>
-                <a 
-                  href={generateCalendarLink('google', {
-                    title: event.title,
-                    description: event.description,
-                    startDateTime: event.startDateTime,
-                    endDateTime: event.endDateTime,
-                    location: event.location
-                  })} 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-2"
-                >
-                  <Calendar className="h-4 w-4" />
-                  Google Calendar
-                </a>
-              </Button>
-              <Button variant="outline" size="sm" asChild>
-                <a 
-                  href={generateCalendarLink('outlook', {
-                    title: event.title,
-                    description: event.description,
-                    startDateTime: event.startDateTime,
-                    endDateTime: event.endDateTime,
-                    location: event.location
-                  })} 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-2"
-                >
-                  <Calendar className="h-4 w-4" />
-                  Outlook
-                </a>
-              </Button>
-              <Button 
-                variant="outline" 
-                size="sm"
-                onClick={() => downloadICSFile({
-                  title: event.title,
-                  description: event.description,
-                  startDateTime: event.startDateTime,
-                  endDateTime: event.endDateTime,
-                  location: event.location,
-                  id: event.id
-                })}
-                className="flex items-center gap-2"
-              >
-                <Calendar className="h-4 w-4" />
-                Download (.ics)
-              </Button>
-            </div>
-          </Card>
-
-          {/* Comments Section */}
+          {/* Contact Information */}
           <Card className="p-6">
-            <div className="flex items-center gap-2 mb-6">
-              <MessageCircle className="h-5 w-5" />
-              <h2 className="text-2xl font-semibold">
-                Comments ({event.comments?.length || 0})
-              </h2>
-            </div>
-
-            {/* Comment Form */}
-            {user ? (
-              <form onSubmit={handleCommentSubmit} className="mb-6">
-                <div className="space-y-3">
-                  <Textarea
-                    value={newComment}
-                    onChange={(e) => setNewComment(e.target.value)}
-                    placeholder="Share your thoughts about this event..."
-                    className="min-h-[100px]"
-                  />
-                  <div className="flex justify-end">
-                    <Button
-                      type="submit"
-                      disabled={!newComment.trim() || isSubmittingComment}
-                      className="flex items-center gap-2"
-                    >
-                      <Send className="h-4 w-4" />
-                      {isSubmittingComment ? 'Posting...' : 'Post Comment'}
-                    </Button>
-                  </div>
-                </div>
-              </form>
-            ) : (
-              <div className="mb-6 p-4 bg-muted rounded-lg text-center">
-                <p className="text-muted-foreground">
-                  <Link href="/api/auth/login" className="text-primary hover:underline">
-                    Sign in
-                  </Link>
-                  {' '}to leave a comment
-                </p>
-              </div>
-            )}
-
-            {/* Comments List */}
-            <div className="space-y-4">
-              {event.comments && event.comments.length > 0 ? (
-                event.comments.map((comment) => (
-                  <div key={comment.id} className="border-b last:border-b-0 pb-4 last:pb-0">
-                    <div className="flex items-start justify-between mb-2">
-                      <div className="font-medium">
-                        {comment.user.firstName} {comment.user.lastName}
-                      </div>
-                      <div className="text-sm text-muted-foreground">
-                        {new Date(comment.createdAt).toLocaleDateString()}
-                      </div>
-                    </div>
-                    <p className="text-muted-foreground">{comment.content}</p>
-                  </div>
-                ))
-              ) : (
-                <div className="text-center py-8 text-muted-foreground">
-                  No comments yet. Be the first to share your thoughts!
-                </div>
-              )}
-            </div>
+            <h2 className="text-2xl font-semibold mb-4">Contact Information</h2>
+            <p className="text-muted-foreground">
+              For more information about this event, please contact the Captains of Commerce organization.
+            </p>
           </Card>
         </div>
       </div>
-       
+
     </div>
   );
 }
