@@ -10,7 +10,6 @@ import Link from "next/link";
 import Image from "next/image";
 import { Calendar, MapPin, Users, Share2, ChevronLeft, MessageCircle, Send } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { generateCalendarLink, downloadICSFile } from "@/lib/calendar";
 import EventRegistrationForm from '@/components/EventRegistrationForm';
 
 type Event = {
