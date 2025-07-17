@@ -115,17 +115,7 @@ export async function POST(
 
     const { id: eventId } = await params;
 
-    // Parse request body for registration details
-    const body = await request.json();
-    const { numberOfGuests = 0, specialRequirements, notes } = body;
-
-    // Validate numberOfGuests
-    if (numberOfGuests < 0 || numberOfGuests > 10) {
-      return NextResponse.json(
-        { error: 'Number of guests must be between 0 and 10' },
-        { status: 400 }
-      );
-    }
+    // Simple registration - no additional form fields needed
 
     // Check if event exists and has capacity
     const event = await prisma.event.findUnique({
@@ -189,10 +179,7 @@ export async function POST(
       data: {
         eventId,
         userId: session.user.sub,
-        status: registrationStatus,
-        numberOfGuests,
-        specialRequirements: specialRequirements || null,
-        notes: notes || null
+        status: registrationStatus
       }
     });
 

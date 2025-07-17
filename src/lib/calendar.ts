@@ -1,89 +1,31 @@
 
-export const generateICSFile = (event: {
+export interface CalendarEvent {
   title: string;
   description: string;
   startDateTime: string;
   endDateTime: string;
   location: string;
-  id: string;
-}): string => {
+  id?: string;
+}
+
+export function generateCalendarLink(provider: 'google' | 'outlook', event: CalendarEvent): string {
   const startDate = new Date(event.startDateTime);
   const endDate = new Date(event.endDateTime);
   
-  // Format dates for ICS (YYYYMMDDTHHMMSSZ)
-  const formatDateForICS = (date: Date): string => {
-    return date.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
-  };
-
-  const icsContent = [
-    'BEGIN:VCALENDAR',
-    'VERSION:2.0',
-    'PRODID:-//Captains of Commerce//Event Calendar//EN',
-    'BEGIN:VEVENT',
-    `UID:${event.id}@captainsofcommerce.org`,
-    `DTSTART:${formatDateForICS(startDate)}`,
-    `DTEND:${formatDateForICS(endDate)}`,
-    `SUMMARY:${event.title}`,
-    `DESCRIPTION:${event.description.replace(/\n/g, '\\n')}`,
-    `LOCATION:${event.location}`,
-    `DTSTAMP:${formatDateForICS(new Date())}`,
-    'END:VEVENT',
-    'END:VCALENDAR'
-  ].join('\r\n');
-
-  return icsContent;
-};
-
-export const downloadICSFile = (event: {
-  title: string;
-  description: string;
-  startDateTime: string;
-  endDateTime: string;
-  location: string;
-  id: string;
-}): void => {
-  const icsContent = generateICSFile(event);
-  const blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8' });
-  const url = URL.createObjectURL(blob);
-  
-  const link = document.createElement('a');
-  link.href = url;
-  link.download = `${event.title.replace(/[^a-z0-9]/gi, '_').toLowerCase()}.ics`;
-  document.body.appendChild(link);
-  link.click();
-  document.body.removeChild(link);
-  URL.revokeObjectURL(url);
-};
-
-export const generateCalendarLink = (
-  type: 'google' | 'outlook',
-  event: {
-    title: string;
-    description: string;
-    startDateTime: string;
-    endDateTime: string;
-    location: string;
-  }
-): string => {
-  const startDate = new Date(event.startDateTime);
-  const endDate = new Date(event.endDateTime);
-  
-  const formatDateForCalendar = (date: Date) => {
-    return date.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
-  };
-
-  if (type === 'google') {
+  if (provider === 'google') {
+    const start = startDate.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
+    const end = endDate.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
+    
     const params = new URLSearchParams({
       action: 'TEMPLATE',
       text: event.title,
-      dates: `${formatDateForCalendar(startDate)}/${formatDateForCalendar(endDate)}`,
+      dates: `${start}/${end}`,
       details: event.description,
-      location: event.location,
+      location: event.location
     });
+    
     return `https://calendar.google.com/calendar/render?${params.toString()}`;
-  }
-
-  if (type === 'outlook') {
+  } else if (provider === 'outlook') {
     const params = new URLSearchParams({
       subject: event.title,
       startdt: startDate.toISOString(),
@@ -91,8 +33,43 @@ export const generateCalendarLink = (
       body: event.description,
       location: event.location
     });
+    
     return `https://outlook.live.com/calendar/0/deeplink/compose?${params.toString()}`;
   }
+  
+  return '';
+}
 
-  return '#';
-};
+export function downloadICSFile(event: CalendarEvent): void {
+  const startDate = new Date(event.startDateTime);
+  const endDate = new Date(event.endDateTime);
+  
+  const formatDate = (date: Date) => {
+    return date.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
+  };
+  
+  const icsContent = [
+    'BEGIN:VCALENDAR',
+    'VERSION:2.0',
+    'PRODID:-//Captains of Commerce//Event//EN',
+    'BEGIN:VEVENT',
+    `UID:${event.id || Date.now()}@captainsofcommerce.com`,
+    `DTSTART:${formatDate(startDate)}`,
+    `DTEND:${formatDate(endDate)}`,
+    `SUMMARY:${event.title}`,
+    `DESCRIPTION:${event.description}`,
+    `LOCATION:${event.location}`,
+    'END:VEVENT',
+    'END:VCALENDAR'
+  ].join('\n');
+  
+  const blob = new Blob([icsContent], { type: 'text/calendar' });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = `${event.title.replace(/[^a-zA-Z0-9]/g, '_')}.ics`;
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  URL.revokeObjectURL(url);
+}

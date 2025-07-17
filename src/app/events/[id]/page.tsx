@@ -1,17 +1,14 @@
+
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
-import { useUser } from '@auth0/nextjs-auth0/client';
+import { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
-import { Textarea } from "@/components/ui/textarea";
 import Link from "next/link";
 import Image from "next/image";
-import { Calendar, MapPin, Users, Share2, ChevronLeft, MessageCircle, Send } from "lucide-react";
+import { Calendar, MapPin, Share2, ChevronLeft } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { generateCalendarLink, downloadICSFile } from "@/lib/calendar";
-import EventRegistrationForm from '@/components/EventRegistrationForm';
 
 type Event = {
   id: string;
@@ -20,190 +17,184 @@ type Event = {
   startDateTime: string;
   endDateTime: string;
   location: string;
-  address: string;
-  imageUrl?: string;
-  maxCapacity?: number;
   eventType: string;
+  imageUrl?: string;
   isPublished: boolean;
-  creator: {
-    id: string;
-    firstName: string;
-    lastName: string;
-  };
-  registrations?: Array<{
-    id: string;
-    userId: string;
-    status: string;
-  }>;
-  comments?: Array<{
-    id: string;
-    content: string;
-    createdAt: string;
-    user: {
-      firstName: string;
-      lastName: string;
-    };
-  }>;
-};
-
-const getTimezoneFromLocation = (location: string): string => {
-  const locationLower = location.toLowerCase();
-
-  if (locationLower.includes('arlington') || locationLower.includes('virginia') || 
-      locationLower.includes('va') || locationLower.includes('washington dc') ||
-      locationLower.includes('new york') || locationLower.includes('ny') ||
-      locationLower.includes('florida') || locationLower.includes('fl') ||
-      locationLower.includes('georgia') || locationLower.includes('ga') ||
-      locationLower.includes('north carolina') || locationLower.includes('nc') ||
-      locationLower.includes('south carolina') || locationLower.includes('sc')) {
-    return 'America/New_York';
-  }
-
-  if (locationLower.includes('chicago') || locationLower.includes('illinois') ||
-      locationLower.includes('il') || locationLower.includes('texas') ||
-      locationLower.includes('tx') || locationLower.includes('minnesota') ||
-      locationLower.includes('mn') || locationLower.includes('wisconsin') ||
-      locationLower.includes('wi') || locationLower.includes('iowa') ||
-      locationLower.includes('missouri') || locationLower.includes('mo')) {
-    return 'America/Chicago';
-  }
-
-  if (locationLower.includes('denver') || locationLower.includes('colorado') ||
-      locationLower.includes('co') || locationLower.includes('utah') ||
-      locationLower.includes('ut') || locationLower.includes('arizona') ||
-      locationLower.includes('az') || locationLower.includes('new mexico') ||
-      locationLower.includes('nm')) {
-    return 'America/Denver';
-  }
-
-  if (locationLower.includes('california') || locationLower.includes('ca') ||
-      locationLower.includes('los angeles') || locationLower.includes('san francisco') ||
-      locationLower.includes('seattle') || locationLower.includes('washington') ||
-      locationLower.includes('wa') || locationLower.includes('oregon') ||
-      locationLower.includes('or')) {
-    return 'America/Los_Angeles';
-  }
-
-  return 'America/New_York';
-};
-
-const formatEventDateTime = (dateTime: string, location: string): string => {
-  const timezone = getTimezoneFromLocation(location);
-  const date = new Date(dateTime);
-
-  return new Intl.DateTimeFormat('en-US', {
-    weekday: 'long',
-    month: 'long',
-    day: 'numeric',
-    year: 'numeric',
-    hour: 'numeric',
-    minute: '2-digit',
-    timeZone: timezone,
-    timeZoneName: 'short'
-  }).format(date);
-};
-
-const getEventTypeLabel = (eventType: string): string => {
-  switch (eventType) {
-    case 'TOY_DRIVE':
-      return 'Toy Drive';
-    case 'FOOD_DRIVE':
-      return 'Food Drive';
-    case 'FUNDRAISER':
-      return 'Fundraiser';
-    default:
-      return 'Event';
-  }
-};
-
-const getEventTypeColor = (eventType: string): string => {
-  switch (eventType) {
-    case 'TOY_DRIVE':
-      return 'bg-blue-100 text-blue-800 border-blue-200';
-    case 'FOOD_DRIVE':
-      return 'bg-green-100 text-green-800 border-green-200';
-    case 'FUNDRAISER':
-      return 'bg-purple-100 text-purple-800 border-purple-200';
-    default:
-      return 'bg-gray-100 text-gray-800 border-gray-200';
-  }
+  createdAt: string;
+  updatedAt: string;
 };
 
 export default function EventPage({ params }: { params: Promise<{ id: string }> }) {
   const [event, setEvent] = useState<Event | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [newComment, setNewComment] = useState('');
-  const [isSubmittingComment, setIsSubmittingComment] = useState(false);
-  const { user } = useUser();
-
-  const fetchEvent = useCallback(async (eventId: string) => {
-    try {
-      const response = await fetch(`/api/events/${eventId}`);
-      if (!response.ok) {
-        throw new Error('Failed to fetch event');
-      }
-      const eventData = await response.json();
-      setEvent(eventData);
-
-      
-    } catch (error) {
-      console.error('Error fetching event:', error);
-      setError('Failed to load event');
-    } finally {
-      setIsLoading(false);
-    }
-  }, []);
+  const [eventId, setEventId] = useState<string>('');
 
   useEffect(() => {
-    async function resolveParams() {
+    async function getParams() {
       const resolvedParams = await params;
-      await fetchEvent(resolvedParams.id);
+      setEventId(resolvedParams.id);
     }
-    resolveParams();
-  }, [params, fetchEvent]);
+    getParams();
+  }, [params]);
 
-  
+  useEffect(() => {
+    if (!eventId) return;
 
-  const handleCommentSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!user || !event || !newComment.trim()) return;
+    async function fetchEvent() {
+      try {
+        const response = await fetch(`/api/events/${eventId}`);
+        if (!response.ok) {
+          throw new Error('Event not found');
+        }
+        const eventData = await response.json();
+        setEvent(eventData);
 
-    setIsSubmittingComment(true);
-    try {
-      const response = await fetch(`/api/events/${event.id}/comments`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ content: newComment.trim() }),
-      });
+        // Update document title and meta tags for SEO
+        document.title = `${eventData.title} | Captains of Commerce Arlington`;
+        
+        // Update meta description
+        const metaDescription = document.querySelector('meta[name="description"]');
+        if (metaDescription) {
+          metaDescription.setAttribute('content', 
+            eventData.description.substring(0, 160) + (eventData.description.length > 160 ? '...' : '')
+          );
+        }
 
-      if (response.ok) {
-        setNewComment('');
-        // Refresh event data to get updated comments
-        await fetchEvent(event.id);
-      } else {
-        console.error('Comment submission failed');
+        // Add structured data for SEO
+        const structuredData = {
+          "@context": "https://schema.org",
+          "@type": "Event",
+          "name": eventData.title,
+          "description": eventData.description,
+          "startDate": eventData.startDateTime,
+          "endDate": eventData.endDateTime,
+          "location": {
+            "@type": "Place",
+            "name": eventData.location,
+            "address": eventData.location
+          },
+          "organizer": {
+            "@type": "Organization",
+            "name": "Captains of Commerce Arlington",
+            "url": window.location.origin
+          },
+          "eventStatus": "https://schema.org/EventScheduled",
+          "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode"
+        };
+
+        // Add or update structured data script
+        let structuredDataScript = document.getElementById('event-structured-data') as HTMLScriptElement;
+        if (!structuredDataScript) {
+          structuredDataScript = document.createElement('script') as HTMLScriptElement;
+          structuredDataScript.id = 'event-structured-data';
+          structuredDataScript.type = 'application/ld+json';
+          document.head.appendChild(structuredDataScript);
+        }
+        structuredDataScript.textContent = JSON.stringify(structuredData);
+
+        // Add Open Graph meta tags
+        const updateOrCreateMetaTag = (property: string, content: string) => {
+          let metaTag = document.querySelector(`meta[property="${property}"]`);
+          if (!metaTag) {
+            metaTag = document.createElement('meta');
+            metaTag.setAttribute('property', property);
+            document.head.appendChild(metaTag);
+          }
+          metaTag.setAttribute('content', content);
+        };
+
+        updateOrCreateMetaTag('og:title', eventData.title);
+        updateOrCreateMetaTag('og:description', eventData.description.substring(0, 300));
+        updateOrCreateMetaTag('og:type', 'event');
+        updateOrCreateMetaTag('og:url', window.location.href);
+        if (eventData.imageUrl) {
+          updateOrCreateMetaTag('og:image', eventData.imageUrl);
+        }
+
+      } catch (error) {
+        console.error('Error fetching event:', error);
+        setError('Failed to load event');
+      } finally {
+        setIsLoading(false);
       }
-    } catch (error) {
-      console.error('Error submitting comment:', error);
-    } finally {
-      setIsSubmittingComment(false);
+    }
+
+    fetchEvent();
+  }, [eventId]);
+
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString('en-US', {
+      weekday: 'long',
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    });
+  };
+
+  const formatTime = (dateString: string) => {
+    const date = new Date(dateString);
+    return date.toLocaleTimeString('en-US', {
+      hour: 'numeric',
+      minute: '2-digit',
+      hour12: true,
+    });
+  };
+
+  const getEventTypeColor = (type: string) => {
+    switch (type.toLowerCase()) {
+      case 'fundraiser':
+        return 'bg-green-100 text-green-800';
+      case 'networking':
+        return 'bg-blue-100 text-blue-800';
+      case 'workshop':
+        return 'bg-purple-100 text-purple-800';
+      case 'social':
+        return 'bg-pink-100 text-pink-800';
+      default:
+        return 'bg-gray-100 text-gray-800';
     }
   };
 
-  const copyEventUrl = () => {
-    navigator.clipboard.writeText(window.location.href);
-    // Could add toast notification here
+  const shareEvent = async () => {
+    if (navigator.share && event) {
+      try {
+        await navigator.share({
+          title: event.title,
+          text: event.description,
+          url: window.location.href,
+        });
+      } catch (error) {
+        console.log('Error sharing:', error);
+        // Fallback to copying URL to clipboard
+        navigator.clipboard.writeText(window.location.href);
+        alert('Event link copied to clipboard!');
+      }
+    } else {
+      // Fallback for browsers that don't support Web Share API
+      navigator.clipboard.writeText(window.location.href);
+      alert('Event link copied to clipboard!');
+    }
   };
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-background flex items-center justify-center">
-        <div className="text-center space-y-4">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto"></div>
-          <p className="text-muted-foreground">Loading event...</p>
+      <div className="min-h-screen bg-background">
+        <div className="container mx-auto px-4 py-8">
+          <div className="max-w-4xl mx-auto">
+            <div className="animate-pulse">
+              <div className="h-8 bg-muted rounded w-32 mb-8"></div>
+              <div className="h-64 bg-muted rounded-lg mb-8"></div>
+              <div className="h-12 bg-muted rounded w-3/4 mb-4"></div>
+              <div className="h-6 bg-muted rounded w-1/2 mb-8"></div>
+              <div className="space-y-4">
+                <div className="h-4 bg-muted rounded w-full"></div>
+                <div className="h-4 bg-muted rounded w-full"></div>
+                <div className="h-4 bg-muted rounded w-2/3"></div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     );
@@ -211,272 +202,146 @@ export default function EventPage({ params }: { params: Promise<{ id: string }> 
 
   if (error || !event) {
     return (
-      <div className="min-h-screen bg-background flex items-center justify-center">
-        <div className="text-center space-y-4">
-          <p className="text-destructive">{error || 'Event not found'}</p>
-          <Button asChild variant="outline">
-            <Link href="/events">Back to Events</Link>
-          </Button>
+      <div className="min-h-screen bg-background">
+        <div className="container mx-auto px-4 py-8">
+          <div className="max-w-4xl mx-auto text-center">
+            <h1 className="text-2xl font-bold mb-4">Event Not Found</h1>
+            <p className="text-muted-foreground mb-8">
+              The event you&apos;re looking for doesn&apos;t exist or has been removed.
+            </p>
+            <Button asChild>
+              <Link href="/events">
+                <ChevronLeft className="h-4 w-4 mr-2" />
+                Back to Events
+              </Link>
+            </Button>
+          </div>
         </div>
       </div>
     );
   }
 
-  const registrationCount = event.registrations?.filter(reg => reg.status === 'REGISTERED').length || 0;
-  const spotsLeft = event.maxCapacity ? event.maxCapacity - registrationCount : null;
-
   return (
     <div className="min-h-screen bg-background">
-      {/* Breadcrumb Navigation */}
-      <div className="border-b bg-muted/30">
-        <div className="container px-4 py-3">
-          <nav className="flex items-center space-x-2 text-sm text-muted-foreground">
-            <Link href="/" className="hover:text-foreground transition-colors">
-              Home
-            </Link>
-            <ChevronLeft className="h-4 w-4 rotate-180" />
-            <Link href="/events" className="hover:text-foreground transition-colors">
-              Events
-            </Link>
-            <ChevronLeft className="h-4 w-4 rotate-180" />
-            <span className="text-foreground font-medium">{event.title}</span>
-          </nav>
-        </div>
-      </div>
-
-      <div className="container px-4 py-8">
+      <div className="container mx-auto px-4 py-8">
         <div className="max-w-4xl mx-auto">
+          {/* Back Button */}
+          <Button variant="ghost" asChild className="mb-8">
+            <Link href="/events">
+              <ChevronLeft className="h-4 w-4 mr-2" />
+              Back to Events
+            </Link>
+          </Button>
+
           {/* Event Header */}
           <div className="mb-8">
-            <div className="flex items-start justify-between mb-4">
-              <Badge 
-                variant="secondary" 
-                className={cn("mb-4", getEventTypeColor(event.eventType))}
-              >
-                {getEventTypeLabel(event.eventType)}
-              </Badge>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={copyEventUrl}
-                className="flex items-center gap-2"
-              >
-                <Share2 className="h-4 w-4" />
+            <div className="flex flex-wrap items-start justify-between gap-4 mb-6">
+              <div className="flex-1">
+                <Badge className={cn("mb-4", getEventTypeColor(event.eventType))}>
+                  {event.eventType}
+                </Badge>
+                <h1 className="text-4xl font-bold tracking-tight mb-4">
+                  {event.title}
+                </h1>
+              </div>
+              <Button variant="outline" size="sm" onClick={shareEvent}>
+                <Share2 className="h-4 w-4 mr-2" />
                 Share Event
               </Button>
             </div>
 
-            <h1 className="text-4xl font-bold mb-4">{event.title}</h1>
-
-            {/* Event Meta Info */}
-            <div className="grid md:grid-cols-2 gap-6 mb-6">
-              <div className="space-y-4">
-                <div className="flex items-start gap-3">
-                  <Calendar className="h-5 w-5 text-muted-foreground mt-0.5" />
-                  <div>
-                    <div className="font-medium">
-                      {formatEventDateTime(event.startDateTime, event.location)}
-                    </div>
-                    {event.endDateTime && (
-                      <div className="text-sm text-muted-foreground">
-                        Ends: {formatEventDateTime(event.endDateTime, event.location)}
-                      </div>
-                    )}
-                  </div>
-                </div>
-
-                <div className="flex items-start gap-3">
-                  <MapPin className="h-5 w-5 text-muted-foreground mt-0.5" />
-                  <div>
-                    <div className="font-medium">{event.location}</div>
-                    {event.address && (
-                      <div className="text-sm text-muted-foreground">{event.address}</div>
-                    )}
-                  </div>
-                </div>
-
-                {event.maxCapacity && (
-                  <div className="flex items-start gap-3">
-                    <Users className="h-5 w-5 text-muted-foreground mt-0.5" />
-                    <div>
-                      <div className="font-medium">
-                        {registrationCount} / {event.maxCapacity} registered
-                      </div>
-                      {spotsLeft !== null && (
-                        <div className="text-sm text-muted-foreground">
-                          {spotsLeft > 0 ? `${spotsLeft} spots left` : 'Event is full'}
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                )}
-              </div>
-
-              {/* Registration Section */}
-              <div className="flex flex-col justify-center">
-                <EventRegistrationForm 
-                  event={event}
-                  onRegistrationComplete={() => {
-                    // Refresh event data to update registration status
-                    fetchEvent(event.id);
-                  }}
-                />
-              </div>
-            </div>
-          </div>
-
-          {/* Event Image */}
-          {event.imageUrl && (
-            <div className="mb-8">
-              <div className="relative w-full h-64 md:h-96 rounded-lg overflow-hidden">
+            {/* Event Image */}
+            {event.imageUrl && (
+              <div className="relative w-full h-64 md:h-96 mb-8 rounded-lg overflow-hidden">
                 <Image
                   src={event.imageUrl}
                   alt={event.title}
                   fill
                   className="object-cover"
+                  priority
                 />
               </div>
-            </div>
-          )}
-
-          {/* Event Description */}
-          <Card className="p-6 mb-8">
-            <h2 className="text-2xl font-semibold mb-4">About this event</h2>
-            <div className="prose prose-gray max-w-none">
-              <p className="whitespace-pre-wrap text-muted-foreground leading-relaxed">
-                {event.description}
-              </p>
-            </div>
-          </Card>
-
-          {/* Calendar Integration */}
-          <Card className="p-6 mb-8">
-            <h2 className="text-2xl font-semibold mb-4">Add to Calendar</h2>
-            <p className="text-muted-foreground mb-4">
-              Save this event to your calendar so you don&apos;t miss it!
-            </p>
-            <div className="flex flex-wrap gap-3">
-              <Button variant="outline" size="sm" asChild>
-                <a 
-                  href={generateCalendarLink('google', {
-                    title: event.title,
-                    description: event.description,
-                    startDateTime: event.startDateTime,
-                    endDateTime: event.endDateTime,
-                    location: event.location
-                  })} 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-2"
-                >
-                  <Calendar className="h-4 w-4" />
-                  Google Calendar
-                </a>
-              </Button>
-              <Button variant="outline" size="sm" asChild>
-                <a 
-                  href={generateCalendarLink('outlook', {
-                    title: event.title,
-                    description: event.description,
-                    startDateTime: event.startDateTime,
-                    endDateTime: event.endDateTime,
-                    location: event.location
-                  })} 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-2"
-                >
-                  <Calendar className="h-4 w-4" />
-                  Outlook
-                </a>
-              </Button>
-              <Button 
-                variant="outline" 
-                size="sm"
-                onClick={() => downloadICSFile({
-                  title: event.title,
-                  description: event.description,
-                  startDateTime: event.startDateTime,
-                  endDateTime: event.endDateTime,
-                  location: event.location,
-                  id: event.id
-                })}
-                className="flex items-center gap-2"
-              >
-                <Calendar className="h-4 w-4" />
-                Download (.ics)
-              </Button>
-            </div>
-          </Card>
-
-          {/* Comments Section */}
-          <Card className="p-6">
-            <div className="flex items-center gap-2 mb-6">
-              <MessageCircle className="h-5 w-5" />
-              <h2 className="text-2xl font-semibold">
-                Comments ({event.comments?.length || 0})
-              </h2>
-            </div>
-
-            {/* Comment Form */}
-            {user ? (
-              <form onSubmit={handleCommentSubmit} className="mb-6">
-                <div className="space-y-3">
-                  <Textarea
-                    value={newComment}
-                    onChange={(e) => setNewComment(e.target.value)}
-                    placeholder="Share your thoughts about this event..."
-                    className="min-h-[100px]"
-                  />
-                  <div className="flex justify-end">
-                    <Button
-                      type="submit"
-                      disabled={!newComment.trim() || isSubmittingComment}
-                      className="flex items-center gap-2"
-                    >
-                      <Send className="h-4 w-4" />
-                      {isSubmittingComment ? 'Posting...' : 'Post Comment'}
-                    </Button>
-                  </div>
-                </div>
-              </form>
-            ) : (
-              <div className="mb-6 p-4 bg-muted rounded-lg text-center">
-                <p className="text-muted-foreground">
-                  <Link href="/api/auth/login" className="text-primary hover:underline">
-                    Sign in
-                  </Link>
-                  {' '}to leave a comment
-                </p>
-              </div>
             )}
+          </div>
 
-            {/* Comments List */}
-            <div className="space-y-4">
-              {event.comments && event.comments.length > 0 ? (
-                event.comments.map((comment) => (
-                  <div key={comment.id} className="border-b last:border-b-0 pb-4 last:pb-0">
-                    <div className="flex items-start justify-between mb-2">
-                      <div className="font-medium">
-                        {comment.user.firstName} {comment.user.lastName}
-                      </div>
-                      <div className="text-sm text-muted-foreground">
-                        {new Date(comment.createdAt).toLocaleDateString()}
-                      </div>
-                    </div>
-                    <p className="text-muted-foreground">{comment.content}</p>
-                  </div>
-                ))
-              ) : (
-                <div className="text-center py-8 text-muted-foreground">
-                  No comments yet. Be the first to share your thoughts!
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            {/* Main Content */}
+            <div className="lg:col-span-2">
+              <Card className="p-6">
+                <h2 className="text-2xl font-semibold mb-4">About This Event</h2>
+                <div className="prose prose-gray max-w-none">
+                  <p className="text-muted-foreground leading-relaxed whitespace-pre-wrap">
+                    {event.description}
+                  </p>
                 </div>
-              )}
+              </Card>
             </div>
-          </Card>
+
+            {/* Event Details Sidebar */}
+            <div className="space-y-6">
+              {/* Date & Time */}
+              <Card className="p-6">
+                <h3 className="text-lg font-semibold mb-4 flex items-center">
+                  <Calendar className="h-5 w-5 text-muted-foreground mr-2" />
+                  Date & Time
+                </h3>
+                <div className="space-y-3">
+                  <div>
+                    <p className="font-medium">{formatDate(event.startDateTime)}</p>
+                    <p className="text-sm text-muted-foreground">
+                      {formatTime(event.startDateTime)} - {formatTime(event.endDateTime)}
+                    </p>
+                  </div>
+                </div>
+              </Card>
+
+              {/* Location */}
+              <Card className="p-6">
+                <h3 className="text-lg font-semibold mb-4 flex items-center">
+                  <MapPin className="h-5 w-5 text-muted-foreground mr-2" />
+                  Location
+                </h3>
+                <p className="text-muted-foreground">{event.location}</p>
+              </Card>
+
+              {/* Event Information */}
+              <Card className="p-6">
+                <h3 className="text-lg font-semibold mb-4">Event Information</h3>
+                <div className="space-y-3">
+                  <div>
+                    <p className="text-sm font-medium text-muted-foreground">Event Type</p>
+                    <p className="capitalize">{event.eventType}</p>
+                  </div>
+                  <div>
+                    <p className="text-sm font-medium text-muted-foreground">Status</p>
+                    <p className="text-green-600">Open Event</p>
+                  </div>
+                </div>
+              </Card>
+
+              {/* Contact Information */}
+              <Card className="p-6">
+                <h3 className="text-lg font-semibold mb-4">Questions?</h3>
+                <p className="text-muted-foreground text-sm mb-4">
+                  Contact us for more information about this event.
+                </p>
+                <div className="space-y-2">
+                  <Button variant="outline" size="sm" className="w-full" asChild>
+                    <a href="mailto:info@captainsofcommerce.org">
+                      Email Us
+                    </a>
+                  </Button>
+                  <Button variant="outline" size="sm" className="w-full" asChild>
+                    <Link href="/events">
+                      View More Events
+                    </Link>
+                  </Button>
+                </div>
+              </Card>
+            </div>
+          </div>
         </div>
       </div>
-       
     </div>
   );
 }

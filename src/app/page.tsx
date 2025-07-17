@@ -1,10 +1,7 @@
-
-'use client';
-
-import { Button } from "@/components/ui/button";
-import Link from "next/link";
-import Image from "next/image";
-import { FeaturedEvents } from "@/components/FeaturedEvents";
+import Image from 'next/image';
+import Link from 'next/link';
+import { Button } from '@/components/ui/button';
+import { FeaturedEvents } from '@/components/FeaturedEvents';
 
 export default function Home() {
   return (
@@ -13,33 +10,39 @@ export default function Home() {
         <div className="absolute inset-0 w-full h-full">
           <Image
             src="/hero-background.jpg"
-            alt="Volunteers working together"
+            alt="Captains of Commerce community event"
             fill
+            className="object-cover"
             priority
-            className="object-cover brightness-50"
           />
+          <div className="absolute inset-0 bg-black/40" />
         </div>
-        <div className="container mx-auto px-4 relative z-10">
-          <div className="max-w-6xl mx-auto text-center">
-            <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-6 text-white drop-shadow-lg">
-              Captains of Commerce Arlington
-            </h1>
-            <h2 className="text-lg sm:text-xl md:text-2xl leading-relaxed max-w-[42rem] mx-auto text-gray-200 mb-4">
-              Northern Virginia Community Support & Events
-            </h2>
-            <p className="text-base sm:text-lg md:text-xl leading-relaxed max-w-[48rem] mx-auto text-gray-300 mb-8">
-              Providing compassionate and comprehensive support to individuals and families in need within Arlington County and the greater Northern Virginia area. Join us for community events, fundraisers, and networking opportunities that make a difference.
-            </p>
-            <div className="flex justify-center">
-              <Button size="lg" className="text-lg px-8" asChild>
-                <Link href="/events">View Events</Link>
-              </Button>
-            </div>
+
+        <div className="relative z-10 text-center text-white max-w-4xl px-4">
+          <h1 className="text-5xl font-bold mb-6">
+            Building Stronger Communities Through Commerce
+          </h1>
+          <p className="text-xl mb-8 leading-relaxed">
+            Join Captains of Commerce in supporting local businesses and creating meaningful connections 
+            that drive economic growth and community development.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Button size="lg" asChild>
+              <Link href="/events">View Events</Link>
+            </Button>
           </div>
         </div>
       </section>
 
       <FeaturedEvents />
+
+      <section className="container px-4 py-16 text-center">
+        <h2 className="text-3xl font-bold mb-6">About Captains of Commerce</h2>
+        <p className="text-lg text-muted-foreground max-w-3xl mx-auto leading-relaxed">
+          We are dedicated to fostering business growth, community engagement, and economic development 
+          through strategic partnerships, events, and initiatives that bring people together.
+        </p>
+      </section>
     </div>
   );
 }
