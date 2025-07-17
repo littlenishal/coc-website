@@ -1,9 +1,11 @@
+
 'use client';
 
-import { useState, useEffect } from 'react';
-import { EventList } from '@/components/EventList';
+import { useEffect, useState } from 'react';
+import Link from 'next/link';
+import { formatDate } from '@/lib/utils';
 
-interface Event {
+type Event = {
   id: string;
   title: string;
   description: string;
@@ -16,43 +18,37 @@ interface Event {
 
 export default function EventsPage() {
   const [events, setEvents] = useState<Event[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const fetchEvents = async () => {
+    async function fetchEvents() {
       try {
         const response = await fetch('/api/events');
-        if (!response.ok) {
-          throw new Error('Failed to fetch events');
-        }
         const data = await response.json();
-        setEvents(data);
-      } catch (err) {
-        setError(err instanceof Error ? err.message : 'An error occurred');
+        const publishedEvents = data
+          .filter((event: Event) => event.isPublished)
+          .sort((a: Event, b: Event) => 
+            new Date(a.startDateTime).getTime() - new Date(b.startDateTime).getTime()
+          );
+        setEvents(publishedEvents);
+      } catch (error) {
+        console.error('Error fetching events:', error);
       } finally {
-        setLoading(false);
+        setIsLoading(false);
       }
-    };
+    }
 
     fetchEvents();
   }, []);
 
-  if (loading) {
+  if (isLoading) {
     return (
       <div className="container mx-auto px-4 py-8">
-        <div className="flex justify-center items-center min-h-[400px]">
-          <div className="text-lg">Loading events...</div>
-        </div>
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className="container mx-auto px-4 py-8">
-        <div className="flex justify-center items-center min-h-[400px]">
-          <div className="text-lg text-red-600">Error: {error}</div>
+        <h1 className="text-4xl font-bold mb-8">Events</h1>
+        <div className="grid gap-6">
+          {[...Array(6)].map((_, i) => (
+            <div key={i} className="h-48 bg-muted animate-pulse rounded-lg" />
+          ))}
         </div>
       </div>
     );
@@ -60,14 +56,44 @@ export default function EventsPage() {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <div className="mb-8">
-        <h1 className="text-4xl font-bold text-gray-900 mb-4">Upcoming Events</h1>
-        <p className="text-lg text-gray-600">
-          Join us for our upcoming events and activities in the community.
-        </p>
-      </div>
-
-      <EventList events={events} />
+      <h1 className="text-4xl font-bold mb-8">Events</h1>
+      
+      {events.length === 0 ? (
+        <div className="text-center py-12">
+          <p className="text-xl text-muted-foreground">No events available at this time.</p>
+        </div>
+      ) : (
+        <div className="grid gap-6">
+          {events.map((event) => (
+            <Link key={event.id} href={`/events/${event.id}`}>
+              <div className="border rounded-lg p-6 hover:shadow-lg transition-shadow cursor-pointer">
+                <div className="flex flex-col md:flex-row md:items-center md:justify-between">
+                  <div className="flex-1">
+                    <div className="flex items-center gap-4 mb-2">
+                      <span className="text-sm text-muted-foreground">
+                        {formatDate(new Date(event.startDateTime))}
+                      </span>
+                      <span className="px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded-full">
+                        {event.eventType}
+                      </span>
+                    </div>
+                    <h2 className="text-2xl font-semibold mb-2">{event.title}</h2>
+                    <p className="text-muted-foreground mb-4 line-clamp-2">{event.description}</p>
+                    <p className="text-sm text-muted-foreground">
+                      📍 {event.location}
+                    </p>
+                  </div>
+                  <div className="mt-4 md:mt-0 md:ml-6">
+                    <div className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg font-semibold transition-colors">
+                      Learn More
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </Link>
+          ))}
+        </div>
+      )}
     </div>
   );
 }

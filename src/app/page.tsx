@@ -1,4 +1,3 @@
-
 import Image from 'next/image';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
@@ -18,7 +17,7 @@ export default function Home() {
           />
           <div className="absolute inset-0 bg-black/40" />
         </div>
-        
+
         <div className="relative z-10 text-center text-white max-w-4xl px-4">
           <h1 className="text-5xl font-bold mb-6">
             Building Stronger Communities Through Commerce
@@ -36,7 +35,7 @@ export default function Home() {
       </section>
 
       <FeaturedEvents />
-      
+
       <section className="container px-4 py-16 text-center">
         <h2 className="text-3xl font-bold mb-6">About Captains of Commerce</h2>
         <p className="text-lg text-muted-foreground max-w-3xl mx-auto leading-relaxed">
