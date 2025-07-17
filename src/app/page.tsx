@@ -4,8 +4,6 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import Image from "next/image";
 import { FeaturedEvents } from "@/components/FeaturedEvents";
-import { PhotoGallery } from "@/components/PhotoGallery";
-import { DonationCTA } from "@/components/DonationCTA";
 
 export default function Home() {
   return (
@@ -28,11 +26,8 @@ export default function Home() {
             <p className="text-lg sm:text-xl md:text-2xl leading-relaxed max-w-[42rem] text-gray-200">
               Providing compassionate and comprehensive support to individuals and families in need within Arlington County and the greater Northern Virginia area.
             </p>
-            <div className="flex gap-4 mt-4">
+            <div className="flex justify-center mt-4">
               <Button size="lg" className="text-lg px-8" asChild>
-                <Link href="/donate">Make a Donation</Link>
-              </Button>
-              <Button variant="outline" size="lg" className="text-lg px-8 bg-white/10 hover:bg-white/20" asChild>
                 <Link href="/events">View Events</Link>
               </Button>
             </div>
@@ -41,8 +36,6 @@ export default function Home() {
       </section>
 
       <FeaturedEvents />
-      <PhotoGallery />
-      <DonationCTA />
     </div>
   );
 }
