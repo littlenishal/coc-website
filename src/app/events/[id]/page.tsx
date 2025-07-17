@@ -8,7 +8,6 @@ import Link from "next/link";
 import Image from "next/image";
 import { Calendar, MapPin, Users, Share2, ChevronLeft } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { generateCalendarLink, downloadICSFile } from "@/lib/calendar";
 
 type Event = {
   id: string;
