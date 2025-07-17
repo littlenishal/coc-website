@@ -19,18 +19,17 @@ export default function Home() {
           />
         </div>
         <div className="container relative z-10 flex items-center justify-center px-4">
-          <div className="flex flex-col items-center gap-6 text-center max-w-4xl mx-auto text-white">
-            <h1 className="text-4xl font-bold sm:text-5xl md:text-6xl lg:text-7xl tracking-tight">
-              Making a Difference in Northern Virginia
+          <div className="container mx-auto px-4 relative z-10">
+          <div className="max-w-6xl mx-auto text-center">
+            <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-6 text-white drop-shadow-lg">
+              Captains of Commerce Arlington
             </h1>
-            <p className="text-lg sm:text-xl md:text-2xl leading-relaxed max-w-[42rem] text-gray-200">
-              Providing compassionate and comprehensive support to individuals and families in need within Arlington County and the greater Northern Virginia area.
+            <h2 className="text-lg sm:text-xl md:text-2xl leading-relaxed max-w-[42rem] text-gray-200 mb-4">
+              Northern Virginia Community Support & Events
+            </h2>
+            <p className="text-base sm:text-lg md:text-xl leading-relaxed max-w-[48rem] text-gray-300 mb-6">
+              Providing compassionate and comprehensive support to individuals and families in need within Arlington County and the greater Northern Virginia area. Join us for community events, fundraisers, and networking opportunities that make a difference.
             </p>
-            <div className="flex justify-center mt-4">
-              <Button size="lg" className="text-lg px-8" asChild>
-                <Link href="/events">View Events</Link>
-              </Button>
-            </div>
           </div>
         </div>
       </section>
