@@ -207,7 +207,7 @@ export default function EventPage({ params }: { params: Promise<{ id: string }> 
           <div className="max-w-4xl mx-auto text-center">
             <h1 className="text-2xl font-bold mb-4">Event Not Found</h1>
             <p className="text-muted-foreground mb-8">
-              The event you're looking for doesn't exist or has been removed.
+              The event you&apos;re looking for doesn&apos;t exist or has been removed.
             </p>
             <Button asChild>
               <Link href="/events">
