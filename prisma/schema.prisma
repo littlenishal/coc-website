@@ -96,7 +96,7 @@ model Event {
   location         String
   address          String?
   imageUrl         String?
-  maxAttendees     Int?
+  registrationUrl  String?
   isPublished      Boolean     @default(false)
   createdAt        DateTime    @default(now())
   updatedAt        DateTime    @updatedAt

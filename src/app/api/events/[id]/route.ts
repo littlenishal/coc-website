@@ -151,6 +151,7 @@ export async function PUT(
         location: eventData.location,
         eventType: eventData.type,
         ...(eventData.capacity ? { maxAttendees: parseInt(eventData.capacity.toString()) } : {}),
+        registrationUrl: eventData.registrationUrl !== undefined ? eventData.registrationUrl : undefined,
         isPublished: eventData.isPublished
       }
     });

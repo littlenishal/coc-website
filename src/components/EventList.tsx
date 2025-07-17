@@ -17,6 +17,7 @@ type Event = {
   endDateTime: string;
   location: string;
   eventType: string;
+  registrationUrl?: string;
   isPublished: boolean;
   creator?: {
     id: string;
@@ -142,9 +143,16 @@ export function EventList() {
                 </div>
               </div>
 
-              {/* Action Button */}
-              <div className="pt-2">
-                <Button asChild className="w-full">
+              {/* Action Buttons */}
+              <div className="pt-2 space-y-2">
+                {event.registrationUrl && (
+                  <Button asChild className="w-full">
+                    <a href={event.registrationUrl} target="_blank" rel="noopener noreferrer">
+                      Register for Event
+                    </a>
+                  </Button>
+                )}
+                <Button asChild variant="outline" className="w-full">
                   <Link href={`/events/${event.id}`}>
                     View Details
                   </Link>

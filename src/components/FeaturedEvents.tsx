@@ -12,7 +12,9 @@ type Event = {
   startDateTime: string;
   endDateTime: string;
   location: string;
-  isPublished: boolean;
+  eventType: string;
+  imageUrl?: string;
+  registrationUrl?: string;
 }
 
 export function FeaturedEvents() {
@@ -72,11 +74,20 @@ export function FeaturedEvents() {
             </span>
             <h3 className="text-xl font-semibold mt-2">{event.title}</h3>
             <p className="text-muted-foreground mt-2 line-clamp-2">{event.description}</p>
-            <div className="mt-4">
-              <Button asChild>
-                <Link href={`/events/${event.id}`}>Learn More</Link>
-              </Button>
-            </div>
+            <div className="pt-4 space-y-2">
+                {event.registrationUrl && (
+                  <Button asChild className="w-full">
+                    <a href={event.registrationUrl} target="_blank" rel="noopener noreferrer">
+                      Register Now
+                    </a>
+                  </Button>
+                )}
+                <Button asChild variant="outline" className="w-full">
+                  <Link href={`/events/${event.id}`}>
+                    Learn More
+                  </Link>
+                </Button>
+              </div>
           </div>
         ))}
       </div>

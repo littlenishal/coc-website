@@ -84,6 +84,7 @@ export async function POST(request: NextRequest) {
         address: data.address || '',
         eventType: data.type,
         maxAttendees: data.capacity ? parseInt(data.capacity.toString()) : null,
+        registrationUrl: data.registrationUrl || null,
         isPublished: data.isPublished ?? false,
         createdById: session.user.sub,
         ...(data.imageUrl && { imageUrl: data.imageUrl })
