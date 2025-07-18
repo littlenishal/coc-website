@@ -51,7 +51,10 @@ export default function Header() {
                 <span className="sr-only">Open menu</span>
               </Button>
             </SheetTrigger>
-            <SheetContent side="right" className="w-80">
+            <SheetContent side="right" className="w-80" aria-describedby="mobile-navigation-description">
+              <div className="sr-only" id="mobile-navigation-description">
+                Mobile navigation menu
+              </div>
               <div className="flex flex-col space-y-4 p-6">
               <Link 
                 href="/" 
