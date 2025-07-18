@@ -4,10 +4,11 @@ import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
 import Link from "next/link";
 import Image from "next/image";
-import { Calendar, MapPin, Share2, ChevronLeft } from "lucide-react";
+import { Calendar, MapPin, ChevronLeft } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { notFound } from 'next/navigation';
 import { Metadata } from 'next';
+import { ShareButton } from "@/components/ShareButton";
 
 type Event = {
   id: string;
@@ -320,36 +321,5 @@ export default async function EventPage({ params }: { params: Promise<{ id: stri
         }}
       />
     </>
-  );
-}
-
-// Client component for share functionality
-function ShareButton({ title, description }: { title: string; description: string }) {
-  'use client';
-  
-  const shareEvent = async () => {
-    if (navigator.share) {
-      try {
-        await navigator.share({
-          title: title,
-          text: description,
-          url: window.location.href,
-        });
-      } catch (error) {
-        console.log('Error sharing:', error);
-        navigator.clipboard.writeText(window.location.href);
-        alert('Event link copied to clipboard!');
-      }
-    } else {
-      navigator.clipboard.writeText(window.location.href);
-      alert('Event link copied to clipboard!');
-    }
-  };
-
-  return (
-    <Button variant="outline" size="sm" onClick={shareEvent}>
-      <Share2 className="h-4 w-4 mr-2" />
-      Share Event
-    </Button>
   );
 }
