@@ -1,7 +1,13 @@
 
 import { MetadataRoute } from 'next'
 
-async function getEvents() {
+type Event = {
+  id: string;
+  isPublished: boolean;
+  updatedAt: string;
+};
+
+async function getEvents(): Promise<Event[]> {
   try {
     const baseUrl = process.env.NEXTAUTH_URL || 'http://localhost:3000';
     const response = await fetch(`${baseUrl}/api/events`, {
@@ -13,7 +19,7 @@ async function getEvents() {
     }
     
     const events = await response.json();
-    return events.filter((event: any) => event.isPublished);
+    return events.filter((event: Event) => event.isPublished);
   } catch (error) {
     console.error('Error fetching events for sitemap:', error);
     return [];
@@ -41,7 +47,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   ];
 
   // Dynamic event pages
-  const eventPages = events.map((event: any) => ({
+  const eventPages = events.map((event: Event) => ({
     url: `${baseUrl}/events/${event.id}`,
     lastModified: new Date(event.updatedAt),
     changeFrequency: 'weekly' as const,
