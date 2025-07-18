@@ -43,6 +43,36 @@ export default function Home() {
           through strategic partnerships, events, and initiatives that bring people together.
         </p>
       </section>
+
+      {/* JSON-LD Structured Data */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            "name": "Captains of Commerce Arlington",
+            "url": "https://captainsofcommerce.org",
+            "logo": "https://captainsofcommerce.org/logo.png",
+            "description": "A community organization in Arlington focused on networking, fundraising, and local initiatives.",
+            "address": {
+              "@type": "PostalAddress",
+              "addressLocality": "Arlington",
+              "addressRegion": "VA",
+              "addressCountry": "US"
+            },
+            "contactPoint": {
+              "@type": "ContactPoint",
+              "contactType": "General Inquiry",
+              "email": "info@captainsofcommerce.org"
+            },
+            "sameAs": [
+              "https://instagram.com/captainsofcommerce",
+              "https://facebook.com/captainsofcommerce"
+            ]
+          })
+        }}
+      />
     </div>
   );
 }
