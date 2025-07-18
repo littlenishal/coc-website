@@ -105,11 +105,8 @@ export function EventList() {
         {events.map((event) => (
           <Card key={event.id} className="p-6 hover:shadow-lg transition-shadow">
             <div className="space-y-4">
-              {/* Event Type Badge */}
-              <div className="flex justify-between items-start">
-                <Badge variant="secondary" className="text-xs">
-                  {event.eventType.replace('_', ' ')}
-                </Badge>
+              {/* Event Date */}
+              <div className="flex justify-end items-start">
                 <span className="text-sm text-muted-foreground">
                   {formatDate(new Date(event.startDateTime))}
                 </span>

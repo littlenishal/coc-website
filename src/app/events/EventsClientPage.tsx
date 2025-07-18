@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -37,14 +36,14 @@ export default function EventsClientPage() {
           throw new Error('Failed to fetch events');
         }
         const eventsData = await response.json();
-        
+
         // Filter for published events and sort by start date
         const publishedEvents = eventsData
           .filter((event: Event) => event.isPublished)
           .sort((a: Event, b: Event) => 
             new Date(a.startDateTime).getTime() - new Date(b.startDateTime).getTime()
           );
-        
+
         setEvents(publishedEvents);
         setFilteredEvents(publishedEvents);
       } catch (error) {
@@ -58,19 +57,19 @@ export default function EventsClientPage() {
     fetchEvents();
   }, []);
 
+  // Filter events based on search term
   useEffect(() => {
-    if (searchTerm) {
+    if (!searchTerm.trim()) {
+      setFilteredEvents(events);
+    } else {
       const filtered = events.filter(event =>
         event.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
         event.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        event.location.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        event.eventType.toLowerCase().includes(searchTerm.toLowerCase())
+        event.location.toLowerCase().includes(searchTerm.toLowerCase())
       );
       setFilteredEvents(filtered);
-    } else {
-      setFilteredEvents(events);
     }
-  }, [searchTerm, events]);
+  }, [events, searchTerm]);
 
   if (isLoading) {
     return (

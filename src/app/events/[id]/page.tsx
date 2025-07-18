@@ -1,11 +1,10 @@
 
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
 import Link from "next/link";
 import Image from "next/image";
 import { Calendar, MapPin, ChevronLeft } from "lucide-react";
-import { cn } from "@/lib/utils";
+
 import { notFound } from 'next/navigation';
 import { Metadata } from 'next';
 import { ShareButton } from "@/components/ShareButton";
@@ -128,20 +127,7 @@ export default async function EventPage({ params }: { params: Promise<{ id: stri
     });
   };
 
-  const getEventTypeColor = (type: string) => {
-    switch (type.toLowerCase()) {
-      case 'fundraiser':
-        return 'bg-green-100 text-green-800';
-      case 'networking':
-        return 'bg-blue-100 text-blue-800';
-      case 'workshop':
-        return 'bg-purple-100 text-purple-800';
-      case 'social':
-        return 'bg-pink-100 text-pink-800';
-      default:
-        return 'bg-gray-100 text-gray-800';
-    }
-  };
+  
 
   // JSON-LD structured data for the event
   const structuredData = {
@@ -191,9 +177,6 @@ export default async function EventPage({ params }: { params: Promise<{ id: stri
             <div className="mb-8">
               <div className="flex flex-wrap items-start justify-between gap-4 mb-6">
                 <div className="flex-1">
-                  <Badge className={cn("mb-4", getEventTypeColor(event.eventType))}>
-                    {event.eventType}
-                  </Badge>
                   <h1 className="text-4xl font-bold tracking-tight mb-4">
                     {event.title}
                   </h1>
@@ -262,10 +245,6 @@ export default async function EventPage({ params }: { params: Promise<{ id: stri
                 <Card className="p-6">
                   <h3 className="text-lg font-semibold mb-4">Event Information</h3>
                   <div className="space-y-3">
-                    <div>
-                      <p className="text-sm font-medium text-muted-foreground">Event Type</p>
-                      <p className="capitalize">{event.eventType}</p>
-                    </div>
                     <div>
                       <p className="text-sm font-medium text-muted-foreground">Status</p>
                       <p className="text-green-600">Open Event</p>
