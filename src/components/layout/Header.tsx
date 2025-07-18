@@ -1,82 +1,87 @@
-'use client';
+"use client";
 
-import Link from 'next/link'
-import { Button } from "@/components/ui/button"
-import { Sheet, SheetContent, SheetTrigger, SheetHeader, SheetTitle } from "@/components/ui/sheet"
-import { Menu, LogIn, LogOut } from "lucide-react"
-import { useUser } from '@auth0/nextjs-auth0/client'
+import { useState } from "react";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { Menu, Calendar, Home } from "lucide-react";
 
-export function Header() {
-  const { user, isLoading } = useUser();
+export default function Header() {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const navigation = [
+    { name: 'Home', href: '/', icon: Home },
+    { name: 'Events', href: '/events', icon: Calendar },
+  ];
+
   return (
-    <header className="border-b">
-      <div className="container flex h-16 items-center justify-between px-4">
-        <Link href="/" className="flex items-center space-x-2">
-          <span className="text-xl font-bold">Captains of Commerce</span>
-        </Link>
-        <nav className="hidden md:flex items-center space-x-6">
-          <Link href="/events" className="text-sm font-medium">Events</Link>
-          <Link href="/gallery" className="text-sm font-medium">Gallery</Link>
-          <Link href="/about" className="text-sm font-medium">About</Link>
-          {!isLoading && (
-            user ? (
-              <>
-                <Link href="/dashboard" className="text-sm font-medium">Dashboard</Link>
-                <Button asChild variant="ghost">
-                  <Link href="/api/auth/logout"><LogOut className="mr-2 h-4 w-4" />Logout</Link>
-                </Button>
-              </>
-            ) : (
-              <>
-                <Button asChild variant="ghost">
-                  <Link href="/api/auth/login"><LogIn className="mr-2 h-4 w-4" />Login</Link>
-                </Button>
-                <Button asChild variant="default">
-                  <Link href="/donate">Donate</Link>
-                </Button>
-              </>
-            )
-          )}
-        </nav>
-        <Sheet>
-          <SheetTrigger asChild className="md:hidden">
-            <Button variant="ghost" size="icon">
-              <Menu className="h-5 w-5" />
-              <span className="sr-only">Toggle menu</span>
+    <header className="bg-white shadow-sm border-b sticky top-0 z-50">
+      <div className="container mx-auto px-4">
+        <div className="flex justify-between items-center h-16">
+          {/* Logo */}
+          <Link href="/" className="flex items-center space-x-2">
+            <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center">
+              <span className="text-white font-bold text-sm">C</span>
+            </div>
+            <span className="font-semibold text-lg text-gray-900 hidden sm:block">
+              Captains of Commerce
+            </span>
+          </Link>
+
+          {/* Desktop Navigation */}
+          <nav className="hidden md:flex items-center space-x-6">
+            {navigation.map((item) => (
+              <Link
+                key={item.name}
+                href={item.href}
+                className="text-gray-600 hover:text-primary transition-colors duration-200 font-medium"
+              >
+                {item.name}
+              </Link>
+            ))}
+          </nav>
+
+          {/* Contact Information */}
+          <div className="hidden md:flex items-center space-x-4">
+            <Button variant="outline" size="sm" asChild>
+              <a href="mailto:info@captainsofcommerce.org">
+                Contact Us
+              </a>
             </Button>
-          </SheetTrigger>
-          <SheetContent side="right" className="w-[300px] sm:w-[400px] px-6" aria-describedby="menu-description">
-            <SheetHeader className="pt-8 pb-6">
-              <SheetTitle className="text-2xl">Navigation Menu</SheetTitle>
-              <p id="menu-description" className="sr-only">Main navigation menu for mobile devices</p>
-            </SheetHeader>
-            <nav className="flex flex-col space-y-6">
-              <Link href="/events" className="text-lg font-medium hover:text-primary transition-colors">Events</Link>
-              <Link href="/gallery" className="text-lg font-medium hover:text-primary transition-colors">Gallery</Link>
-              <Link href="/about" className="text-lg font-medium hover:text-primary transition-colors">About</Link>
-              {!isLoading && (
-                user ? (
-                  <>
-                    <Link href="/dashboard" className="text-lg font-medium hover:text-primary transition-colors">Dashboard</Link>
-                    <Button asChild variant="ghost" size="lg" className="mt-4">
-                      <Link href="/api/auth/logout" className="flex items-center"><LogOut className="mr-2 h-5 w-5" />Logout</Link>
-                    </Button>
-                  </>
-                ) : (
-                  <>
-                    <Button asChild variant="ghost" size="lg" className="mt-4">
-                      <Link href="/api/auth/login" className="flex items-center"><LogIn className="mr-2 h-5 w-5" />Login</Link>
-                    </Button>
-                    <Button asChild variant="default" size="lg" className="mt-4">
-                      <Link href="/donate">Donate</Link>
-                    </Button>
-                  </>
-                )
-              )}
-            </nav>
-          </SheetContent>
-        </Sheet>
+          </div>
+
+          {/* Mobile menu button */}
+          <Sheet open={isOpen} onOpenChange={setIsOpen}>
+            <SheetTrigger asChild className="md:hidden">
+              <Button variant="ghost" size="sm">
+                <Menu className="h-6 w-6" />
+                <span className="sr-only">Open menu</span>
+              </Button>
+            </SheetTrigger>
+            <SheetContent side="right" className="w-80">
+              <div className="flex flex-col space-y-4 mt-6">
+                {navigation.map((item) => (
+                  <Link
+                    key={item.name}
+                    href={item.href}
+                    className="flex items-center space-x-3 text-gray-600 hover:text-primary transition-colors duration-200 py-2"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    <item.icon className="h-5 w-5" />
+                    <span className="font-medium">{item.name}</span>
+                  </Link>
+                ))}
+
+                <div className="border-t pt-4 mt-4">
+                  <Button variant="outline" className="w-full" asChild>
+                    <a href="mailto:info@captainsofcommerce.org">Contact Us</a>
+                  </Button>
+                </div>
+              </div>
+            </SheetContent>
+          </Sheet>
+        </div>
       </div>
     </header>
-  )
+  );
 }
