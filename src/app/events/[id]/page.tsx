@@ -19,7 +19,6 @@ type Event = {
   location: string;
   eventType: string;
   imageUrl?: string;
-  registrationUrl?: string;
   isPublished: boolean;
   createdAt: string;
   updatedAt: string;
@@ -320,20 +319,7 @@ export default function EventPage({ params }: { params: Promise<{ id: string }> 
                 </div>
               </Card>
 
-              {/* Registration */}
-              {event.registrationUrl && (
-                <Card className="p-6">
-                  <h3 className="text-lg font-semibold mb-4">Register for Event</h3>
-                  <p className="text-muted-foreground text-sm mb-4">
-                    Click below to register for this event.
-                  </p>
-                  <Button asChild className="w-full">
-                    <a href={event.registrationUrl} target="_blank" rel="noopener noreferrer">
-                      Register Now
-                    </a>
-                  </Button>
-                </Card>
-              )}
+              
 
               {/* Contact Information */}
               <Card className="p-6">
