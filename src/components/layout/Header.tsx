@@ -36,10 +36,6 @@ export default function Header() {
             <Link href="/events" className="text-gray-900 hover:text-blue-600 transition-colors">
               Events
             </Link>
-          </div>
-
-          {/* Contact Information */}
-          <div className="hidden md:flex items-center space-x-4">
             <Button variant="outline" size="sm" asChild>
               <a href="mailto:info@captainsofcommerce.org">
                 Contact Us
