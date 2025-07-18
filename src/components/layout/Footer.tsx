@@ -22,10 +22,10 @@ export default function Footer() {
               Join us in making a positive impact in Arlington and beyond.
             </p>
             <div className="flex space-x-4">
-              <Button variant="outline" size="sm" className="text-white border-white hover:bg-white hover:text-gray-900" asChild>
+              <Button variant="outline" size="sm" className="text-gray-900 bg-white border-white hover:bg-gray-100 hover:text-gray-900" asChild>
                 <Link href="/events">View Our Events</Link>
               </Button>
-              <Button variant="outline" size="sm" className="text-white border-white hover:bg-white hover:text-gray-900" asChild>
+              <Button variant="outline" size="sm" className="text-gray-900 bg-white border-white hover:bg-gray-100 hover:text-gray-900" asChild>
                 <a href="mailto:info@captainsofcommerce.org">Contact Us</a>
               </Button>
             </div>
