@@ -1,100 +1,45 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { EventType } from '@prisma/client';
-import { getSession } from '@auth0/nextjs-auth0';
 import prisma from '@/lib/prisma';
-import { checkRole } from '@/lib/auth';
-import { checkRateLimit } from '@/lib/rateLimit';
-import { validateEvent } from '@/lib/validation';
 
 export async function GET(request: NextRequest) {
   try {
-    // Check rate limit
-    const rateLimit = await checkRateLimit();
-    if (rateLimit) return rateLimit;
-
     const { searchParams } = new URL(request.url);
-    const type = searchParams.get('type');
-    const startDate = searchParams.get('startDate');
-    const endDate = searchParams.get('endDate');
+    const type = searchParams.get('type') as EventType | null;
+    const status = searchParams.get('status');
+
+    const whereClause: {
+      isPublished: boolean;
+      eventType?: EventType;
+      startDateTime?: {
+        gte: Date;
+      };
+    } = {
+      isPublished: true,
+    };
+
+    if (type && Object.values(EventType).includes(type)) {
+      whereClause.eventType = type;
+    }
+
+    if (status === 'upcoming') {
+      whereClause.startDateTime = {
+        gte: new Date(),
+      };
+    }
 
     const events = await prisma.event.findMany({
-      where: {
-        ...(type && { eventType: type as EventType }),
-        ...(startDate && { startDateTime: { gte: new Date(startDate) } }),
-        ...(endDate && { endDateTime: { lte: new Date(endDate) } }),
-        isPublished: true,
+      where: whereClause,
+      orderBy: {
+        startDateTime: 'asc',
       },
-      orderBy: { startDateTime: 'asc' },
-      include: {
-        creator: {
-          select: {
-            id: true,
-            firstName: true,
-            lastName: true,
-          },
-        },
-      },
-      take: 50, // Limit results for performance
     });
 
-    return NextResponse.json(events, {
-      headers: {
-        'Cache-Control': 'public, s-maxage=60, stale-while-revalidate=30'
-      }
-    });
+    return NextResponse.json(events);
   } catch (error) {
     console.error('Error fetching events:', error);
-    return NextResponse.json({ 
-      message: 'Internal Server Error',
-      details: error instanceof Error ? error.message : 'Unknown error'
-    }, { status: 500 });
-  }
-}
-
-export async function POST(request: NextRequest) {
-  try {
-    // Check rate limit
-    const rateLimit = await checkRateLimit();
-    if (rateLimit) return rateLimit;
-
-    const session = await getSession();
-    if (!session?.user || !checkRole(session.user, ['ADMIN', 'STAFF'])) {
-      return NextResponse.json(
-        { error: 'Unauthorized' },
-        { status: 401 }
-      );
-    }
-
-    const data = await request.json();
-    const validationError = validateEvent(data);
-    if (validationError) {
-      return NextResponse.json(
-        { error: validationError },
-        { status: 400 }
-      );
-    }
-
-    const event = await prisma.event.create({
-      data: {
-        title: data.title,
-        description: data.description,
-        startDateTime: new Date(data.startDate),
-        ...(data.endDate && { endDateTime: new Date(data.endDate) }),
-        location: data.location,
-        address: data.address || '',
-        eventType: data.type,
-        maxAttendees: data.capacity ? parseInt(data.capacity.toString()) : null,
-        isPublished: data.isPublished ?? false,
-        createdById: session.user.sub,
-        ...(data.imageUrl && { imageUrl: data.imageUrl })
-      }
-    });
-
-    return NextResponse.json(event, { status: 201 });
-  } catch (error) {
-    console.error('Error creating event:', error);
     return NextResponse.json(
-      { error: 'Internal Server Error' },
+      { error: 'Failed to fetch events' },
       { status: 500 }
     );
   }

@@ -1,0 +1,32 @@
+Error: `DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users.
+
+If you want to hide the `DialogTitle`, you can wrap it with our VisuallyHidden component.
+
+For more information, see https://radix-ui.com/primitives/docs/components/dialog
+    at createConsoleError (https://1f1e086a-5908-4b5d-9b3d-165ff9178f0e-00-w7ujk9toe6ft.kirk.replit.dev/_next/static/chunks/node_modules_next_dist_client_8f19e6fb._.js:882:71)
+    at handleConsoleError (https://1f1e086a-5908-4b5d-9b3d-165ff9178f0e-00-w7ujk9toe6ft.kirk.replit.dev/_next/static/chunks/node_modules_next_dist_client_8f19e6fb._.js:1058:54)
+    at console.error (https://1f1e086a-5908-4b5d-9b3d-165ff9178f0e-00-w7ujk9toe6ft.kirk.replit.dev/_next/static/chunks/node_modules_next_dist_client_8f19e6fb._.js:1223:57)
+    at TitleWarning.useEffect (https://1f1e086a-5908-4b5d-9b3d-165ff9178f0e-00-w7ujk9toe6ft.kirk.replit.dev/_next/static/chunks/node_modules_25463dff._.js:9646:40)
+    at https://1f1e086a-5908-4b5d-9b3d-165ff9178f0e-00-w7ujk9toe6ft.kirk.replit.dev/_next/static/chunks/node_modules_25463dff._.js:9580:215
+    at https://1f1e086a-5908-4b5d-9b3d-165ff9178f0e-00-w7ujk9toe6ft.kirk.replit.dev/_next/static/chunks/node_modules_25463dff._.js:9500:206
+    at DialogContent (https://1f1e086a-5908-4b5d-9b3d-165ff9178f0e-00-w7ujk9toe6ft.kirk.replit.dev/_next/static/chunks/node_modules_25463dff._.js:9480:229)
+    at DialogContent (https://1f1e086a-5908-4b5d-9b3d-165ff9178f0e-00-w7ujk9toe6ft.kirk.replit.dev/_next/static/chunks/node_modules_25463dff._.js:9478:206)
+    at _c1 (https://1f1e086a-5908-4b5d-9b3d-165ff9178f0e-00-w7ujk9toe6ft.kirk.replit.dev/_next/static/chunks/src_4e49687d._.js:159:215)
+    at Primitive.div.Slot (https://1f1e086a-5908-4b5d-9b3d-165ff9178f0e-00-w7ujk9toe6ft.kirk.replit.dev/_next/static/chunks/node_modules_25463dff._.js:1252:210)
+    at Primitive.div (https://1f1e086a-5908-4b5d-9b3d-165ff9178f0e-00-w7ujk9toe6ft.kirk.replit.dev/_next/static/chunks/node_modules_25463dff._.js:6491:210)
+    at Portal (https://1f1e086a-5908-4b5d-9b3d-165ff9178f0e-00-w7ujk9toe6ft.kirk.replit.dev/_next/static/chunks/node_modules_25463dff._.js:7187:407)
+    at https://1f1e086a-5908-4b5d-9b3d-165ff9178f0e-00-w7ujk9toe6ft.kirk.replit.dev/_next/static/chunks/node_modules_25463dff._.js:9427:221
+    at https://1f1e086a-5908-4b5d-9b3d-165ff9178f0e-00-w7ujk9toe6ft.kirk.replit.dev/_next/static/chunks/node_modules_next_dist_compiled_2ce9398a._.js:1224:25
+    at mapIntoArray (https://1f1e086a-5908-4b5d-9b3d-165ff9178f0e-00-w7ujk9toe6ft.kirk.replit.dev/_next/static/chunks/node_modules_next_dist_compiled_2ce9398a._.js:1202:24)
+    at mapIntoArray (https://1f1e086a-5908-4b5d-9b3d-165ff9178f0e-00-w7ujk9toe6ft.kirk.replit.dev/_next/static/chunks/node_modules_next_dist_compiled_2ce9398a._.js:1211:166)
+    at Object.mapChildren [as map] (https://1f1e086a-5908-4b5d-9b3d-165ff9178f0e-00-w7ujk9toe6ft.kirk.replit.dev/_next/static/chunks/node_modules_next_dist_compiled_2ce9398a._.js:1223:9)
+    at DialogPortal (https://1f1e086a-5908-4b5d-9b3d-165ff9178f0e-00-w7ujk9toe6ft.kirk.replit.dev/_next/static/chunks/node_modules_25463dff._.js:9425:189)
+    at https://1f1e086a-5908-4b5d-9b3d-165ff9178f0e-00-w7ujk9toe6ft.kirk.replit.dev/_next/static/chunks/node_modules_25463dff._.js:9425:406
+    at https://1f1e086a-5908-4b5d-9b3d-165ff9178f0e-00-w7ujk9toe6ft.kirk.replit.dev/_next/static/chunks/node_modules_next_dist_compiled_2ce9398a._.js:1224:25
+    at mapIntoArray (https://1f1e086a-5908-4b5d-9b3d-165ff9178f0e-00-w7ujk9toe6ft.kirk.replit.dev/_next/static/chunks/node_modules_next_dist_compiled_2ce9398a._.js:1202:24)
+    at mapIntoArray (https://1f1e086a-5908-4b5d-9b3d-165ff9178f0e-00-w7ujk9toe6ft.kirk.replit.dev/_next/static/chunks/node_modules_next_dist_compiled_2ce9398a._.js:1211:166)
+    at Object.mapChildren [as map] (https://1f1e086a-5908-4b5d-9b3d-165ff9178f0e-00-w7ujk9toe6ft.kirk.replit.dev/_next/static/chunks/node_modules_next_dist_compiled_2ce9398a._.js:1223:9)
+    at DialogPortal (https://1f1e086a-5908-4b5d-9b3d-165ff9178f0e-00-w7ujk9toe6ft.kirk.replit.dev/_next/static/chunks/node_modules_25463dff._.js:9425:189)
+    at _c1 (https://1f1e086a-5908-4b5d-9b3d-165ff9178f0e-00-w7ujk9toe6ft.kirk.replit.dev/_next/static/chunks/src_4e49687d._.js:152:479)
+    at Header (https://1f1e086a-5908-4b5d-9b3d-165ff9178f0e-00-w7ujk9toe6ft.kirk.replit.dev/_next/static/chunks/src_4e49687d._.js:422:231)
+    at RootLayout (rsc://React/Server/file:///home/runner/workspace/.next/server/chunks/ssr/%5Broot-of-the-server%5D__9d678420._.js?20:675:268)

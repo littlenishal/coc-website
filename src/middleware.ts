@@ -1,8 +1,5 @@
 
-import { withMiddlewareAuthRequired } from '@auth0/nextjs-auth0/edge';
-
-export default withMiddlewareAuthRequired();
-
+// Middleware removed - no authentication required for simplified website
 export const config = {
-  matcher: ['/dashboard/:path*']
+  matcher: []
 };

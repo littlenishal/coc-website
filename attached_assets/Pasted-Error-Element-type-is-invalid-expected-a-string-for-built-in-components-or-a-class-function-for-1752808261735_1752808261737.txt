@@ -1,0 +1,19 @@
+Error: Element type is invalid: expected a string (for built-in components) or a class/function (for composite components) but got: undefined. You likely forgot to export your component from the file it's defined in, or you might have mixed up default and named imports.
+
+Check the render method of `RootLayout`.
+    at createFiberFromTypeAndProps (https://1f1e086a-5908-4b5d-9b3d-165ff9178f0e-00-w7ujk9toe6ft.kirk.replit.dev/_next/static/chunks/node_modules_next_dist_compiled_2ce9398a._.js:4928:32)
+    at createFiberFromElement (https://1f1e086a-5908-4b5d-9b3d-165ff9178f0e-00-w7ujk9toe6ft.kirk.replit.dev/_next/static/chunks/node_modules_next_dist_compiled_2ce9398a._.js:4939:16)
+    at createChild (https://1f1e086a-5908-4b5d-9b3d-165ff9178f0e-00-w7ujk9toe6ft.kirk.replit.dev/_next/static/chunks/node_modules_next_dist_compiled_2ce9398a._.js:5610:40)
+    at reconcileChildrenArray (https://1f1e086a-5908-4b5d-9b3d-165ff9178f0e-00-w7ujk9toe6ft.kirk.replit.dev/_next/static/chunks/node_modules_next_dist_compiled_2ce9398a._.js:5723:72)
+    at reconcileChildFibersImpl (https://1f1e086a-5908-4b5d-9b3d-165ff9178f0e-00-w7ujk9toe6ft.kirk.replit.dev/_next/static/chunks/node_modules_next_dist_compiled_2ce9398a._.js:5829:117)
+    at https://1f1e086a-5908-4b5d-9b3d-165ff9178f0e-00-w7ujk9toe6ft.kirk.replit.dev/_next/static/chunks/node_modules_next_dist_compiled_2ce9398a._.js:5856:39
+    at reconcileChildren (https://1f1e086a-5908-4b5d-9b3d-165ff9178f0e-00-w7ujk9toe6ft.kirk.replit.dev/_next/static/chunks/node_modules_next_dist_compiled_2ce9398a._.js:7439:51)
+    at beginWork (https://1f1e086a-5908-4b5d-9b3d-165ff9178f0e-00-w7ujk9toe6ft.kirk.replit.dev/_next/static/chunks/node_modules_next_dist_compiled_2ce9398a._.js:8225:439)
+    at runWithFiberInDEV (https://1f1e086a-5908-4b5d-9b3d-165ff9178f0e-00-w7ujk9toe6ft.kirk.replit.dev/_next/static/chunks/node_modules_next_dist_compiled_2ce9398a._.js:3073:74)
+    at performUnitOfWork (https://1f1e086a-5908-4b5d-9b3d-165ff9178f0e-00-w7ujk9toe6ft.kirk.replit.dev/_next/static/chunks/node_modules_next_dist_compiled_2ce9398a._.js:10243:97)
+    at workLoopSync (https://1f1e086a-5908-4b5d-9b3d-165ff9178f0e-00-w7ujk9toe6ft.kirk.replit.dev/_next/static/chunks/node_modules_next_dist_compiled_2ce9398a._.js:10135:40)
+    at renderRootSync (https://1f1e086a-5908-4b5d-9b3d-165ff9178f0e-00-w7ujk9toe6ft.kirk.replit.dev/_next/static/chunks/node_modules_next_dist_compiled_2ce9398a._.js:10118:13)
+    at performWorkOnRoot (https://1f1e086a-5908-4b5d-9b3d-165ff9178f0e-00-w7ujk9toe6ft.kirk.replit.dev/_next/static/chunks/node_modules_next_dist_compiled_2ce9398a._.js:9877:56)
+    at performWorkOnRootViaSchedulerTask (https://1f1e086a-5908-4b5d-9b3d-165ff9178f0e-00-w7ujk9toe6ft.kirk.replit.dev/_next/static/chunks/node_modules_next_dist_compiled_2ce9398a._.js:10826:9)
+    at MessagePort.performWorkUntilDeadline (https://1f1e086a-5908-4b5d-9b3d-165ff9178f0e-00-w7ujk9toe6ft.kirk.replit.dev/_next/static/chunks/node_modules_next_dist_compiled_2ce9398a._.js:1982:64)
+    at RootLayout (rsc://React/Server/file:///home/runner/workspace/.next/server/chunks/ssr/%5Broot-of-the-server%5D__9d678420._.js?20:676:272)

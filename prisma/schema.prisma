@@ -39,25 +39,18 @@ enum PaymentMethod {
   OTHER
 }
 
-enum RegistrationStatus {
-  REGISTERED
-  WAITLISTED
-  CANCELLED
-  ATTENDED
-}
+
 
 model User {
-  id          String   @id @default(uuid())
-  email       String   @unique
-  password    String
-  firstName   String
-  lastName    String
-  role        UserRole
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id            String   @id @default(uuid())
+  email         String   @unique
+  password      String
+  firstName     String
+  lastName      String
+  role          UserRole
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
   createdEvents Event[]
-  registrations EventRegistration[]
-  comments    EventComment[]
 }
 
 model InstagramFeed {
@@ -87,55 +80,24 @@ model InstagramIntegration {
 }
 
 model Event {
-  id               String      @id @default(uuid())
-  title            String
-  description      String
-  eventType        EventType
-  startDateTime    DateTime
-  endDateTime      DateTime?
-  location         String
-  address          String?
-  imageUrl         String?
-  maxAttendees     Int?
-  isPublished      Boolean     @default(false)
-  createdAt        DateTime    @default(now())
-  updatedAt        DateTime    @updatedAt
-  createdById      String
-  creator          User        @relation(fields: [createdById], references: [id])
-  registrations    EventRegistration[]
-  comments         EventComment[]
+  id              String    @id @default(uuid())
+  title           String
+  description     String
+  eventType       EventType
+  startDateTime   DateTime
+  endDateTime     DateTime?
+  location        String
+  imageUrl        String?
+  registrationUrl String?
+  isPublished     Boolean   @default(false)
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  createdById     String
+  creator         User      @relation(fields: [createdById], references: [id])
 
   @@index([createdById])
 }
 
-model EventRegistration {
-  id                  String             @id @default(uuid())
-  eventId             String
-  userId              String
-  status              RegistrationStatus @default(REGISTERED)
-  registeredAt        DateTime           @default(now())
-  updatedAt           DateTime           @updatedAt
-  numberOfGuests      Int                @default(0)
-  specialRequirements String?
-  notes               String?
-  event               Event              @relation(fields: [eventId], references: [id], onDelete: Cascade)
-  user                User               @relation(fields: [userId], references: [id])
 
-  @@unique([eventId, userId])
-  @@index([eventId])
-  @@index([userId])
-}
 
-model EventComment {
-  id        String   @id @default(uuid())
-  eventId   String
-  userId    String
-  content   String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  event     Event    @relation(fields: [eventId], references: [id], onDelete: Cascade)
-  user      User     @relation(fields: [userId], references: [id])
 
-  @@index([eventId])
-  @@index([userId])
-}
