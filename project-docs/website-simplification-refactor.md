@@ -105,9 +105,8 @@ Transform the current Captains of Commerce website from a complex multi-feature 
 #### Task 4.1: Update Prisma Schema
 **File:** `prisma/schema.prisma`
 - Remove EventRegistration model
-- Remove registration-related fields from Event model (capacity, etc.)
 - Remove User model if not needed for other purposes
-- Keep only essential Event fields: id, title, description, startDateTime, endDateTime, location, eventType, isPublished, createdAt, updatedAt
+- Keep only essential Event fields: id, title, description, startDateTime, endDateTime, location, eventType, isPublished, createdAt, updatedAt, registrationURL
 
 #### Task 4.2: Create Migration for Schema Changes
 - Generate new Prisma migration to remove unused tables/fields
@@ -115,18 +114,15 @@ Transform the current Captains of Commerce website from a complex multi-feature 
 
 ### Phase 5: API Simplification
 
-#### Task 5.1: Simplify Events API
+#### Task 5.1: Update Events API to reflect new model
 **File:** `src/app/api/events/route.ts`
-- Keep only GET endpoint for retrieving events
-- Remove POST, PUT, DELETE endpoints
+- Leave GET
+- Update POST, PUT, DELETE endpoints
 - Simplify filtering to basic published events only
-- Remove authentication checks
 
 #### Task 5.2: Simplify Individual Event API
 **File:** `src/app/api/events/[id]/route.ts`
 - Keep only GET endpoint
-- Remove PUT, DELETE endpoints
-- Remove authentication checks
 
 #### Task 5.3: Remove Unused API Routes
 **Directories/files to delete:**
