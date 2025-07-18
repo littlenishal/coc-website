@@ -27,24 +27,6 @@ export async function GET(
             email: true,
           },
         },
-        registrations: {
-          select: {
-            id: true,
-            userId: true,
-            status: true,
-          },
-        },
-        comments: {
-          include: {
-            user: {
-              select: {
-                firstName: true,
-                lastName: true,
-              },
-            },
-          },
-          orderBy: { createdAt: 'desc' },
-        },
       },
     });
 
@@ -150,7 +132,6 @@ export async function PUT(
         ...(eventData.endDate ? { endDateTime: new Date(eventData.endDate) } : {}),
         location: eventData.location,
         eventType: eventData.type,
-        ...(eventData.capacity ? { maxAttendees: parseInt(eventData.capacity.toString()) } : {}),
         registrationUrl: eventData.registrationUrl !== undefined ? eventData.registrationUrl : undefined,
         isPublished: eventData.isPublished
       }
