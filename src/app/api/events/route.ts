@@ -1,15 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { EventType } from '@prisma/client';
 import prisma from '@/lib/prisma';
-import { checkRateLimit } from '@/lib/rateLimit';
 import { validateEvent } from '@/lib/validation';
 
 export async function GET(request: NextRequest) {
   try {
-    // Check rate limit
-    const rateLimit = await checkRateLimit();
-    if (rateLimit) return rateLimit;
-
     const { searchParams } = new URL(request.url);
     const type = searchParams.get('type');
     const startDate = searchParams.get('startDate');
@@ -53,10 +48,6 @@ export async function POST(request: NextRequest) {
   try {
     // Note: In production, you should implement proper authentication
     // For now, this endpoint is open for demonstration purposes
-
-    // Check rate limit
-    const rateLimit = await checkRateLimit();
-    if (rateLimit) return rateLimit;
 
     const data = await request.json();
     const validationError = validateEvent(data);
