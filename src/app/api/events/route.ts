@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { EventType } from '@prisma/client';
 import prisma from '@/lib/prisma';
-import { validateEvent } from '@/lib/validation';
 
 export async function GET(request: NextRequest) {
   try {
