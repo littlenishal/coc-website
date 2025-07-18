@@ -1,0 +1,17 @@
+
+{
+  "name": "Captains of Commerce Arlington",
+  "short_name": "CoC Arlington",
+  "description": "Community organization focused on networking, fundraising, and local initiatives in Arlington, Virginia.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#000000",
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "any",
+      "type": "image/x-icon"
+    }
+  ]
+}

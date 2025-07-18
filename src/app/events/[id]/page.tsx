@@ -9,6 +9,30 @@ import { notFound } from 'next/navigation';
 import { Metadata } from 'next';
 import { ShareButton } from "@/components/ShareButton";
 
+// Generate static params for published events at build time
+export async function generateStaticParams() {
+  try {
+    const baseUrl = process.env.NEXTAUTH_URL || 'http://localhost:3000';
+    const response = await fetch(`${baseUrl}/api/events`, {
+      cache: 'no-store',
+    });
+    
+    if (!response.ok) {
+      return [];
+    }
+    
+    const events = await response.json();
+    const publishedEvents = events.filter((event: Event) => event.isPublished);
+    
+    return publishedEvents.map((event: Event) => ({
+      id: event.id,
+    }));
+  } catch (error) {
+    console.error('Error generating static params:', error);
+    return [];
+  }
+}
+
 type Event = {
   id: string;
   title: string;
