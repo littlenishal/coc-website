@@ -197,7 +197,10 @@ export default async function EventPage({ params }: { params: Promise<{ id: stri
                     {event.title}
                   </h1>
                 </div>
-                <ShareButton event={event} />
+                <ShareButton 
+                  title={event.title}
+                  description={event.description}
+                />
               </div>
 
               {/* Event Image */}
@@ -321,15 +324,15 @@ export default async function EventPage({ params }: { params: Promise<{ id: stri
 }
 
 // Client component for share functionality
-function ShareButton({ event }: { event: Event }) {
+function ShareButton({ title, description }: { title: string; description: string }) {
   'use client';
   
   const shareEvent = async () => {
     if (navigator.share) {
       try {
         await navigator.share({
-          title: event.title,
-          text: event.description,
+          title: title,
+          text: description,
           url: window.location.href,
         });
       } catch (error) {

@@ -1,7 +1,6 @@
-
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { ChevronLeft, Home } from 'lucide-react';
+import { ChevronLeft, Home, Calendar } from 'lucide-react';
 
 export default function NotFound() {
   return (
@@ -14,7 +13,7 @@ export default function NotFound() {
             Sorry, we couldn't find the page you're looking for. It may have been moved or deleted.
           </p>
         </div>
-        
+
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <Button asChild>
             <Link href="/">
@@ -29,7 +28,7 @@ export default function NotFound() {
             </Link>
           </Button>
         </div>
-        
+
         <div className="text-sm text-muted-foreground">
           <p>
             If you believe this is an error, please{' '}
