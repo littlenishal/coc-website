@@ -29,17 +29,14 @@ export default function Header() {
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center space-x-6">
-            {navigation.map((item) => (
-              <Link
-                key={item.name}
-                href={item.href}
-                className="text-gray-600 hover:text-primary transition-colors duration-200 font-medium"
-              >
-                {item.name}
-              </Link>
-            ))}
-          </nav>
+          <div className="hidden md:flex md:items-center md:space-x-6">
+            <Link href="/" className="text-gray-900 hover:text-blue-600 transition-colors">
+              Home
+            </Link>
+            <Link href="/events" className="text-gray-900 hover:text-blue-600 transition-colors">
+              Events
+            </Link>
+          </div>
 
           {/* Contact Information */}
           <div className="hidden md:flex items-center space-x-4">
@@ -59,25 +56,22 @@ export default function Header() {
               </Button>
             </SheetTrigger>
             <SheetContent side="right" className="w-80">
-              <div className="flex flex-col space-y-4 mt-6">
-                {navigation.map((item) => (
-                  <Link
-                    key={item.name}
-                    href={item.href}
-                    className="flex items-center space-x-3 text-gray-600 hover:text-primary transition-colors duration-200 py-2"
-                    onClick={() => setIsOpen(false)}
-                  >
-                    <item.icon className="h-5 w-5" />
-                    <span className="font-medium">{item.name}</span>
-                  </Link>
-                ))}
-
-                <div className="border-t pt-4 mt-4">
-                  <Button variant="outline" className="w-full" asChild>
-                    <a href="mailto:info@captainsofcommerce.org">Contact Us</a>
-                  </Button>
-                </div>
-              </div>
+              <div className="flex flex-col space-y-4 p-6">
+              <Link 
+                href="/" 
+                className="text-lg font-medium text-gray-900 hover:text-blue-600 transition-colors"
+                onClick={() => setIsOpen(false)}
+              >
+                Home
+              </Link>
+              <Link 
+                href="/events" 
+                className="text-lg font-medium text-gray-900 hover:text-blue-600 transition-colors"
+                onClick={() => setIsOpen(false)}
+              >
+                Events
+              </Link>
+            </div>
             </SheetContent>
           </Sheet>
         </div>

@@ -3,7 +3,7 @@ import { Geist } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
-import { UserProvider } from '@auth0/nextjs-auth0/client';
+
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -80,13 +80,11 @@ export default function RootLayout({
   return (
     <html lang="en" className="h-full" suppressHydrationWarning>
       <body className={`${geistSans.className} flex min-h-full flex-col antialiased`} suppressHydrationWarning>
-        <UserProvider>
-          <Header />
-          <main className="flex-1">
-            {children}
-          </main>
-          <Footer />
-        </UserProvider>
+        <Header />
+        <main className="flex-1">
+          {children}
+        </main>
+        <Footer />
       </body>
     </html>
   );
