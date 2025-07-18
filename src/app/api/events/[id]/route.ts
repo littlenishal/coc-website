@@ -17,16 +17,6 @@ export async function GET(
 
     const event = await prisma.event.findUnique({
       where: { id },
-      include: {
-        creator: {
-          select: {
-            id: true,
-            firstName: true,
-            lastName: true,
-            email: true,
-          },
-        },
-      },
     });
 
     if (!event) {
