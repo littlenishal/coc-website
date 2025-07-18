@@ -8,7 +8,13 @@ export async function GET(request: NextRequest) {
     const type = searchParams.get('type') as EventType | null;
     const status = searchParams.get('status');
 
-    const whereClause: any = {
+    const whereClause: {
+      isPublished: boolean;
+      eventType?: EventType;
+      startDateTime?: {
+        gte: Date;
+      };
+    } = {
       isPublished: true,
     };
 

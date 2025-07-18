@@ -9,11 +9,6 @@ import { Menu, Calendar, Home } from "lucide-react";
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
 
-  const navigation = [
-    { name: 'Home', href: '/', icon: Home },
-    { name: 'Events', href: '/events', icon: Calendar },
-  ];
-
   return (
     <header className="bg-white shadow-sm border-b sticky top-0 z-50">
       <div className="container mx-auto px-4">
