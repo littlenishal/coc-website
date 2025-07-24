@@ -64,7 +64,7 @@ export default function Home() {
             "contactPoint": {
               "@type": "ContactPoint",
               "contactType": "General Inquiry",
-              "email": "info@captainsofcommerce.org"
+              "email": "hello@captainsofcommerce.org"
             },
             "sameAs": [
               "https://instagram.com/captainsofcommerce",

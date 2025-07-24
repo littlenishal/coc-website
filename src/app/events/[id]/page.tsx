@@ -299,7 +299,7 @@ export default async function EventPage({ params }: { params: Promise<{ id: stri
                   </p>
                   <div className="space-y-2">
                     <Button variant="outline" size="sm" className="w-full" asChild>
-                      <a href="mailto:info@captainsofcommerce.org">
+                      <a href="mailto:hello@captainsofcommerce.org">
                         Email Us
                       </a>
                     </Button>

@@ -26,7 +26,7 @@ export default function Footer() {
                 <Link href="/events">View Our Events</Link>
               </Button>
               <Button variant="outline" size="sm" className="text-gray-900 bg-white border-white hover:bg-gray-100 hover:text-gray-900" asChild>
-                <a href="mailto:info@captainsofcommerce.org">Contact Us</a>
+                <a href="mailto:hello@captainsofcommerce.org">Contact Us</a>
               </Button>
             </div>
           </div>
@@ -38,10 +38,10 @@ export default function Footer() {
               <div className="flex items-center space-x-3">
                 <Mail className="h-4 w-4 text-primary" />
                 <a 
-                  href="mailto:info@captainsofcommerce.org" 
+                  href="mailto:hello@captainsofcommerce.org" 
                   className="text-gray-300 hover:text-white transition-colors"
                 >
-                  info@captainsofcommerce.org
+                  hello@captainsofcommerce.org
                 </a>
               </div>
               <div className="flex items-center space-x-3">
@@ -75,7 +75,7 @@ export default function Footer() {
               </li>
               <li>
                 <a 
-                  href="mailto:info@captainsofcommerce.org?subject=General Inquiry" 
+                  href="mailto:hello@captainsofcommerce.org?subject=General Inquiry" 
                   className="text-gray-300 hover:text-white transition-colors text-sm"
                 >
                   General Inquiries
@@ -83,7 +83,7 @@ export default function Footer() {
               </li>
               <li>
                 <a 
-                  href="mailto:info@captainsofcommerce.org?subject=Event Information" 
+                  href="mailto:hello@captainsofcommerce.org?subject=Event Information" 
                   className="text-gray-300 hover:text-white transition-colors text-sm"
                 >
                   Event Information
