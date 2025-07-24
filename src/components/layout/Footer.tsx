@@ -56,7 +56,7 @@ export default function Footer() {
               <div className="flex items-center space-x-3">
                 <MapPin className="h-4 w-4 text-primary" />
                 <span className="text-gray-300">
-                  Arlington, Virginia 22201
+                  Arlington, Virginia 22205
                 </span>
               </div>
             </div>
