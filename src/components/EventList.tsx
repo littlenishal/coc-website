@@ -6,7 +6,6 @@ import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Calendar, MapPin } from 'lucide-react';
 import { formatDate } from '@/lib/utils';
-import { ZeffyDonationButton } from './ZeffyDonationButton';
 
 type Event = {
   id: string;
@@ -93,16 +92,6 @@ export function EventList({ events }: EventListProps) {
                     View Details
                   </Link>
                 </Button>
-                {event.registrationUrl && (
-                  <div className="flex justify-center pt-2">
-                    <ZeffyDonationButton 
-                      registrationUrl={event.registrationUrl}
-                      buttonText="Donate"
-                      buttonColor="#28a745"
-                      className="w-full min-w-0"
-                    />
-                  </div>
-                )}
               </div>
             </div>
           </Card>

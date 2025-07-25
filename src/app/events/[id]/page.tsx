@@ -8,7 +8,6 @@ import { Calendar, MapPin, ChevronLeft } from "lucide-react";
 import { notFound } from 'next/navigation';
 import { Metadata } from 'next';
 import { ShareButton } from "@/components/ShareButton";
-import { ZeffyDonationButton } from "@/components/ZeffyDonationButton";
 
 // Generate static params for published events at build time
 export async function generateStaticParams() {
@@ -284,20 +283,11 @@ export default async function EventPage({ params }: { params: Promise<{ id: stri
                     <p className="text-muted-foreground text-sm mb-4">
                       Click below to register for this event.
                     </p>
-                    <div className="space-y-3">
-                      <Button className="w-full" asChild>
-                        <a href={event.registrationUrl} target="_blank" rel="noopener noreferrer">
-                          Register Now
-                        </a>
-                      </Button>
-                      <div className="flex justify-center">
-                        <ZeffyDonationButton 
-                          registrationUrl={event.registrationUrl}
-                          buttonText="Donate"
-                          buttonColor="#28a745"
-                        />
-                      </div>
-                    </div>
+                    <Button className="w-full" asChild>
+                      <a href={event.registrationUrl} target="_blank" rel="noopener noreferrer">
+                        Register Now
+                      </a>
+                    </Button>
                   </Card>
                 )}
 
