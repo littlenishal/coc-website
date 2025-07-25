@@ -86,6 +86,7 @@ export default function RootLayout({
         </main>
         <Footer />
       </body>
+      <script src="https://www.zeffy.com/embed/js/embed.js" async></script>
     </html>
   );
 }
