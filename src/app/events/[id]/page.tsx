@@ -238,7 +238,7 @@ export default async function EventPage({ params }: { params: Promise<{ id: stri
             </div>
 
             {/* Event Details Grid - Responsive Layout */}
-            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
               {/* Date & Time */}
               <Card className="p-6">
                 <h3 className="text-lg font-semibold mb-4 flex items-center">
@@ -278,7 +278,7 @@ export default async function EventPage({ params }: { params: Promise<{ id: stri
 
             {/* Registration and Contact - Bottom Section */}
             {(event.registrationUrl || true) && (
-              <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="mt-8 grid grid-cols-1 lg:grid-cols-2 gap-6">
                 {/* Registration */}
                 {event.registrationUrl && (
                   <Card className="p-6">
