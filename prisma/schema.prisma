@@ -1,4 +1,3 @@
-
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
@@ -83,21 +82,18 @@ model Event {
   id              String    @id @default(uuid())
   title           String
   description     String
-  eventType       EventType
   startDateTime   DateTime
-  endDateTime     DateTime?
+  endDateTime     DateTime
   location        String
+  eventType       EventType
   imageUrl        String?
   registrationUrl String?
-  isPublished     Boolean   @default(false)
+  embedCode       String?   // For embedded forms, payment widgets, etc.
+  isPublished     Boolean   @default(true)
   createdAt       DateTime  @default(now())
   updatedAt       DateTime  @updatedAt
-  createdById     String
-  creator         User      @relation(fields: [createdById], references: [id])
 
-  @@index([createdById])
+  @@index([startDateTime])
+  @@index([eventType])
+  @@index([isPublished])
 }
-
-
-
-
