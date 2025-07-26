@@ -43,7 +43,6 @@ type Event = {
   eventType: string;
   imageUrl?: string;
   registrationUrl?: string;
-  embedCode?: string;
   isPublished: boolean;
   createdAt: string;
   updatedAt: string;
@@ -226,152 +225,95 @@ export default async function EventPage({ params }: { params: Promise<{ id: stri
               )}
             </div>
 
-            {/* Main Content - Check if embed code exists */}
-            {event.embedCode ? (
-              // Embed Container Layout
-              <div className="space-y-8">
-                {/* Event Description */}
-                <Card className="p-6">
-                  <h2 className="text-2xl font-semibold mb-4">About This Event</h2>
-                  <div className="prose prose-gray max-w-none">
-                    <p className="text-muted-foreground leading-relaxed whitespace-pre-wrap">
-                      {event.description}
-                    </p>
-                  </div>
-                </Card>
-
-                {/* Embed Container */}
-                <div className="w-full">
-                  <div 
-                    className="w-full overflow-hidden rounded-lg bg-white shadow-lg"
-                    dangerouslySetInnerHTML={{ __html: event.embedCode }}
-                  />
+            {/* Main Content */}
+            <div className="mb-8">
+              <Card className="p-6">
+                <h2 className="text-2xl font-semibold mb-4">About This Event</h2>
+                <div className="prose prose-gray max-w-none">
+                  <p className="text-muted-foreground leading-relaxed whitespace-pre-wrap">
+                    {event.description}
+                  </p>
                 </div>
+              </Card>
+            </div>
 
-                {/* Event Details - Compact Grid Below Embed */}
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  <Card className="p-4">
-                    <h3 className="text-sm font-semibold mb-2 flex items-center text-muted-foreground">
-                      <Calendar className="h-4 w-4 mr-2" />
-                      Date & Time
-                    </h3>
-                    <p className="text-sm font-medium">{formatDate(event.startDateTime)}</p>
-                    <p className="text-xs text-muted-foreground">
+            {/* Event Details Grid - Responsive Layout */}
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+              {/* Date & Time */}
+              <Card className="p-6">
+                <h3 className="text-lg font-semibold mb-4 flex items-center">
+                  <Calendar className="h-5 w-5 text-muted-foreground mr-2" />
+                  Date & Time
+                </h3>
+                <div className="space-y-3">
+                  <div>
+                    <p className="font-medium">{formatDate(event.startDateTime)}</p>
+                    <p className="text-sm text-muted-foreground">
                       {formatTime(event.startDateTime)} - {formatTime(event.endDateTime)}
                     </p>
-                  </Card>
+                  </div>
+                </div>
+              </Card>
 
-                  <Card className="p-4">
-                    <h3 className="text-sm font-semibold mb-2 flex items-center text-muted-foreground">
-                      <MapPin className="h-4 w-4 mr-2" />
-                      Location
-                    </h3>
-                    <p className="text-sm">{event.location}</p>
-                  </Card>
+              {/* Location */}
+              <Card className="p-6">
+                <h3 className="text-lg font-semibold mb-4 flex items-center">
+                  <MapPin className="h-5 w-5 text-muted-foreground mr-2" />
+                  Location
+                </h3>
+                <p className="text-muted-foreground">{event.location}</p>
+              </Card>
 
-                  <Card className="p-4">
-                    <h3 className="text-sm font-semibold mb-2 text-muted-foreground">Contact</h3>
+              {/* Event Information */}
+              <Card className="p-6">
+                <h3 className="text-lg font-semibold mb-4">Event Information</h3>
+                <div className="space-y-3">
+                  <div>
+                    <p className="text-sm font-medium text-muted-foreground">Status</p>
+                    <p className="text-green-600">Open Event</p>
+                  </div>
+                </div>
+              </Card>
+            </div>
+
+            {/* Registration and Contact - Bottom Section */}
+            {(event.registrationUrl || true) && (
+              <div className="mt-8 grid grid-cols-1 lg:grid-cols-2 gap-6">
+                {/* Registration */}
+                {event.registrationUrl && (
+                  <Card className="p-6">
+                    <h3 className="text-lg font-semibold mb-4">Register for Event</h3>
+                    <p className="text-muted-foreground text-sm mb-4">
+                      Click below to register for this event.
+                    </p>
+                    <Button className="w-full" asChild>
+                      <a href={event.registrationUrl} target="_blank" rel="noopener noreferrer">
+                        Register Now
+                      </a>
+                    </Button>
+                  </Card>
+                )}
+
+                {/* Contact Information */}
+                <Card className="p-6">
+                  <h3 className="text-lg font-semibold mb-4">Questions?</h3>
+                  <p className="text-muted-foreground text-sm mb-4">
+                    Contact us for more information about this event.
+                  </p>
+                  <div className="space-y-2">
                     <Button variant="outline" size="sm" className="w-full" asChild>
                       <a href="mailto:hello@captainsofcommerce.org">
                         Email Us
                       </a>
                     </Button>
-                  </Card>
-                </div>
-              </div>
-            ) : (
-              // Original Layout for events without embed code
-              <>
-                <div className="mb-8">
-                  <Card className="p-6">
-                    <h2 className="text-2xl font-semibold mb-4">About This Event</h2>
-                    <div className="prose prose-gray max-w-none">
-                      <p className="text-muted-foreground leading-relaxed whitespace-pre-wrap">
-                        {event.description}
-                      </p>
-                    </div>
-                  </Card>
-                </div>
-
-                {/* Event Details Grid - Responsive Layout */}
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                  {/* Date & Time */}
-                  <Card className="p-6">
-                    <h3 className="text-lg font-semibold mb-4 flex items-center">
-                      <Calendar className="h-5 w-5 text-muted-foreground mr-2" />
-                      Date & Time
-                    </h3>
-                    <div className="space-y-3">
-                      <div>
-                        <p className="font-medium">{formatDate(event.startDateTime)}</p>
-                        <p className="text-sm text-muted-foreground">
-                          {formatTime(event.startDateTime)} - {formatTime(event.endDateTime)}
-                        </p>
-                      </div>
-                    </div>
-                  </Card>
-
-                  {/* Location */}
-                  <Card className="p-6">
-                    <h3 className="text-lg font-semibold mb-4 flex items-center">
-                      <MapPin className="h-5 w-5 text-muted-foreground mr-2" />
-                      Location
-                    </h3>
-                    <p className="text-muted-foreground">{event.location}</p>
-                  </Card>
-
-                  {/* Event Information */}
-                  <Card className="p-6">
-                    <h3 className="text-lg font-semibold mb-4">Event Information</h3>
-                    <div className="space-y-3">
-                      <div>
-                        <p className="text-sm font-medium text-muted-foreground">Status</p>
-                        <p className="text-green-600">Open Event</p>
-                      </div>
-                    </div>
-                  </Card>
-                </div>
-
-                {/* Registration and Contact - Bottom Section */}
-                {(event.registrationUrl || true) && (
-                  <div className="mt-8 grid grid-cols-1 lg:grid-cols-2 gap-6">
-                    {/* Registration */}
-                    {event.registrationUrl && (
-                      <Card className="p-6">
-                        <h3 className="text-lg font-semibold mb-4">Register for Event</h3>
-                        <p className="text-muted-foreground text-sm mb-4">
-                          Click below to register for this event.
-                        </p>
-                        <Button className="w-full" asChild>
-                          <a href={event.registrationUrl} target="_blank" rel="noopener noreferrer">
-                            Register Now
-                          </a>
-                        </Button>
-                      </Card>
-                    )}
-
-                    {/* Contact Information */}
-                    <Card className="p-6">
-                      <h3 className="text-lg font-semibold mb-4">Questions?</h3>
-                      <p className="text-muted-foreground text-sm mb-4">
-                        Contact us for more information about this event.
-                      </p>
-                      <div className="space-y-2">
-                        <Button variant="outline" size="sm" className="w-full" asChild>
-                          <a href="mailto:hello@captainsofcommerce.org">
-                            Email Us
-                          </a>
-                        </Button>
-                        <Button variant="outline" size="sm" className="w-full" asChild>
-                          <Link href="/events">
-                            View More Events
-                          </Link>
-                        </Button>
-                      </div>
-                    </Card>
+                    <Button variant="outline" size="sm" className="w-full" asChild>
+                      <Link href="/events">
+                        View More Events
+                      </Link>
+                    </Button>
                   </div>
-                )}
-              </>
+                </Card>
+              </div>
             )}
           </div>
         </div>
