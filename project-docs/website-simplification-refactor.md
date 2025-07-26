@@ -1,6 +1,6 @@
 
 # Website Simplification Refactor Plan
-# PROJECT STATUS: DONE. DO NOT USE INSTRUCTIONS IN THIS FILE
+# PROJECT STATUS: DONE. DO NOT USE INSTRUCTIONS IN THIS FILE IT IS HERE FOR HISTORICAL PURPOSES
 
 ## Overview
 Transform the current Captains of Commerce website from a complex multi-feature platform into a simple, SEO-optimized home page with streamlined event management. This refactor focuses on core functionality while removing unnecessary complexity.
