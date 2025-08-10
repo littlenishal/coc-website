@@ -2,8 +2,13 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   output: 'standalone',
-  webpack: (config) => {
-    config.externals = [...(config.externals || []), 'oidc-token-hash'];
+  experimental: {
+    esmExternals: true,
+  },
+  webpack: (config, { isServer }) => {
+    if (isServer) {
+      config.externals = [...(config.externals || []), 'oidc-token-hash'];
+    }
     return config;
   },
   images: {
