@@ -66,10 +66,7 @@ export function EventList({ events }: EventListProps) {
                   <Calendar className="h-4 w-4" />
                   <span>
                     {new Date(event.startDateTime).toLocaleDateString()} at{' '}
-                    {new Date(event.startDateTime).toLocaleTimeString([], { 
-                      hour: '2-digit', 
-                      minute: '2-digit' 
-                    })}
+                    {new Date(event.startDateTime).toLocaleTimeString()}
                   </span>
                 </div>
                 <div className="flex items-center gap-2 text-sm text-muted-foreground">
