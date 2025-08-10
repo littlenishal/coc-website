@@ -145,6 +145,7 @@ export default async function EventPage({ params }: { params: Promise<{ id: stri
   const formatTime = (dateString: string) => {
     const date = new Date(dateString);
     return date.toLocaleTimeString('en-US', {
+      timeZone: 'UTC',
       hour: 'numeric',
       minute: '2-digit',
       hour12: true,
