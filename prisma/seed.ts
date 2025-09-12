@@ -1,14 +1,17 @@
+
 import { PrismaClient, UserRole, EventType } from "@prisma/client";
 import * as bcrypt from "bcrypt";
 
 const prisma = new PrismaClient();
 
 async function main() {
-  // Create or update admin user
-  const admin = await prisma.user.upsert({
-    where: { email: "admin@captainsofcommerce.org" },
-    update: {},
-    create: {
+  // Clear any existing data first
+  await prisma.event.deleteMany({});
+  await prisma.user.deleteMany({});
+
+  // Create admin user with proper UUID
+  const admin = await prisma.user.create({
+    data: {
       email: "admin@captainsofcommerce.org",
       password: await bcrypt.hash("admin123", 10),
       firstName: "Admin",
