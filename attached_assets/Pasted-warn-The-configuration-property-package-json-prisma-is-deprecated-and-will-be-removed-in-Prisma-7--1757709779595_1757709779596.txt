@@ -1,0 +1,64 @@
+warn The configuration property `package.json#prisma` is deprecated and will be removed in Prisma 7. Please migrate to a Prisma config file (e.g., `prisma.config.ts`).
+For more information, see: https://pris.ly/prisma-config
+
+Environment variables loaded from .env
+Prisma schema loaded from prisma/schema.prisma
+Datasource "db": PostgreSQL database "neondb", schema "public" at "ep-muddy-glade-ad3f5s70-pooler.c-2.us-east-1.aws.neon.tech"
+
+Applying migration `20250507011742_init`
+Applying migration `20250530190539_add_event_image_and_capacity`
+Applying migration `20250530191402_fix_event_schema`
+Applying migration `20250530191801_add_optional_fields`
+Applying migration `20250706225658_add_registration_fields`
+Applying migration `20250717170125_add_registration_url`
+Applying migration `20250718025223_remove_registration_system`
+Applying migration `20250725030502_add_event_creator_relation`
+Applying migration `20250912203849_convert_text_ids_to_uuid`
+
+Database reset successful
+
+The following migration(s) have been applied:
+
+migrations/
+  └─ 20250507011742_init/
+    └─ migration.sql
+  └─ 20250530190539_add_event_image_and_capacity/
+    └─ migration.sql
+  └─ 20250530191402_fix_event_schema/
+    └─ migration.sql
+  └─ 20250530191801_add_optional_fields/
+    └─ migration.sql
+  └─ 20250706225658_add_registration_fields/
+    └─ migration.sql
+  └─ 20250717170125_add_registration_url/
+    └─ migration.sql
+  └─ 20250718025223_remove_registration_system/
+    └─ migration.sql
+  └─ 20250725030502_add_event_creator_relation/
+    └─ migration.sql
+  └─ 20250912203849_convert_text_ids_to_uuid/
+    └─ migration.sql
+
+✔ Generated Prisma Client (v6.13.0) to ./node_modules/@prisma
+/client in 134ms
+
+Running seed command `node --loader ts-node/esm prisma/seed.ts` ...
+(node:2581) ExperimentalWarning: `--experimental-loader` may be removed in the future; instead use `register()`:
+--import 'data:text/javascript,import { register } from "node:module"; import { pathToFileURL } from "node:url"; register("ts-node/esm", pathToFileURL("./"));'
+(Use `node --trace-warnings ...` to show where the warning was created)
+PrismaClientUnknownRequestError: 
+Invalid `prisma.user.upsert()` invocation:
+
+
+Error occurred during query execution:
+ConnectorError(ConnectorError { user_facing_error: None, kind: QueryError(PostgresError { code: "0A000", message: "cached plan must not change result type", severity: "ERROR", detail: None, column: None, hint: None }), transient: false })
+    at ri.handleRequestError (/home/runner/workspace/node_modules/@prisma/client/runtime/library.js:121:7649)
+    at ri.handleAndLogRequestError (/home/runner/workspace/node_modules/@prisma/client/runtime/library.js:121:6784)
+    at ri.request (/home/runner/workspace/node_modules/@prisma/client/runtime/library.js:121:6491)
+    at async l (/home/runner/workspace/node_modules/@prisma/client/runtime/library.js:130:9812)
+    at async main (file:///home/runner/workspace/prisma/seed.ts:6:19) {
+  clientVersion: '6.13.0'
+}
+
+An error occurred while running the seed command:
+Error: Command failed with exit code 1: node --loader ts-node/esm prisma/seed.ts
