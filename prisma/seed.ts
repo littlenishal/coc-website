@@ -1,6 +1,7 @@
 
 import { PrismaClient, UserRole, EventType } from "@prisma/client";
 import * as bcrypt from "bcrypt";
+import { randomUUID } from "crypto";
 
 const prisma = new PrismaClient();
 
@@ -9,9 +10,14 @@ async function main() {
   await prisma.event.deleteMany({});
   await prisma.user.deleteMany({});
 
-  // Create admin user with proper UUID
+  // Generate UUIDs for consistent references
+  const adminId = randomUUID();
+  const eventId = randomUUID();
+
+  // Create admin user with explicit UUID
   const admin = await prisma.user.create({
     data: {
+      id: adminId,
       email: "admin@captainsofcommerce.org",
       password: await bcrypt.hash("admin123", 10),
       firstName: "Admin",
@@ -20,9 +26,10 @@ async function main() {
     },
   });
 
-  // Create sample event
+  // Create sample event with explicit UUID
   const event = await prisma.event.create({
     data: {
+      id: eventId,
       title: "Holiday Toy Drive 2024",
       description: "Annual holiday toy drive for children in Arlington County",
       eventType: EventType.TOY_DRIVE,
@@ -31,7 +38,7 @@ async function main() {
       location: "Arlington Community Center, 123 Main St, Arlington, VA 22201",
       imageUrl: 'https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=800&h=400&fit=crop',
       isPublished: true,
-      createdById: admin.id,
+      createdById: adminId,
     },
   });
 
