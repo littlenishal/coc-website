@@ -30,3 +30,6 @@ externalPort = 3000
 deploymentTarget = "cloudrun"
 run = ["sh", "-c", "node .next/standalone/server.js"]
 build = ["sh", "-c", "npm run build"]
+
+[agent]
+expertMode = true
