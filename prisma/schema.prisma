@@ -41,7 +41,7 @@ enum PaymentMethod {
 
 
 model User {
-  id            String   @id @default(uuid())
+  id            String   @id @default(uuid()) @db.Uuid
   email         String   @unique
   password      String
   firstName     String
@@ -53,7 +53,7 @@ model User {
 }
 
 model InstagramFeed {
-  id                String               @id @default(uuid())
+  id                String               @id @default(uuid()) @db.Uuid
   title             String
   description       String?
   displayOnHomepage Boolean              @default(true)
@@ -64,13 +64,13 @@ model InstagramFeed {
 }
 
 model InstagramIntegration {
-  id               String        @id @default(uuid())
+  id               String        @id @default(uuid()) @db.Uuid
   accountName      String
   accessToken      String
   tokenExpiryDate  DateTime
   lastFetchDateTime DateTime
   isActive         Boolean       @default(true)
-  feedId           String?
+  feedId           String?       @db.Uuid
   createdAt        DateTime      @default(now())
   updatedAt        DateTime      @updatedAt
   feed             InstagramFeed? @relation(fields: [feedId], references: [id])
@@ -79,7 +79,7 @@ model InstagramIntegration {
 }
 
 model Event {
-  id              String    @id @default(uuid())
+  id              String    @id @default(uuid()) @db.Uuid
   title           String
   description     String
   startDateTime   DateTime
@@ -90,7 +90,7 @@ model Event {
   registrationUrl String?
   embedCode       String?   // For embedded forms, payment widgets, etc.
   isPublished     Boolean   @default(true)
-  createdById     String
+  createdById     String    @db.Uuid
   createdAt       DateTime  @default(now())
   updatedAt       DateTime  @updatedAt
   createdBy       User      @relation(fields: [createdById], references: [id])
