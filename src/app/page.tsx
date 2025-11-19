@@ -23,7 +23,7 @@ export default function Home() {
             Building Stronger Communities Through Commerce
           </h1>
           <p className="text-xl mb-8 leading-relaxed">
-            Join Captains of Commerce in supporting local businesses and creating meaningful connections 
+            Join Captains of Commerce in supporting local organizations and creating meaningful connections 
             that drive economic growth and community development.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -39,7 +39,7 @@ export default function Home() {
       <section className="container px-4 py-16 text-center">
         <h2 className="text-3xl font-bold mb-6">About Captains of Commerce</h2>
         <p className="text-lg text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-          We are dedicated to fostering business growth, community engagement, and economic development 
+          We are dedicated to fostering growth, community engagement, and economic development 
           through strategic partnerships, events, and initiatives that bring people together.
         </p>
       </section>
